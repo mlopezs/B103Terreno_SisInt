@@ -10,5 +10,11 @@ package b1_03.objetos;
  * @author pacog
  */
 public class Terreno {
+    public Terreno(){
+        
+    }
+    public Terreno(int xt, int yt, int K, int max, int c, int f, int [][] cantidades){
+        //Determinar que los datos sean correctos
+    }
     
 }
