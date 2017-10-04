@@ -5,6 +5,9 @@
  */
 package b1_03;
 
+import static b1_03.utilidades.Lectura_de_archivos.leer_archivo;
+import excepciones.LecturaErronea;
+
 /**
  *
  * @author pacog
@@ -14,10 +17,10 @@ public class B1_03 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LecturaErronea {
         // TODO code application logic here
         //commit de prueba
-        System.out.println("hola");
+        leer_archivo("a.txt");
     }
     
 }
