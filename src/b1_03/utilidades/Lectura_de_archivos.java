@@ -52,11 +52,11 @@ public class Lectura_de_archivos {
                         tabla[z][i - 1] = Integer.parseInt(tabla_aux[i]);
 
                     }
-                    t1 = new Terreno(Integer.parseInt(datos[0]),
+                   /* t1 = new Terreno(Integer.parseInt(datos[0]),
                             Integer.parseInt(datos[1]), Integer.parseInt(datos[2]),
                             Integer.parseInt(datos[3]), Integer.parseInt(datos[4]),
                             Integer.parseInt(datos[5]), tabla);
-
+*/
                 }
 
             }
