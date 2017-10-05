@@ -12,21 +12,25 @@ import java.util.LinkedList;
  * @version 1.0.0
  */
 
-public class B1_03 {
+public class Distribuidor {
 
+    /**
+     * main() es el núcleo del programa, desde donde se llama a los distintos 
+     * métodos en los que se realizan las funciones requeridas
+     * 
+     * @param args
+     * @throws LecturaErronea 
+     */
     public static void main(String[] args) throws LecturaErronea {
                 
         // Lista donde iremos guardando los terrenos generados tras cada acción
         LinkedList<Terreno> lt = new LinkedList<>();
         
-        Terreno t0 = new Terreno(); // Terreno inicial
+        Terreno t; // Terreno inicial
         
         // Vector resultado de la lectura del fichero
         //int[] datos = /*Lecuta.leerFichero*/ new int[15];  
         int[] datos = {0,2,5,8,3,3,6,8,5,6,8,2,2,0,8};
-        
-        t0.setXt(datos[0]); // PosX del tractor
-        t0.setYt(datos[1]); // PosY del tractor
         
         int k = datos[2]; // Cantidad objetivo de arena
         int max = datos[3]; // Cantidad máxima de arena
@@ -39,29 +43,44 @@ public class B1_03 {
         int[] aux = new int[fs*cs];
         System.arraycopy(datos, 6, aux, 0, aux.length);
         
-        // Comprobamos validez del terreno
-        if(!esValido(fs, cs, k, aux)){
-            System.out.println("ERROR EXIT");
-            System.exit(1); /***********************ARREGLAR********************/
+        // Comprobamos validez del terreno, y si lo es, lo creamos.
+        if (!esValido(fs, cs, k, aux, max)) {
+            System.out.println("ERROR: Los datos son incorrectos.");
+        } else {
+            
+            t = crearTerreno(aux, fs, cs, datos[0], datos[1]);
+
+            lt.add(t); // Añadimos el terreno inicial a la lista
+
+            // MUESTRA DE LOS DATOS RECOGIDOS Y PROCESADOS
+            System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
+            t.mostrar();
+
+            /**
+             *
+             *
+             *
+             * TO DO
+             *
+             *
+             */
         }
         
-        t0.setTerr(vec2mat(aux, fs, cs)); // Pasamos de vector a matriz
-        
-        lt.add(t0); // Añadimos el terreno inicial a la lista
-        
-        // MUESTRA DE LOS DATOS RECOGIDOS Y PROCESADOS
-        System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
-        t0.mostrar();
+    }
     
-        /**
-         * 
-         * 
-         * 
-         * TO DO
-         * 
-         * 
-        */
-        
+    /**
+     * crearTerreno crea un objeto de la clase Terreno partiendo de los parámetros
+     * que se piden. Después devuelve dicho objeto.
+     * 
+     * @param a
+     * @param fs
+     * @param cs
+     * @param xt
+     * @param yt
+     * @return Terreno
+     */
+    public static Terreno crearTerreno(int[] a, int fs, int cs, int xt, int yt){
+        return new Terreno(vec2mat(a, fs, cs), xt, yt);
     }
     
     /**
@@ -95,12 +114,16 @@ public class B1_03 {
      * @param cs
      * @param k
      * @param can
+     * @param max
      * @return true si la cantidad coincide, false si no
      */
-    public static boolean esValido(int fs, int cs, int k, int[] can){
+    public static boolean esValido(int fs, int cs, int k, int[] can, int max){
         int sum = 0;        
-        for(int a : can) sum += a;        
+        for(int a : can){
+            if(a > max) return false;             
+            sum += a;
+        }        
         return (sum == fs*cs*k);        
     }
-    
+        
 }
