@@ -145,6 +145,7 @@ public class Distribuidor {
         LinkedList<int[]> a = new LinkedList<>();
         int k = ac - fi;
         int dstr = 0;
+        int dstrAux = 0;
 
         int[] aux = {0, 0, 0, 0};
 
@@ -152,31 +153,54 @@ public class Distribuidor {
             dstr = k - i;
             for (int ad = 0; ad < nAdy; ad++) {
                 dstr = k - i;
+                dstrAux = k;
                 c = ad;
-                for(int q = 0; q < aux.length; q++){
+                for (int q = 0; q < aux.length; q++) {
                     aux[q] = 0;
                 }
-                while (dstr >= 0) {
-                    if (dstr > 0 && c < aux.length) {
-                        aux[c] = dstr;
-                        dstr = k - dstr;
-                        c++;
+                while (dstrAux >= 0) {
+                    if (dstrAux > 0 && c < aux.length) {
+                        if (dstrAux > 0) {
+                            aux[c] = dstr;
+                            dstr = dstrAux - dstr;
+                            dstrAux = dstr;
+                            c++;
+                        } else {
+                            aux[c] = dstr;
+                            dstr = 0;
+                            c++;
+                        }
+
                     } else if (c >= aux.length && dstr > 0) {
                         c = c - aux.length;
-                        aux[c] = dstr;
-                        dstr = k - dstr;
-                        c++;
+
+                        if (dstrAux > 0) {
+                            aux[c] = dstr;
+                            dstr = dstrAux - dstr;
+                            dstrAux = dstr;
+                            c++;
+                        } else {
+                            aux[c] = dstr;
+                            dstr = 0;
+                            c++;
+                        }
                     } else if (c < aux.length && dstr == 0) {
                         for (int n = c; n < aux.length; n++) {
                             aux[n] = 0;
                         }
                         a.add(aux);
+                        for (int done = 0; done < aux.length; done++) {
+                            System.out.println(aux[done] + " tierra en coordenada -> " + done);
+                        }
                         break;
                     } else if (c >= aux.length && dstr == 0) {
                         for (int n = c; n < aux.length; n++) {
                             aux[n] = 0;
                         }
                         a.add(aux);
+                        for (int done = 0; done < aux.length; done++) {
+                            System.out.println(aux[done] + " tierra en coordenada -> " + done);
+                        }
                         break;
                     }
                 }
@@ -185,4 +209,13 @@ public class Distribuidor {
 
     }
 
+    public static void seur(){
+        int nAdyacentes = 4;
+        int aRepartir;
+        
+        
+        for(int i = 0; i < nAdyacentes; i++){
+        
+        }
+    }
 }
