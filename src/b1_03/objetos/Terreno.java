@@ -1,20 +1,63 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package b1_03.objetos;
 
+import java.util.Arrays;
+
 /**
- *
- * @author pacog
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
+ * 
+ * @version 1.0.0
  */
+
 public class Terreno {
-    public Terreno(){
-        
-    }
-    public Terreno(int xt, int yt, int K, int max, int c, int f, int [][] cantidades){
-        //Determinar que los datos sean correctos
-    }
     
+    private int [][] terr; // Cantidad de arena en cada celda
+    private int xt; // Posición en el eje x del tractor
+    private int yt; // Posición en el eje y del tractor
+
+    public Terreno() {
+    }
+
+    public Terreno(int[][] terr, int xt, int yt) {
+        this.terr = terr;
+        this.xt = xt;
+        this.yt = yt;
+    }
+
+    public int[][] getTerr() {
+        return terr;
+    }
+
+    public void setTerr(int[][] terr) {
+        this.terr = terr;
+    }
+
+    public int getXt() {
+        return xt;
+    }
+
+    public void setXt(int xt) {
+        this.xt = xt;
+    }
+
+    public int getYt() {
+        return yt;
+    }
+
+    public void setYt(int yt) {
+        this.yt = yt;
+    }
+
+    
+    public void mostrar() {
+        System.out.println("Tractor(" + xt + "," + yt + ")\nTerreno:");
+        for (int[] terr1 : terr) {
+            for (int j = 0; j < terr[0].length; j++) {
+                System.out.printf(" %d", terr1[j]);
+            }
+            System.out.println("");
+        }
+    }   
+
 }
