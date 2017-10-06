@@ -4,6 +4,7 @@ import b1_03.objetos.Terreno;
 import excepciones.LecturaErronea;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import b1_03.utilidades.Miscelanea;
 
 /**
  * @author Alfonso Barragán
@@ -23,7 +24,7 @@ public class Distribuidor {
      */
     public static void main(String[] args) throws LecturaErronea {
 
-        generatorDistros();
+        seur();
 
         // Lista donde iremos guardando los terrenos generados tras cada acción
         LinkedList<Terreno> lt = new LinkedList<>();
@@ -209,13 +210,59 @@ public class Distribuidor {
 
     }
 
-    public static void seur(){
+    public static void seur() {
+        //// PARAMETROS DE ENTRADA /////
+        int ac = 12;
+        int fi = 2;
+        int nAdy = 4;
+        ////////////////////////////////
+
+        int f = 0;
+        int c = 0;
+
+        LinkedList<int[]> a = new LinkedList<>();
+        int k = ac - fi;
+        int dstr = 0;
+        int dstrAux = 0;
+        int[] aux = {0, 0, 0, 0};
+
         int nAdyacentes = 4;
-        int aRepartir;
-        
-        
-        for(int i = 0; i < nAdyacentes; i++){
-        
+        int aRepartir = k;
+        int nCachos = 0;
+
+        for (int i = 0; i < k; i++) {
+            aRepartir = k;
+            dstr = k - i;
+            for (int j = 0; j < nAdyacentes; j++) {
+                c = j;
+                aRepartir = k;
+                limpiarVector(aux);
+                while (aRepartir != 0) {
+                    dstrAux = aRepartir - dstr;
+                    if (dstrAux >= 0) {
+                        aux[c] = aux[c] + dstr;
+                        aRepartir -= dstr;
+                    } else {
+                        aux[c] = aux[c]+1;
+                        aRepartir--;
+                    }
+
+                    c++;
+                    if (c >= aux.length) {
+                        c = c - aux.length;
+                    }
+                }
+                a.add(aux);
+                for (int z = 0; z < aux.length; z++) {
+                    System.out.println(aux[z] + " -> " + z);
+                }
+            }
+        }
+    }
+
+    private static void limpiarVector(int[] a) {
+        for (int i = 0; i < a.length; i++) {
+            a[i] = 0;
         }
     }
 }
