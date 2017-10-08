@@ -7,6 +7,6 @@ package excepciones;
  *
  * @version 1.0.0
  */
-public class LecturaErronea extends Exception {
+public class EscrituraErronea extends Exception {
     
 }

@@ -1,10 +1,13 @@
 package b1_03;
 
 import b1_03.objetos.Terreno;
+import static b1_03.utilidades.ES_de_archivos.leer_archivo;
+import static b1_03.utilidades.ES_de_archivos.escribir_archivo;
 import excepciones.LecturaErronea;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import b1_03.utilidades.Miscelanea;
+import excepciones.EscrituraErronea;
 
 /**
  * @author Alfonso Barragán
@@ -22,7 +25,7 @@ public class Distribuidor {
      * @param args
      * @throws LecturaErronea
      */
-    public static void main(String[] args) throws LecturaErronea {
+      public static void main(String[] args) throws LecturaErronea {
 
         seur();
 
@@ -70,6 +73,8 @@ public class Distribuidor {
         }
 
     }
+    
+   
 
     /**
      * crearTerreno crea un objeto de la clase Terreno partiendo de los
