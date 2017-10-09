@@ -1,7 +1,5 @@
 package b1_03.objetos;
 
-import java.util.Arrays;
-
 /**
  * @author Alfonso Barragán
  * @author Francisco Manuel García
