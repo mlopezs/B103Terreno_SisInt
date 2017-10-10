@@ -33,7 +33,7 @@ public class Distribuidor {
         Terreno t; // Terreno inicial
 
         // Vector resultado de la lectura del fichero
-        int[] datos = leer_archivo("terreno.txt");
+        int[] datos = leer_archivo("terreno_1.txt");
         
         int k = datos[2]; // Cantidad objetivo de arena
         int max = datos[3]; // Cantidad máxima de arena

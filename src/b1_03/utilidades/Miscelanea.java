@@ -2,6 +2,8 @@ package b1_03.utilidades;
 
 import b1_03.objetos.Accion;
 import b1_03.objetos.Terreno;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -16,9 +18,19 @@ public class Miscelanea {
     public static void generarAcciones(Terreno t, int k, int fs, int cs) {
 
         int[] movs = generarMovimientos(t);
-        LinkedList<int[]> distr = generarDistribuciones(t, k, fs, cs, movs[4]);
-        
+        LinkedList<int[]> distr
+                = //generarDistribuciones(t, k, fs, cs, movs[4]);
+                genDistros(t, k, fs, cs, movs[4]);
+
         LinkedList<Accion> act = new LinkedList<>();
+
+        System.out.println("DISTRIBUCIONES");
+        Iterator<int[]> it = distr.iterator();
+        while (it.hasNext()) {
+            System.out.println(Arrays.toString(it.next()));
+        }
+
+        System.out.println("MOVIMIENTOS:\n" + Arrays.toString(movs));
 
     }
 
@@ -61,6 +73,53 @@ public class Miscelanea {
         }
 
         return movs;
+
+    }
+
+    public static LinkedList<int[]> genDistros(Terreno t, int k, int fs, int cs, int nAdyac) {
+
+        LinkedList<int[]> distrs = new LinkedList<>();
+
+        int[] vec = new int[nAdyac];
+
+        for (int a = 0; a <= k; a++) {
+            vec[0] = a;
+            if (nAdyac > 1) {
+                for (int b = 0; b <= k - a; b++) {
+                    vec[1] = b;
+                    if (nAdyac > 2) {
+                        for (int c = 0; c <= k - a - b; c++) {
+                            vec[2] = c;
+                            if (nAdyac > 3) {
+                                for (int d = 0; d <= k - a - b - c; d++) {
+                                    vec[3] = d;
+                                }
+                                compAdd(vec, distrs, k);
+                            } else {
+                                compAdd(vec, distrs, k);
+                            }
+                        }
+                    } else {
+                        compAdd(vec, distrs, k);
+                    }
+                }
+            } else {
+                compAdd(vec, distrs, k);
+            }
+        }
+
+        return distrs;
+    }
+
+    public static void compAdd(int[] vec, LinkedList<int[]> lvi, int k) {
+
+        int sum = 0;
+        for (int a : vec) {
+            sum += a;
+        }
+        if (sum == k) {
+            lvi.add(vec.clone());
+        }
 
     }
 
