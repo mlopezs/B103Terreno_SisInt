@@ -1,11 +1,12 @@
 package b1_03;
 
+import java.util.LinkedList;
 import b1_03.objetos.Terreno;
 import excepciones.LecturaErronea;
-import java.util.LinkedList;
+import static b1_03.utilidades.ES_de_archivos.leer_archivo;
 import static b1_03.utilidades.Miscelanea.crearTerreno;
 import static b1_03.utilidades.Miscelanea.esValido;
-import static b1_03.utilidades.Miscelanea.seur;
+import static b1_03.utilidades.Miscelanea.generarAcciones;
 
 
 /**
@@ -26,17 +27,14 @@ public class Distribuidor {
      */
       public static void main(String[] args) throws LecturaErronea {
 
-        seur();
-
         // Lista donde iremos guardando los terrenos generados tras cada acción
         LinkedList<Terreno> lt = new LinkedList<>();
 
         Terreno t; // Terreno inicial
 
         // Vector resultado de la lectura del fichero
-        //int[] datos = /*Lecuta.leerFichero*/ new int[15];  
-        int[] datos = {0, 2, 5, 8, 3, 3, 6, 8, 5, 6, 8, 2, 2, 0, 8};
-
+        int[] datos = leer_archivo("terreno.txt");
+        
         int k = datos[2]; // Cantidad objetivo de arena
         int max = datos[3]; // Cantidad máxima de arena
 
@@ -61,14 +59,8 @@ public class Distribuidor {
             System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
             t.mostrar();
 
-            /**
-             *
-             *
-             *
-             * TO DO
-             *
-             *
-             */
+            generarAcciones(t, k, fs, cs);
+            
         }
 
     }
