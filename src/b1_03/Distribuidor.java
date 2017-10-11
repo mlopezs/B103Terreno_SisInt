@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import b1_03.objetos.Terreno;
 import excepciones.LecturaErronea;
 import static b1_03.utilidades.ES_de_archivos.leer_archivo;
+import b1_03.utilidades.GestorAcciones;
 import static b1_03.utilidades.Miscelanea.crearTerreno;
 import static b1_03.utilidades.Miscelanea.esValido;
-import static b1_03.utilidades.Miscelanea.generarAcciones;
 
 
 /**
@@ -59,7 +59,7 @@ public class Distribuidor {
             System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
             t.mostrar();
 
-            generarAcciones(t, k, fs, cs);
+            GestorAcciones.generarAcciones(t, k, fs, cs);
             
         }
 
