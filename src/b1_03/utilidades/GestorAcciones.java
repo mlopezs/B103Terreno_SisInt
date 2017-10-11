@@ -20,6 +20,10 @@ public class GestorAcciones {
      * @param fs
      * @param cs
      */
+    
+    public void toStringAcciones(){
+        System.out.println("Lo del git funciona");
+    }
     public static void generarAcciones(Terreno t, int k, int fs, int cs) {
         
         int[] movs = genMovs(t); // Movimientos posibles
@@ -149,4 +153,5 @@ public class GestorAcciones {
         }
         return distrs;
     }
+
 }
