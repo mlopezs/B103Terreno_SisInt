@@ -1,9 +1,6 @@
 package b1_03.utilidades;
 
-import b1_03.objetos.Accion;
 import b1_03.objetos.Terreno;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
