@@ -20,7 +20,7 @@ public class Miscelanea {
         int[] movs = genMovs(t);
         LinkedList<int[]> distr
                 = //generarDistribuciones(t, k, fs, cs, movs[4]);
-                genDistros(t, k, fs, cs, movs[4]);
+                genDistros(t, k, movs[4]);
 
         LinkedList<Accion> act = new LinkedList<>();
 
@@ -97,36 +97,37 @@ public class Miscelanea {
      * @param nAdyac
      * @return LinkedList de vectores de enteros
      */
-    public static LinkedList<int[]> genDistros(Terreno t, int k, int fs, int cs, 
-            int nAdyac) {
+    public static LinkedList<int[]> genDistros(Terreno t, int k, int nAdyac) {
 
         LinkedList<int[]> distrs = new LinkedList<>(); // Lista de distribuciones
+        
+        int rep = t.getTerr()[t.getXt()][t.getYt()] - k; // Cantidad a repartir
 
         int[] vec = new int[nAdyac]; // Vector para asignación de cantidades
 
-        for (int a = 0; a <= k; a++) {
+        for (int a = 0; a <= rep; a++) {
             vec[0] = a;
             if (nAdyac > 1) {
-                for (int b = 0; b <= k - a; b++) {
+                for (int b = 0; b <= rep - a; b++) {
                     vec[1] = b;
                     if (nAdyac > 2) {
-                        for (int c = 0; c <= k - a - b; c++) {
+                        for (int c = 0; c <= rep - a - b; c++) {
                             vec[2] = c;
                             if (nAdyac > 3) {
-                                for (int d = 0; d <= k - a - b - c; d++) {
+                                for (int d = 0; d <= rep - a - b - c; d++) {
                                     vec[3] = d;
                                 }
-                                compAdd(vec, distrs, k);
+                                compAdd(vec, distrs, rep);
                             } else {
-                                compAdd(vec, distrs, k);
+                                compAdd(vec, distrs, rep);
                             }
                         }
                     } else {
-                        compAdd(vec, distrs, k);
+                        compAdd(vec, distrs, rep);
                     }
                 }
             } else {
-                compAdd(vec, distrs, k);
+                compAdd(vec, distrs, rep);
             }
         }
 
