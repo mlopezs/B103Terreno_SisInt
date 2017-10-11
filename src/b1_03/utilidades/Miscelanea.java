@@ -17,7 +17,7 @@ public class Miscelanea {
 
     public static void generarAcciones(Terreno t, int k, int fs, int cs) {
 
-        int[] movs = generarMovimientos(t);
+        int[] movs = genMovs(t);
         LinkedList<int[]> distr
                 = //generarDistribuciones(t, k, fs, cs, movs[4]);
                 genDistros(t, k, fs, cs, movs[4]);
@@ -34,10 +34,20 @@ public class Miscelanea {
 
     }
 
-    public static int[] generarMovimientos(Terreno t) {
+    /**
+     * genMovs() se encarga de generar los posibles movimientos que puede hacer
+     * el tractor contenido en el terreno. Devuelve un vector de enteros donde las
+     * cuatro primeras coordenadas son 1 o 0 dependiendo de si se puede mover:
+     * primera coordenada es el movimiento a la izquierda, el segundo arriba, el
+     * tercero abajo, el cuarto a la derecha, y el último es el número de adyacentes.
+     * 
+     * @param t
+     * @return Vector de enteros
+     */
+    public static int[] genMovs(Terreno t) {
 
-        int x = t.getXt();
-        int y = t.getYt();
+        int x = t.getXt(); // Posicion X del tractor
+        int y = t.getYt(); // Posicion Y del tractor
 
         /*
         movs[0] -> Movimiento izquierda
@@ -73,14 +83,26 @@ public class Miscelanea {
         }
 
         return movs;
-
     }
+    
+    /**
+     * genDistros() se encarga de generar todas las distribuciones posibles de 
+     * arena partiendo del terreno que se pasa como argumento, y el número de
+     * adyacentes previamente calculado.
+     * 
+     * @param t
+     * @param k
+     * @param fs
+     * @param cs
+     * @param nAdyac
+     * @return LinkedList de vectores de enteros
+     */
+    public static LinkedList<int[]> genDistros(Terreno t, int k, int fs, int cs, 
+            int nAdyac) {
 
-    public static LinkedList<int[]> genDistros(Terreno t, int k, int fs, int cs, int nAdyac) {
+        LinkedList<int[]> distrs = new LinkedList<>(); // Lista de distribuciones
 
-        LinkedList<int[]> distrs = new LinkedList<>();
-
-        int[] vec = new int[nAdyac];
+        int[] vec = new int[nAdyac]; // Vector para asignación de cantidades
 
         for (int a = 0; a <= k; a++) {
             vec[0] = a;
@@ -111,74 +133,22 @@ public class Miscelanea {
         return distrs;
     }
 
-    public static void compAdd(int[] vec, LinkedList<int[]> lvi, int k) {
-
-        int sum = 0;
-        for (int a : vec) {
-            sum += a;
-        }
-        if (sum == k) {
-            lvi.add(vec.clone());
-        }
-
-    }
-
-    public static LinkedList<int[]> generarDistribuciones(Terreno t, int k, int fs, int cs, int nAdyac) {
-
-        LinkedList<int[]> distrs = new LinkedList<>(); // Lista de todas las distribuciones
-
-        int cantAct = t.getTerr()[t.getXt()][t.getYt()]; // Cantidad actual en la pos del tractor
-
-        int rep = cantAct - k, auxRep; // Cantidad de arena a repartir, y auxiliar
-
-        int dstr, auxDstr; // Cantidad a repartir en cada iteracion
-
-        int[] aux = {0, 0, 0, 0};
-
-        for (int i = 0; i < rep; i++) {
-            dstr = rep - i;
-            for (int j = 0; j < nAdyac; j++) {
-                cs = j;
-                auxRep = rep;
-                limpiarVector(aux);
-                while (auxRep != 0) {
-                    auxDstr = auxRep - dstr;
-                    if (auxDstr >= 0) {
-                        aux[cs] = aux[cs] + dstr;
-                        auxRep -= dstr;
-                    } else {
-                        aux[cs] = aux[cs] + 1;
-                        auxRep--;
-                    }
-
-                    cs++;
-                    if (cs >= aux.length) {
-                        cs = cs - aux.length;
-                    }
-                }
-                int[] vec = aux.clone();
-                distrs.add(vec);
-            }
-        }
-
-        return distrs;
-
-    }
-
     /**
-     * limpiarVector se encarga de poner a 0 todas las coordenadas de un vector
-     * dado
-     *
-     * @param a
+     * compAdd() comprueba que la suma de elementos del vector sea k, y en ese
+     * caso lo añade a la lista.
+     * 
+     * @param vec
+     * @param lvi
+     * @param k 
      */
-    private static void limpiarVector(int[] a) {
-        for (int i = 0; i < a.length; i++) {
-            a[i] = 0;
-        }
+    public static void compAdd(int[] vec, LinkedList<int[]> lvi, int k) {
+        int sum = 0;
+        for (int a : vec) sum += a;
+        if (sum == k) lvi.add(vec.clone());
     }
 
     /**
-     * crearTerreno crea un objeto de la clase Terreno partiendo de los
+     * crearTerreno() crea un objeto de la clase Terreno partiendo de los
      * parámetros que se piden. Después devuelve dicho objeto.
      *
      * @param a
@@ -217,7 +187,7 @@ public class Miscelanea {
     }
 
     /**
-     * esValido comprueba que el sumatorio de la cantidad de arena de cada celda
+     * esValido() comprueba que el sumatorio de la cantidad de arena de cada celda
      * sea igual que el volumen total de arena (fs*cs*k)
      *
      * @param fs
