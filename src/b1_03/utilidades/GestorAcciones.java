@@ -1,6 +1,5 @@
 package b1_03.utilidades;
 
-import b1_03.objetos.Accion;
 import b1_03.objetos.Terreno;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -25,7 +24,7 @@ public class GestorAcciones {
         int[] movs = genMovs(t); // Movimientos posibles
         LinkedList<int[]> distr = genDistros(t, k, movs[4]); // Distribuciones (Todas)
         
-        LinkedList<Accion> act = new LinkedList<>(); // Lista de acciones
+        LinkedList<String> act = new LinkedList<>(); // Lista de acciones
         
         // MOSTRAR COSAS
         System.out.println("DISTRIBUCIONES");
@@ -57,10 +56,57 @@ public class GestorAcciones {
                             
                     }
                 }
-                act.add(new Accion(it.next(), aux.clone()));
+                String w = crearAccion(itd.next(), aux.clone(), movs[4], t.getXt(), t.getYt(), 
+                        fs, cs);
+                act.add(w);
             }
         }
         
+        Iterator<String> itact = act.iterator();
+        while(itact.hasNext()){
+            System.out.println(itact.next());
+        }
+        
+    }
+    
+    public static String crearAccion(int[] dstr, int[] coord, int ady, int x, 
+            int y, int fs, int cs){
+        
+        String s = "ACCIÓN:\t";
+        
+        int nx = x + coord[0];
+        int ny = y + coord[1];
+        
+        int aa = ady;
+        
+        String nt = "(" + nx + "," + ny + ")";
+        
+        String cor = "[";
+        
+        for(int i = 0; i < ady; i++){
+            cor += dstr[i];
+            if(isAdy(x, y+1, fs, cs)){
+                cor += "(" + x + "," + (y+1) + ")";
+            }
+            if(isAdy(x, y-1, fs, cs)){
+                cor += "(" + x + "," + (y-1) + ")";
+            }
+            if(isAdy(x+1, y, fs, cs)){
+                cor += "(" + (x+1) + "," + y + ")";
+            }
+            if(isAdy(x-1, y, fs, cs)){
+                cor += "(" + (x-1) + "," + y + ")";
+            }
+        }
+        cor += "]";
+        
+        s += nt + cor;
+        
+        return s;
+    }
+    
+    public static boolean isAdy(int x, int y, int fs, int cs){
+        return x < cs && x >= 0 && y >= 0 && y < fs;
     }
 
     /**
