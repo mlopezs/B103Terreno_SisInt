@@ -6,7 +6,7 @@ package b1_03.objetos;
  */
 public class Nodo {
     
-    private Terreno estado;
+    private String estado;
     private int id;
     private int val; // Valor para ordenarlo en la frontera
     private int prof; // Profundidad
@@ -15,7 +15,7 @@ public class Nodo {
     
     private static int iden = 0; // Autoincremento nodo
 
-    public Nodo(Terreno estado, int val, int prof, int cost, Nodo padre) {
+    public Nodo(String estado, int val, int prof, int cost, Nodo padre) {
         this.id = Nodo.iden++;
         this.estado = estado;
         this.val = val;
@@ -32,11 +32,11 @@ public class Nodo {
         this.padre = padre;
     }
 
-    public Terreno getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Terreno estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
