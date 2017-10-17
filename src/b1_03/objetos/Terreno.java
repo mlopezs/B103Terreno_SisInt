@@ -1,16 +1,18 @@
 package b1_03.objetos;
 
+import static b1_03.utilidades.Hash.md5;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * @author Alfonso Barragán
  * @author Francisco Manuel García
  * @author Marcos López
- * 
+ *
  * @version 1.0.0
  */
-
 public class Terreno {
-    
-    private int [][] terr; // Cantidad de arena en cada celda
+
+    private int[][] terr; // Cantidad de arena en cada celda
     private int xt; // Posición en el eje x del tractor
     private int yt; // Posición en el eje y del tractor
 
@@ -47,11 +49,10 @@ public class Terreno {
         this.yt = yt;
     }
 
-    
     public void mostrar() {
-        
+
         System.out.println("Tractor(" + xt + "," + yt + ")\nTerreno:");
-        
+
         for (int[] terr1 : terr) {
             for (int j = 0; j < terr[0].length; j++) {
                 System.out.printf(" %d", terr1[j]);
@@ -59,21 +60,33 @@ public class Terreno {
             System.out.print("\n");
         }
     }
-    
-    public void mvDcha(){
+
+    public void mvDcha() {
         this.xt++;
     }
-    
-    public void mvIzq(){
+
+    public void mvIzq() {
         this.xt--;
     }
-    
-    public void mvUp(){
+
+    public void mvUp() {
         this.yt++;
     }
-    
-    public void mvDwn(){
+
+    public void mvDwn() {
         this.yt--;
+    }
+
+    public String toHash() throws NoSuchAlgorithmException {
+        String salida = "";
+        salida = xt + "" + yt + "\n";
+        for (int[] terr1 : terr) {
+            for (int j = 0; j < terr[0].length; j++) {
+                salida = salida + terr1[j];
+            }
+            salida = salida + "\n";
+        }
+        return md5(salida);
     }
 
 }
