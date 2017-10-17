@@ -60,8 +60,8 @@ public class GestorAcciones {
                             
                     }
                 }
-                String w = crearAccion(itd.next(), aux.clone(), movs[4], t.getXt(), t.getYt(), 
-                        fs, cs);
+                String w = crearAccion(itd.next(), aux.clone(), movs[4], t.getXt(), 
+                        t.getYt(), fs, cs);
                 act.add(w);
             }
         }
@@ -81,8 +81,6 @@ public class GestorAcciones {
         int nx = x + coord[0];
         int ny = y + coord[1];
         
-        int aa = ady;
-        
         String nt = "(" + nx + "," + ny + ")";
         
         String cor = "[";
@@ -90,18 +88,19 @@ public class GestorAcciones {
         for(int i = 0; i < ady; i++){
             cor += dstr[i];
             if(isAdy(x, y+1, fs, cs)){
-                cor += "(" + x + "," + (y+1) + ")";
+                cor += "(" + x + "," + (y+1) + "), ";
             }
             if(isAdy(x, y-1, fs, cs)){
-                cor += "(" + x + "," + (y-1) + ")";
+                cor += "(" + x + "," + (y-1) + "), ";
             }
             if(isAdy(x+1, y, fs, cs)){
-                cor += "(" + (x+1) + "," + y + ")";
+                cor += "(" + (x+1) + "," + y + "), ";
             }
             if(isAdy(x-1, y, fs, cs)){
-                cor += "(" + (x-1) + "," + y + ")";
+                cor += "(" + (x-1) + "," + y + "), ";
             }
         }
+        cor = cor.substring(0, cor.length()-2);
         cor += "]";
         
         s += nt + cor;
