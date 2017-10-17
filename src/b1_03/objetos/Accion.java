@@ -9,6 +9,9 @@ public class Accion {
         this.dstr = dstr;
         this.movs = movs;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Accion{" + "dstr=" + dstr + ", movs=" + movs + '}';
+    }
 }
