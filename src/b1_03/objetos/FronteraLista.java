@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 package b1_03.objetos;
+import java.applet.Applet;
 
 /**
  *
  * @author alf
  */
 public class FronteraLista {
-    
+    // IMPLEMENTAR LISTA
 }

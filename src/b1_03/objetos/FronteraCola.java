@@ -10,5 +10,5 @@ package b1_03.objetos;
  * @author alf
  */
 public class FronteraCola {
-    
+    //IMPLEMENTAR COLA
 }
