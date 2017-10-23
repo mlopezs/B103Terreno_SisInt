@@ -82,7 +82,7 @@ public class GestorAcciones {
         s += "((" + nx + "," + ny + "), [";
         
         for(int i = 0; i < ady; i++){
-            s += dstr[i];
+            s += "(" + dstr[i];
             if(isAdy(x, y+1, fs, cs) && a[0]){
                 s += "(" + x + "," + (y+1) + ")";
                 a[0] = false;
@@ -93,7 +93,7 @@ public class GestorAcciones {
                 s += "(" + (x+1) + "," + y + ")";
                 a[2] = false;
             } else if(isAdy(x-1, y, fs, cs) && a[3]){
-                s += "(" + (x-1) + "," + y + "";
+                s += "(" + (x-1) + "," + y + ")";
                 a[3] = false;
             }
             s += "), ";
