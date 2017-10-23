@@ -10,19 +10,11 @@ import java.util.LinkedList;
  * @author mlspo
  */
 public class GestorAcciones {
-
-    /**
-     *
-     *
-     * @param t
-     * @param k
-     * @param fs
-     * @param cs
-     */
     
     public void toStringAcciones(){
         System.out.println("Lo del git funciona");
     }
+    
     public static void generarAcciones(Terreno t, int k, int fs, int cs) {
         
         int[] movs = genMovs(t); // Movimientos posibles
@@ -38,29 +30,33 @@ public class GestorAcciones {
         }
         System.out.println("MOVIMIENTOS:\n" + Arrays.toString(movs));
         
+        LinkedList<int[]> posmovs = new LinkedList<>();
+        
+        if(movs[0] == 1){
+            int[] a = {-1,0};
+            posmovs.add(a);
+        }
+        if(movs[1] == 1){
+            int[] a = {0,-1};
+            posmovs.add(a);
+        }
+        if(movs[2] == 1){
+            int[] a = {0,1};
+            posmovs.add(a);
+        }
+        if(movs[3] == 1){
+            int[] a = {1,0};
+            posmovs.add(a);
+        }
+        
         // Se combinan movimientos y distribuciones.
-        int[] aux = {0,0};
-        Iterator<int[]> itd = distr.iterator();
-        while(itd.hasNext()){
-            for(int i : movs){
-                if(movs[i] == 1){
-                    switch(i){
-                        case 0:
-                            aux[0] = -1;
-                            break;
-                        case 1:
-                            aux[1] = -1;
-                            break;
-                        case 2:
-                            aux[1] = 1;
-                            break;
-                        case 4:
-                            aux[0] = 1;
-                            break;
-                            
-                    }
-                }
-                String w = crearAccion(itd.next(), aux.clone(), movs[4], t.getXt(), 
+        Iterator<int[]> itm = posmovs.iterator();
+        Iterator<int[]> itd;
+        while(itm.hasNext()){
+            int[] actualMov = itm.next();
+            itd = distr.iterator();
+            while(itd.hasNext()){
+                String w = crearAccion(itd.next(), actualMov, movs[4], t.getXt(), 
                         t.getYt(), fs, cs);
                 act.add(w);
             }
@@ -76,34 +72,34 @@ public class GestorAcciones {
     public static String crearAccion(int[] dstr, int[] coord, int ady, int x, 
             int y, int fs, int cs){
         
+        boolean a[] = {true, true, true, true};
+        
         String s = "ACCIÓN:\t";
         
         int nx = x + coord[0];
         int ny = y + coord[1];
-        
-        String nt = "(" + nx + "," + ny + ")";
-        
-        String cor = "[";
+                
+        s += "((" + nx + "," + ny + "), [";
         
         for(int i = 0; i < ady; i++){
-            cor += dstr[i];
-            if(isAdy(x, y+1, fs, cs)){
-                cor += "(" + x + "," + (y+1) + "), ";
+            s += dstr[i];
+            if(isAdy(x, y+1, fs, cs) && a[0]){
+                s += "(" + x + "," + (y+1) + ")";
+                a[0] = false;
+            } else if(isAdy(x, y-1, fs, cs) && a[1]){
+                s += "(" + x + "," + (y-1) + ")";
+                a[1] = false;
+            } else if(isAdy(x+1, y, fs, cs) && a[2]){
+                s += "(" + (x+1) + "," + y + ")";
+                a[2] = false;
+            } else if(isAdy(x-1, y, fs, cs) && a[3]){
+                s += "(" + (x-1) + "," + y + "";
+                a[3] = false;
             }
-            if(isAdy(x, y-1, fs, cs)){
-                cor += "(" + x + "," + (y-1) + "), ";
-            }
-            if(isAdy(x+1, y, fs, cs)){
-                cor += "(" + (x+1) + "," + y + "), ";
-            }
-            if(isAdy(x-1, y, fs, cs)){
-                cor += "(" + (x-1) + "," + y + "), ";
-            }
+            s += "), ";
         }
-        cor = cor.substring(0, cor.length()-2);
-        cor += "]";
-        
-        s += nt + cor;
+        s = s.substring(0, s.length()-2);
+        s += "], 1)";
         
         return s;
     }
