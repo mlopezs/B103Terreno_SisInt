@@ -10,18 +10,18 @@ import java.util.LinkedList;
  * @author mlspo
  */
 public class GestorAcciones {
-    
-    public void toStringAcciones(){
+
+    public void toStringAcciones() {
         System.out.println("Lo del git funciona");
     }
-    
-    public static void generarAcciones(Terreno t, int k, int fs, int cs) {
-        
+
+    public static void generarAcciones(Terreno t, int k, int fs, int cs, int max) {
+
         int[] movs = genMovs(t); // Movimientos posibles
         LinkedList<int[]> distr = genDistros(t, k, movs[4]); // Distribuciones (Todas)
-        
+
         LinkedList<String> act = new LinkedList<>(); // Lista de acciones
-        
+
         // MOSTRAR COSAS
         System.out.println("DISTRIBUCIONES");
         Iterator<int[]> it = distr.iterator();
@@ -29,83 +29,89 @@ public class GestorAcciones {
             System.out.println(Arrays.toString(it.next()));
         }
         System.out.println("MOVIMIENTOS:\n" + Arrays.toString(movs));
-        
+
         LinkedList<int[]> posmovs = new LinkedList<>();
-        
-        if(movs[0] == 1){
-            int[] a = {-1,0};
+
+        if (movs[0] == 1) {
+            int[] a = {-1, 0};
             posmovs.add(a);
         }
-        if(movs[1] == 1){
-            int[] a = {0,-1};
+        if (movs[1] == 1) {
+            int[] a = {0, -1};
             posmovs.add(a);
         }
-        if(movs[2] == 1){
-            int[] a = {0,1};
+        if (movs[2] == 1) {
+            int[] a = {0, 1};
             posmovs.add(a);
         }
-        if(movs[3] == 1){
-            int[] a = {1,0};
+        if (movs[3] == 1) {
+            int[] a = {1, 0};
             posmovs.add(a);
         }
-        
+
         // Se combinan movimientos y distribuciones.
         Iterator<int[]> itm = posmovs.iterator();
         Iterator<int[]> itd;
-        while(itm.hasNext()){
+        while (itm.hasNext()) {
             int[] actualMov = itm.next();
             itd = distr.iterator();
-            while(itd.hasNext()){
-                String w = crearAccion(itd.next(), actualMov, movs[4], t.getXt(), 
-                        t.getYt(), fs, cs);
-                act.add(w);
+            while (itd.hasNext()) {
+                String w = crearAccion(itd.next(), actualMov, movs[4], t.getXt(),
+                        t.getYt(), fs, cs, t, max);
+                if (!w.equals("")) {
+                    act.add(w);
+                }
             }
         }
-        
+
         Iterator<String> itact = act.iterator();
-        while(itact.hasNext()){
+        while (itact.hasNext()) {
             System.out.println(itact.next());
         }
-        
+
     }
-    
-    public static String crearAccion(int[] dstr, int[] coord, int ady, int x, 
-            int y, int fs, int cs){
-        
+
+    public static String crearAccion(int[] dstr, int[] coord, int ady, int x,
+            int y, int fs, int cs, Terreno t, int max) {
+
         boolean a[] = {true, true, true, true};
-        
-        String s = "ACCIÓN:\t";
-        
+
         int nx = x + coord[0];
         int ny = y + coord[1];
-                
-        s += "((" + nx + "," + ny + "), [";
-        
-        for(int i = 0; i < ady; i++){
+
+        String s = "((" + nx + "," + ny + "), [";
+
+        for (int i = 0; i < ady; i++) {
             s += "(" + dstr[i];
-            if(isAdy(x, y+1, fs, cs) && a[0]){
-                s += "(" + x + "," + (y+1) + ")";
+
+            if (isAdy(y, x + 1, fs, cs, t.getTerr(), dstr[i], max) && a[0]) {
+                s += "(" + (x + 1) + "," + y + ")";
                 a[0] = false;
-            } else if(isAdy(x, y-1, fs, cs) && a[1]){
-                s += "(" + x + "," + (y-1) + ")";
+            } else if (isAdy(y, x - 1, fs, cs, t.getTerr(), dstr[i], max) && a[1]) {
+                s += "(" + (x - 1) + "," + y + ")";
                 a[1] = false;
-            } else if(isAdy(x+1, y, fs, cs) && a[2]){
-                s += "(" + (x+1) + "," + y + ")";
+            } else if (isAdy(y + 1, x, fs, cs, t.getTerr(), dstr[i], max) && a[2]) {
+                s += "(" + x + "," + (y + 1) + ")";
                 a[2] = false;
-            } else if(isAdy(x-1, y, fs, cs) && a[3]){
-                s += "(" + (x-1) + "," + y + ")";
+            } else if (isAdy(y - 1, x, fs, cs, t.getTerr(), dstr[i], max) && a[3]) {
+                s += "(" + x + "," + (y - 1) + ")";
                 a[3] = false;
+            } else {
+                s = "";
+                break;
             }
             s += "), ";
         }
-        s = s.substring(0, s.length()-2);
-        s += "], 1)";
-        
+        if (!s.equals("")) {
+            s = s.substring(0, s.length() - 2);
+            s += "], 1)";
+        }
+
         return s;
     }
-    
-    public static boolean isAdy(int x, int y, int fs, int cs){
-        return x < cs && x >= 0 && y >= 0 && y < fs;
+
+    public static boolean isAdy(int x, int y, int fs, int cs, int[][] matrix, int cantidad, int max) {
+        return ((x < cs && x >= 0 && y >= 0 && y < fs) && (matrix[x][y] + cantidad) <= max);
     }
 
     /**
@@ -131,22 +137,22 @@ public class GestorAcciones {
          */
         int[] movs = {0, 0, 0, 0, 0};
         // Subir
-        if ((y - 1) >= 0) {
+        if ((x - 1) >= 0) {
             movs[1] = 1;
             movs[4]++;
         }
         // Bajar
-        if ((y + 1) <= t.getTerr().length) {
+        if ((x + 1) <= t.getTerr().length) {
             movs[2] = 1;
             movs[4]++;
         }
         // Derecha
-        if ((x + 1) <= t.getTerr()[0].length) {
+        if ((y + 1) <= t.getTerr()[0].length) {
             movs[3] = 1;
             movs[4]++;
         }
         // Izquierda
-        if ((x - 1) >= 0) {
+        if ((y - 1) >= 0) {
             movs[0] = 1;
             movs[4]++;
         }

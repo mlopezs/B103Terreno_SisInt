@@ -51,7 +51,7 @@ public class Distribuidor {
             System.out.println("ERROR: Los datos son incorrectos.");
         } else {
 
-            t = crearTerreno(aux, fs, cs, datos[0], datos[1]);
+            t = crearTerreno(aux, fs, cs, datos[1], datos[0]);
 
             lt.add(t); // Añadimos el terreno inicial a la lista
 
@@ -59,7 +59,7 @@ public class Distribuidor {
             System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
             t.mostrar();
 
-            GestorAcciones.generarAcciones(t, k, fs, cs);
+            GestorAcciones.generarAcciones(t, k, fs, cs, max);
             
         }
 
