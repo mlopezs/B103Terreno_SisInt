@@ -13,6 +13,33 @@ import java.util.LinkedList;
 public class Miscelanea {
 
     /**
+     * compMovs() compruba los movimientos válidos, y si lo son, los añade a la
+     * lista de válidos.
+     * 
+     * @param ini
+     * @param pos 
+     */
+    public static void compMovs(int[] ini, LinkedList<int[]> pos){
+        
+        if (ini[0] == 1) {
+            int[] a = {-1, 0};
+            pos.add(a);
+        }
+        if (ini[1] == 1) {
+            int[] a = {0, -1};
+            pos.add(a);
+        }
+        if (ini[2] == 1) {
+            int[] a = {0, 1};
+            pos.add(a);
+        }
+        if (ini[3] == 1) {
+            int[] a = {1, 0};
+            pos.add(a);
+        }
+    }
+    
+    /**
      * compAdd() comprueba que la suma de elementos del vector sea k, y en ese
      * caso lo añade a la lista.
      * 

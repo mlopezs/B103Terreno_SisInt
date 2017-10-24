@@ -1,9 +1,9 @@
 package b1_03.utilidades;
 
 import b1_03.objetos.Terreno;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
+import static b1_03.utilidades.Miscelanea.compMovs;
 
 /**
  *
@@ -11,45 +11,19 @@ import java.util.LinkedList;
  */
 public class GestorAcciones {
 
-    public void toStringAcciones() {
-        System.out.println("Lo del git funciona");
-    }
-
     public static void generarAcciones(Terreno t, int k, int fs, int cs, int max) {
 
-        int[] movs = genMovs(t); // Movimientos posibles
+        int[] movs = genMovs(t); // Movimientos
+        LinkedList<int[]> posmovs = new LinkedList<>(); // Lista movimientos posibles
+        compMovs(movs, posmovs);
+
         LinkedList<int[]> distr = genDistros(t, k, movs[4]); // Distribuciones (Todas)
 
         LinkedList<String> act = new LinkedList<>(); // Lista de acciones
 
-        // MOSTRAR COSAS
-        System.out.println("DISTRIBUCIONES");
-        Iterator<int[]> it = distr.iterator();
-        while (it.hasNext()) {
-            System.out.println(Arrays.toString(it.next()));
-        }
-        System.out.println("MOVIMIENTOS:\n" + Arrays.toString(movs));
+        
 
-        LinkedList<int[]> posmovs = new LinkedList<>();
-
-        if (movs[0] == 1) {
-            int[] a = {-1, 0};
-            posmovs.add(a);
-        }
-        if (movs[1] == 1) {
-            int[] a = {0, -1};
-            posmovs.add(a);
-        }
-        if (movs[2] == 1) {
-            int[] a = {0, 1};
-            posmovs.add(a);
-        }
-        if (movs[3] == 1) {
-            int[] a = {1, 0};
-            posmovs.add(a);
-        }
-
-        // Se combinan movimientos y distribuciones.
+        // Se combinan movimientos y distribuciones para formar acciones.
         Iterator<int[]> itm = posmovs.iterator();
         Iterator<int[]> itd;
         while (itm.hasNext()) {
@@ -64,6 +38,7 @@ public class GestorAcciones {
             }
         }
 
+        // Mostramos las acciones
         Iterator<String> itact = act.iterator();
         while (itact.hasNext()) {
             System.out.println(itact.next());
@@ -71,17 +46,37 @@ public class GestorAcciones {
 
     }
 
+    /**
+     * crearAcciones(), como su propio nombre indica, crea las acciones para una
+     * distribución y movimiento dados, teniendo en cuenta el terreno y sus
+     * características.
+     *
+     * @param dstr
+     * @param coord
+     * @param ady
+     * @param x
+     * @param y
+     * @param fs
+     * @param cs
+     * @param t
+     * @param max
+     * @return String que describe la accion con formato específico.
+     */
     public static String crearAccion(int[] dstr, int[] coord, int ady, int x,
             int y, int fs, int cs, Terreno t, int max) {
 
+        // Vector para que no vuelva a entrar en el mismo if
         boolean a[] = {true, true, true, true};
 
+        // Futura posición del tractor
         int nx = x + coord[0];
         int ny = y + coord[1];
 
+        // String de devolución
         String s = "((" + nx + "," + ny + "), [";
 
         for (int i = 0; i < ady; i++) {
+
             s += "(" + dstr[i];
 
             if (isAdy(y, x + 1, fs, cs, t.getTerr(), dstr[i], max) && a[0]) {
@@ -100,8 +95,10 @@ public class GestorAcciones {
                 s = "";
                 break;
             }
+
             s += "), ";
         }
+
         if (!s.equals("")) {
             s = s.substring(0, s.length() - 2);
             s += "], 1)";
@@ -110,6 +107,19 @@ public class GestorAcciones {
         return s;
     }
 
+    /**
+     * isAdy() comprueba que la acción sea factible, es decir, que se pueda
+     * mover la cantidad de arena a la casilla correspondiente.
+     *
+     * @param x
+     * @param y
+     * @param fs
+     * @param cs
+     * @param matrix
+     * @param cantidad
+     * @param max
+     * @return true si es posible, false si no lo es.
+     */
     public static boolean isAdy(int x, int y, int fs, int cs, int[][] matrix, int cantidad, int max) {
         return ((x < cs && x >= 0 && y >= 0 && y < fs) && (matrix[x][y] + cantidad) <= max);
     }
@@ -123,7 +133,7 @@ public class GestorAcciones {
      * número de adyacentes.
      *
      * @param t
-     * @return Vector de enteros
+     * @return Vector de enteros con los movimientos posibles del tractor.
      */
     public static int[] genMovs(Terreno t) {
         int x = t.getXt(); // Posicion X del tractor
@@ -136,6 +146,7 @@ public class GestorAcciones {
         movs[4] -> Numero adyacentes
          */
         int[] movs = {0, 0, 0, 0, 0};
+        
         // Subir
         if ((x - 1) >= 0) {
             movs[1] = 1;
