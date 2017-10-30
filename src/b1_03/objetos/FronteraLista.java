@@ -14,6 +14,10 @@ public class FronteraLista implements Frontera{
     
     private LinkedList<Nodo> l;
 
+    public FronteraLista(){
+        crearFrontera();
+    }
+    
     @Override
     public void crearFrontera() {
         l = new LinkedList();

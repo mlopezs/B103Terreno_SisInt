@@ -1,82 +1,72 @@
 package b1_03.objetos;
 
+import java.util.Comparator;
+
 /**
  *
  * @author mlspo
  */
-public class Nodo {
+public class Nodo implements Comparator<Nodo> {
     
-    private String estado;
     private int id;
+    private String estado; // Estado del nodo
     private int val; // Valor para ordenarlo en la frontera
-    private int prof; // Profundidad
-    private int cost; // Coste
-    private Nodo padre;
+    private int costo; // Coste de la accion
+    private Nodo padre; // Nodo padre
+    private String accion; // Accion que ha llevado al estado
     
     private static int iden = 0; // Autoincremento nodo
 
-    public Nodo(String estado, int prof, int cost, Nodo padre) {
+    public Nodo(String estado, int prof, int cost, Nodo padre, String accion, int costo) {
         this.id = Nodo.iden++;
         this.estado = estado;
         this.val = (int) Math.floor(Math.random()*1000);
-        this.prof = prof;
-        this.cost = cost;
         this.padre = padre;
-    }
-
-    public Nodo getPadre() {
-        return padre;
-    }
-
-    public void setPadre(Nodo padre) {
-        this.padre = padre;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
+        this.accion = accion;
+        this.costo = costo;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getEstado() {
+        return estado;
     }
 
     public int getVal() {
         return val;
     }
 
-    public void setVal(int val) {
-        this.val = val;
+    public int getCosto() {
+        return costo;
     }
 
-    public int getProf() {
-        return prof;
+    public Nodo getPadre() {
+        return padre;
     }
 
-    public void setProf(int prof) {
-        this.prof = prof;
-    }
+    public String getAccion() {
+        return accion;
+    }   
 
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-    
     @Override
     public String toString() {
-        return "NODO:\n-----\n" + estado.toString() + "\n{estado=" + estado + ", id=" + 
-                id + ", val=" + val + ", prof=" + prof + ", cost=" + cost + '}';
+        return "Nodo{" + "id=" + id + ", estado=" + estado + ", val=" + val + 
+                ", costo=" + costo + ", padre=" + padre + ", accion=" + accion + '}';
     }
-    
-    
+
+    @Override
+    public int compare(Nodo o1, Nodo o2) {
+       
+        int retorno = 0;
+        
+        if(o2.getId()<o1.getId()){
+            retorno = 1;
+        }else if(o1.getId()<o2.getId()){
+            retorno = -1;
+        }
+        
+        return retorno;
+    }
 }

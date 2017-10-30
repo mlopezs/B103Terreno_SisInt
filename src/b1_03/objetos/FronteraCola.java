@@ -11,9 +11,13 @@ import java.util.PriorityQueue;
  *
  * @author alf
  */
-public class FronteraCola implements Frontera{
-    
+public class FronteraCola implements Frontera {
+
     private PriorityQueue<Nodo> pq;
+
+    public FronteraCola() {
+        crearFrontera();
+    }
 
     @Override
     public void crearFrontera() {

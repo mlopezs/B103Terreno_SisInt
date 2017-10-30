@@ -49,18 +49,6 @@ public class Terreno {
         this.yt = yt;
     }
 
-    public void mostrar() {
-
-        System.out.println("Tractor(" + xt + "," + yt + ")\nTerreno:");
-
-        for (int[] terr1 : terr) {
-            for (int j = 0; j < terr[0].length; j++) {
-                System.out.printf(" %d", terr1[j]);
-            }
-            System.out.print("\n");
-        }
-    }
-
     public void mvDcha() {
         this.xt++;
     }
@@ -77,16 +65,37 @@ public class Terreno {
         this.yt--;
     }
 
-    public String toHash() throws NoSuchAlgorithmException {
-        String salida = "";
-        salida = xt + "" + yt + "\n";
+    @Override
+    public String toString()  {
+        
+        String salida = "(" + xt + "," + yt + ")\n";
+        
         for (int[] terr1 : terr) {
             for (int j = 0; j < terr[0].length; j++) {
-                salida = salida + terr1[j];
+                salida = salida + (terr1[j] + " ");
             }
             salida = salida + "\n";
         }
-        return md5(salida);
+        
+        return salida;
+    }
+    public String toHash() throws NoSuchAlgorithmException{
+        return md5(this.toString());
+    }
+    public boolean esObjetivo(int k){
+       
+        boolean obj = true;
+     
+        for (int[] terr1 : terr) {
+            for (int j = 0; j < terr[0].length; j++) {
+               if(terr1[j] != k){
+                   obj = false;
+                   break;
+               }
+            }           
+        }
+      
+        return obj;
     }
 
 }

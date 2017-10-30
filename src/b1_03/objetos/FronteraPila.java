@@ -11,9 +11,13 @@ import java.util.Stack;
  *
  * @author alf
  */
-public class FronteraPila implements Frontera{
-    
+public class FronteraPila implements Frontera {
+
     private Stack<Nodo> s;
+
+    public FronteraPila() {
+        crearFrontera();
+    }
 
     @Override
     public void crearFrontera() {
@@ -33,6 +37,6 @@ public class FronteraPila implements Frontera{
     @Override
     public boolean esVacia() {
         return s.isEmpty();
-    }    
-    
+    }
+
 }
