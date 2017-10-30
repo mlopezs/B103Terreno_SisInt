@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class Miscelanea {
 
     /**
-     * compMovs() compruba los movimientos válidos, y si lo son, los añade a la
+     * compMovs(..) compruba los movimientos válidos, y si lo son, los añade a la
      * lista de válidos.
      * 
      * @param ini
@@ -40,7 +40,7 @@ public class Miscelanea {
     }
     
     /**
-     * compAdd() comprueba que la suma de elementos del vector sea k, y en ese
+     * compAdd(..) comprueba que la suma de elementos del vector sea k, y en ese
      * caso lo añade a la lista.
      * 
      * @param vec
@@ -54,7 +54,7 @@ public class Miscelanea {
     }
 
     /**
-     * crearTerreno() crea un objeto de la clase Terreno partiendo de los
+     * crearTerreno(..) crea un objeto de la clase Terreno partiendo de los
      * parámetros que se piden. Después devuelve dicho objeto.
      *
      * @param a
@@ -69,7 +69,7 @@ public class Miscelanea {
     }
 
     /**
-     * vec2mat convierte un vector lineal a un array conocidas las filas y
+     * vec2mat(..) convierte un vector lineal a un array conocidas las filas y
      * columnas
      *
      * @param aux
@@ -93,7 +93,7 @@ public class Miscelanea {
     }
 
     /**
-     * esValido() comprueba que el sumatorio de la cantidad de arena de cada celda
+     * esValido(..) comprueba que el sumatorio de la cantidad de arena de cada celda
      * sea igual que el volumen total de arena (fs*cs*k)
      *
      * @param fs

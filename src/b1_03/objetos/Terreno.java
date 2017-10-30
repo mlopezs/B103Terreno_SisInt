@@ -79,9 +79,21 @@ public class Terreno {
         
         return salida;
     }
+    
+    /**
+     * toHash() se encarga de aplicar una función hash al String del terreno
+     * @return String resultante de un algoritmo md5
+     * @throws NoSuchAlgorithmException 
+     */
     public String toHash() throws NoSuchAlgorithmException{
         return md5(this.toString());
     }
+    
+    /**
+     * esObjetivo(..) comprueba que un terreno sea un terreno objetivo
+     * @param k
+     * @return true si es objetivo, false si no
+     */
     public boolean esObjetivo(int k){
        
         boolean obj = true;

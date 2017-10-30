@@ -3,8 +3,11 @@ package b1_03.objetos;
 import java.util.Comparator;
 
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author mlspo
+ * @version 1.0.0
  */
 public class Nodo implements Comparator<Nodo> {
     

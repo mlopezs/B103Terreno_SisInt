@@ -21,7 +21,7 @@ public class ES_de_archivos {
     private static final int INDICE_F = 5;
 
     /**
-     * leer_archivo() lee un archivo de texto y devuelve un vector de enteros.
+     * leer_archivo(..) lee un archivo de texto y devuelve un vector de enteros.
      *
      * @param path
      * @return int[]
@@ -104,7 +104,7 @@ public class ES_de_archivos {
     }
 
     /**
-     * escribir_archivo() recibe un path y un vector de enteros y escribe un
+     * escribir_archivo(..) recibe un path y un vector de enteros y escribe un
      * archivo.
      *
      * @param path

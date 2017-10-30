@@ -66,7 +66,7 @@ public class Distribuidor {
 
         }
         
-        pruebas();
+        //pruebas();
         
     }
     

@@ -6,11 +6,24 @@ import java.util.LinkedList;
 import static b1_03.utilidades.Miscelanea.compMovs;
 
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author mlspo
+ * @version 1.0.0
  */
 public class GestorAcciones {
 
+    /**
+     * generarAcciones(..) genera las acciones dado el conjunto de distribuciones
+     * proveniente del terreno, y el conjunto de movimientos posibles del tractor.
+     * 
+     * @param t
+     * @param k
+     * @param fs
+     * @param cs
+     * @param max 
+     */
     public static void generarAcciones(Terreno t, int k, int fs, int cs, int max) {
 
         int[] movs = genMovs(t); // Movimientos
@@ -20,8 +33,6 @@ public class GestorAcciones {
         LinkedList<int[]> distr = genDistros(t, k, movs[4]); // Distribuciones (Todas)
 
         LinkedList<String> act = new LinkedList<>(); // Lista de acciones
-
-        
 
         // Se combinan movimientos y distribuciones para formar acciones.
         Iterator<int[]> itm = posmovs.iterator();
@@ -47,7 +58,7 @@ public class GestorAcciones {
     }
 
     /**
-     * crearAcciones(), como su propio nombre indica, crea las acciones para una
+     * crearAcciones(..), como su propio nombre indica, crea las acciones para una
      * distribución y movimiento dados, teniendo en cuenta el terreno y sus
      * características.
      *
@@ -108,7 +119,7 @@ public class GestorAcciones {
     }
 
     /**
-     * isAdy() comprueba que la acción sea factible, es decir, que se pueda
+     * isAdy(..) comprueba que la acción sea factible, es decir, que se pueda
      * mover la cantidad de arena a la casilla correspondiente.
      *
      * @param x
@@ -125,7 +136,7 @@ public class GestorAcciones {
     }
 
     /**
-     * genMovs() se encarga de generar los posibles movimientos que puede hacer
+     * genMovs(..) se encarga de generar los posibles movimientos que puede hacer
      * el tractor contenido en el terreno. Devuelve un vector de enteros donde
      * las cuatro primeras coordenadas son 1 o 0 dependiendo de si se puede
      * mover: primera coordenada es el movimiento a la izquierda, el segundo
@@ -171,7 +182,7 @@ public class GestorAcciones {
     }
 
     /**
-     * genDistros() se encarga de generar todas las distribuciones posibles de
+     * genDistros(..) se encarga de generar todas las distribuciones posibles de
      * arena partiendo del terreno que se pasa como argumento, y el número de
      * adyacentes previamente calculado.
      *
