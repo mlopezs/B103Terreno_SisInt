@@ -10,7 +10,8 @@ package b1_03.objetos;
  * @author alf
  */
 public interface Frontera {
-    public void añadirNodo(Nodo nodo);
-    public void eliminarNodo(Nodo nodo);
-    public void ordenarNodos(Nodo nodo);
+    public void crearFrontera();
+    public void insertar(Nodo b);
+    public Object eliminar(Nodo b);
+    public boolean esVacia();
 }

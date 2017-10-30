@@ -15,10 +15,10 @@ public class Nodo {
     
     private static int iden = 0; // Autoincremento nodo
 
-    public Nodo(String estado, int val, int prof, int cost, Nodo padre) {
+    public Nodo(String estado, int prof, int cost, Nodo padre) {
         this.id = Nodo.iden++;
         this.estado = estado;
-        this.val = val;
+        this.val = (int) Math.floor(Math.random()*1000);
         this.prof = prof;
         this.cost = cost;
         this.padre = padre;
