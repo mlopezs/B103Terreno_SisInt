@@ -1,7 +1,5 @@
 package b1_03.objetos;
 
-import java.util.Comparator;
-
 /**
  * @author Alfonso Barragán
  * @author Francisco Manuel García
@@ -9,7 +7,7 @@ import java.util.Comparator;
  *
  * @version 1.0.0
  */
-public class Nodo implements Comparator<Nodo> {
+public class Nodo implements Comparable<Nodo> {
     
     private int id;
     private String estado; // Estado del nodo
@@ -60,13 +58,12 @@ public class Nodo implements Comparator<Nodo> {
     }
 
     @Override
-    public int compare(Nodo o1, Nodo o2) {
-       
+    public int compareTo(Nodo o) {
         int retorno = 0;
         
-        if(o2.getId()<o1.getId()){
+        if(o.getId() < this.id){
             retorno = 1;
-        }else if(o1.getId()<o2.getId()){
+        }else if(this.id < o.getId()){
             retorno = -1;
         }
         

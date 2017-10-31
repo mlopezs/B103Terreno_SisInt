@@ -82,6 +82,12 @@ public class GestorAcciones {
         // Futura posición del tractor
         int nx = x + coord[0];
         int ny = y + coord[1];
+        
+        // Costo de la acción (Arena desplazada más uno)
+        int costo = 1;
+        for(int d : dstr){
+            costo += d;
+        }
 
         // String de devolución
         String s = "((" + nx + "," + ny + "), [";
@@ -112,7 +118,7 @@ public class GestorAcciones {
 
         if (!s.equals("")) {
             s = s.substring(0, s.length() - 2);
-            s += "], 1)";
+            s += "], " + costo + ")";
         }
 
         return s;

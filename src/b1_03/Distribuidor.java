@@ -1,9 +1,5 @@
 package b1_03;
 
-import b1_03.objetos.FronteraCola;
-import b1_03.objetos.FronteraLista;
-import b1_03.objetos.FronteraPila;
-import b1_03.objetos.Nodo;
 import java.util.LinkedList;
 import b1_03.objetos.Terreno;
 import excepciones.LecturaErronea;
@@ -66,49 +62,6 @@ public class Distribuidor {
 
         }
         
-        //pruebas();
-        
-    }
-    
-    public static void pruebas() throws Error{
-        
-        FronteraLista frontL = new FronteraLista();
-        FronteraCola frontC = new FronteraCola();
-        FronteraPila frontP = new FronteraPila();
-
-        Nodo a = new Nodo("hfskskdhf", 5, 3, null, "8292898", 3);
-        Nodo b = new Nodo("hfskskdhf", 5, 3, a, "8292898", 3);
-        
-        long cl = 0;
-        try {
-            while (true) {
-                frontL.insertar(b);
-                cl++;
-            }
-        } catch (Exception e) {
-            System.out.println("Lista" + cl);
-        }
-        
-        long cc = 0;
-        try{
-            while(true){
-                frontC.insertar(a);
-                frontC.insertar(b);
-                cc++;
-            }
-        }catch (Exception e){
-            System.out.println("Cola" + cc);
-        }
-        
-        long cs1 = 0;
-        try{
-            while(true){
-                frontP.insertar(a);
-                cs1++;
-            }
-        }catch (Exception e){
-            System.out.println("Cola" + cs1);
-        }
     }
 
 }
