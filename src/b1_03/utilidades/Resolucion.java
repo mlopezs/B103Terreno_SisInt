@@ -10,6 +10,7 @@ import b1_03.objetos.Nodo;
 import b1_03.objetos.Terreno;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Stack;
 
 /**
  *
@@ -66,12 +67,25 @@ public class Resolucion {
         return objetivo;
     }
 
-    public String crearSolucion() {
-        String solucion = "";
+    public String crearSolucion(Nodo n) {
+        
         /* Aquí a partir del nodo se haria un bucle sacando su padre, y 
         almacenado la acción en una pila, y vertiendola luego en el String para 
         que saliera la secuencia desde el nodo inicial hasta el nodo con el 
         estado objetivo*/
+        String solucion="";
+        Stack<Nodo> st=new Stack<>();
+        Nodo nodo_aux=n;
+        st.push(nodo_aux);
+        
+        while(nodo_aux.getPadre()!=null){
+            nodo_aux=nodo_aux.getPadre();
+            st.push(nodo_aux);   
+        }
+        
+        while((nodo_aux=st.pop())!=null){
+            solucion=solucion+nodo_aux.getAccion().toString()+"/r/n";
+        }
         return solucion;
     }
 
