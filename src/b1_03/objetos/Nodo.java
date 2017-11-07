@@ -9,7 +9,7 @@ package b1_03.objetos;
  */
 public class Nodo implements Comparable<Nodo> {
     
-    private int id;
+    private int id; // Id del nodo
     private String estado; // Estado del nodo
     private int val; // Valor para ordenarlo en la frontera
     private int costo; // Coste de la accion
@@ -63,21 +63,14 @@ public class Nodo implements Comparable<Nodo> {
 
     @Override
     public int compareTo(Nodo o) {
-        int ret = 0;
-
+        int ret;
         if (this.val < o.getVal()) {
             ret = 1;
         } else if (this.val < o.getVal()) {
             ret = -1;
         } else {
-            /*if (this.id < o.getId()) {
-                ret = 1;
-            } else {
-                ret = -1;
-            }*/
             ret = 0;
         }
-
         return ret;
     }
 }
