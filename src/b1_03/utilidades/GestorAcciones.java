@@ -1,5 +1,7 @@
 package b1_03.utilidades;
 
+import b1_03.objetos.Accion;
+import b1_03.objetos.NodoAccion;
 import b1_03.objetos.Terreno;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,14 +27,14 @@ public class GestorAcciones {
      * @param max 
      */
     public static void generarAcciones(Terreno t, int k, int fs, int cs, int max) {
-
+        
         int[] movs = genMovs(t); // Movimientos
         LinkedList<int[]> posmovs = new LinkedList<>(); // Lista movimientos posibles
         compMovs(movs, posmovs);
 
         LinkedList<int[]> distr = genDistros(t, k, movs[4]); // Distribuciones (Todas)
 
-        LinkedList<String> act = new LinkedList<>(); // Lista de acciones
+        LinkedList<Accion> act = new LinkedList<>(); // Lista de acciones
 
         // Se combinan movimientos y distribuciones para formar acciones.
         Iterator<int[]> itm = posmovs.iterator();
@@ -41,16 +43,14 @@ public class GestorAcciones {
             int[] actualMov = itm.next();
             itd = distr.iterator();
             while (itd.hasNext()) {
-                String w = crearAccion(itd.next(), actualMov, movs[4], t.getXt(),
+                Accion acc = crearAccion(itd.next(), actualMov, movs[4], t.getXt(),
                         t.getYt(), fs, cs, t, max);
-                if (!w.equals("")) {
-                    act.add(w);
-                }
+                if(acc.getNodos() != null) act.add(acc);
             }
         }
 
         // Mostramos las acciones
-        Iterator<String> itact = act.iterator();
+        Iterator<Accion> itact = act.iterator();
         while (itact.hasNext()) {
             System.out.println(itact.next());
         }
@@ -73,7 +73,7 @@ public class GestorAcciones {
      * @param max
      * @return String que describe la accion con formato específico.
      */
-    public static String crearAccion(int[] dstr, int[] coord, int ady, int x,
+    public static Accion crearAccion(int[] dstr, int[] coord, int ady, int x,
             int y, int fs, int cs, Terreno t, int max) {
 
         // Vector para que no vuelva a entrar en el mismo if
@@ -91,37 +91,29 @@ public class GestorAcciones {
 
         // String de devolución
         String s = "((" + nx + "," + ny + "), [";
+        
+        NodoAccion[] na = new NodoAccion[ady];
 
-        for (int i = 0; i < ady; i++) {
-
-            s += "(" + dstr[i];
-
+        for (int i = 0; i < ady; i++) {            
             if (isAdy(y, x + 1, fs, cs, t.getTerr(), dstr[i], max) && a[0]) {
-                s += "(" + (x + 1) + "," + y + ")";
+                na[i] = new NodoAccion(dstr[i], (x+1), y);
                 a[0] = false;
             } else if (isAdy(y, x - 1, fs, cs, t.getTerr(), dstr[i], max) && a[1]) {
-                s += "(" + (x - 1) + "," + y + ")";
+                na[i] = new NodoAccion(dstr[i], (x-1), y);
                 a[1] = false;
             } else if (isAdy(y + 1, x, fs, cs, t.getTerr(), dstr[i], max) && a[2]) {
-                s += "(" + x + "," + (y + 1) + ")";
+                na[i] = new NodoAccion(dstr[i], x, (y + 1));
                 a[2] = false;
             } else if (isAdy(y - 1, x, fs, cs, t.getTerr(), dstr[i], max) && a[3]) {
-                s += "(" + x + "," + (y - 1) + ")";
+                na[i] = new NodoAccion(dstr[i], x, (y - 1));
                 a[3] = false;
             } else {
-                s = "";
+                na = null;
                 break;
             }
-
-            s += "), ";
         }
-
-        if (!s.equals("")) {
-            s = s.substring(0, s.length() - 2);
-            s += "], " + costo + ")";
-        }
-
-        return s;
+        
+        return new Accion(nx, ny, costo, na);
     }
 
     /**

@@ -10,19 +10,30 @@ package b1_03.objetos;
  * @author paco
  */
 public class Accion {
-    private int xt,yt,costo;
-    private NodoAccion[]nodos=new NodoAccion[4];
-    
-    public Accion(int xt,int yt, int costo,  NodoAccion[]nodos){
-        this.xt=xt;
-        this.yt=yt;
-        this.costo=costo;
-        this.nodos=nodos;
+
+    private int xt;
+    private int yt;
+    private int costo;
+    private NodoAccion[] nodos;
+
+    public Accion(int xt, int yt, int costo, NodoAccion[] nodos) {
+        this.xt = xt;
+        this.yt = yt;
+        this.costo = costo;
+        this.nodos = nodos;
     }
 
     @Override
     public String toString() {
-        return "Accion{" + "xt=" + xt + ", yt=" + yt + ", costo=" + costo + ", nodos=" + nodos + '}';
+        String s = "((" + xt + "," + yt + "), [";
+        for (NodoAccion a : nodos) {
+            if (a != null) {
+                s += a.toString() + ", ";
+            }
+        }
+        s = s.substring(0, s.length() - 2);
+        s += "], " + costo + ")";
+        return s;
     }
 
     public int getXt() {
