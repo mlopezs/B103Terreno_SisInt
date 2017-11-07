@@ -14,9 +14,9 @@ public class Accion {
     private int xt;
     private int yt;
     private int costo;
-    private NodoAccion[] nodos;
+    private SubAccion[] nodos;
 
-    public Accion(int xt, int yt, int costo, NodoAccion[] nodos) {
+    public Accion(int xt, int yt, int costo, SubAccion[] nodos) {
         this.xt = xt;
         this.yt = yt;
         this.costo = costo;
@@ -26,7 +26,7 @@ public class Accion {
     @Override
     public String toString() {
         String s = "((" + xt + "," + yt + "), [";
-        for (NodoAccion a : nodos) {
+        for (SubAccion a : nodos) {
             if (a != null) {
                 s += a.toString() + ", ";
             }
@@ -48,7 +48,7 @@ public class Accion {
         return costo;
     }
 
-    public NodoAccion[] getNodos() {
+    public SubAccion[] getNodos() {
         return nodos;
     }
 }

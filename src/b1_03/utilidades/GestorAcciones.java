@@ -1,7 +1,7 @@
 package b1_03.utilidades;
 
 import b1_03.objetos.Accion;
-import b1_03.objetos.NodoAccion;
+import b1_03.objetos.SubAccion;
 import b1_03.objetos.Terreno;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -88,24 +88,21 @@ public class GestorAcciones {
         for(int d : dstr){
             costo += d;
         }
-
-        // String de devolución
-        String s = "((" + nx + "," + ny + "), [";
-        
-        NodoAccion[] na = new NodoAccion[ady];
+        // Subacciones de la accion
+        SubAccion[] na = new SubAccion[ady];
 
         for (int i = 0; i < ady; i++) {            
             if (isAdy(y, x + 1, fs, cs, t.getTerr(), dstr[i], max) && a[0]) {
-                na[i] = new NodoAccion(dstr[i], (x+1), y);
+                na[i] = new SubAccion(dstr[i], (x+1), y);
                 a[0] = false;
             } else if (isAdy(y, x - 1, fs, cs, t.getTerr(), dstr[i], max) && a[1]) {
-                na[i] = new NodoAccion(dstr[i], (x-1), y);
+                na[i] = new SubAccion(dstr[i], (x-1), y);
                 a[1] = false;
             } else if (isAdy(y + 1, x, fs, cs, t.getTerr(), dstr[i], max) && a[2]) {
-                na[i] = new NodoAccion(dstr[i], x, (y + 1));
+                na[i] = new SubAccion(dstr[i], x, (y + 1));
                 a[2] = false;
             } else if (isAdy(y - 1, x, fs, cs, t.getTerr(), dstr[i], max) && a[3]) {
-                na[i] = new NodoAccion(dstr[i], x, (y - 1));
+                na[i] = new SubAccion(dstr[i], x, (y - 1));
                 a[3] = false;
             } else {
                 na = null;

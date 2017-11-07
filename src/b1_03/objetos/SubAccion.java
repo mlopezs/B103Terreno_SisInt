@@ -9,13 +9,13 @@ package b1_03.objetos;
  *
  * @author paco
  */
-public class NodoAccion {
+public class SubAccion {
 
     private int cantidad;
     private int posx;
     private int posy;
 
-    public NodoAccion(int cantidad, int posx, int posy) {
+    public SubAccion(int cantidad, int posx, int posy) {
         this.cantidad = cantidad;
         this.posx = posx;
         this.posy = posy;
