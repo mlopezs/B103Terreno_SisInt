@@ -2,6 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/Nodo.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/Frontera.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/utilidades/Resolucion.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/Terreno.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/FronteraCola.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/utilidades/GestorAcciones.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/Distribuidor.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/FronteraLista.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/utilidades/ES_de_archivos.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/FronteraPila.java</file>
+            <file>file:/C:/Users/Alfonso/Documents/NetBeansProjects/B1_03/src/b1_03/utilidades/Miscelanea.java</file>
+        </group>
     </open-files>
 </project-private>

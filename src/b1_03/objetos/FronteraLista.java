@@ -28,7 +28,7 @@ public class FronteraLista implements Frontera{
     }
 
     @Override
-    public Nodo eliminar(Nodo b) {
+    public Nodo eliminar() {
         return l.getFirst();
     }
 

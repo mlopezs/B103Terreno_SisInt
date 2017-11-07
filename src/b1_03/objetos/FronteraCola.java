@@ -28,7 +28,7 @@ public class FronteraCola implements Frontera {
     }
 
     @Override
-    public Nodo eliminar(Nodo b) {
+    public Nodo eliminar() {
         return pq.remove();
     }
 

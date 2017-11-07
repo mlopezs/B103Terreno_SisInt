@@ -18,13 +18,17 @@ public class Nodo implements Comparable<Nodo> {
     
     private static int iden = 0; // Autoincremento nodo
 
-    public Nodo(String estado, int prof, int cost, Nodo padre, String accion, int costo) {
+    public Nodo(String estado, int prof, Nodo padre, String accion, int costo) {
         this.id = Nodo.iden++;
         this.estado = estado;
         this.val = (int) Math.floor(Math.random()*1000);
         this.padre = padre;
         this.accion = accion;
         this.costo = costo;
+    }
+
+    public Nodo(Nodo eliminar) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId() {

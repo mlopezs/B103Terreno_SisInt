@@ -109,5 +109,19 @@ public class Terreno {
       
         return obj;
     }
+    
+    public Terreno clone(Terreno t){
+        Terreno t2 = new Terreno(t.getTerr(), t.getXt(), t.getYt());
+        return t2;
+    }
 
+    public void modificarTerreno(Terreno t, String accion){
+        char[] accionParaUsar = accion.toCharArray();
+        
+        Terreno t2 = t.clone(t);
+        
+        
+    
+    }
+    
 }

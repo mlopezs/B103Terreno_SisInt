@@ -57,8 +57,11 @@ public class Distribuidor {
             // MUESTRA DE LOS DATOS RECOGIDOS Y PROCESADOS
             System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
             System.out.println(t.toString());
+            
+            String hola = "fdsdgfsfdgsfd";
+            t.modificarTerreno(t, hola);
 
-            GestorAcciones.generarAcciones(t, k, fs, cs, max);
+            //GestorAcciones.generarAcciones(t, k, fs, cs, max);
 
         }
         

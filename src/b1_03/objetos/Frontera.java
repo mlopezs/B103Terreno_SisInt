@@ -10,6 +10,6 @@ package b1_03.objetos;
 public interface Frontera {
     public void crearFrontera();
     public void insertar(Nodo b);
-    public Object eliminar(Nodo b);
+    public Object eliminar();
     public boolean esVacia();
 }
