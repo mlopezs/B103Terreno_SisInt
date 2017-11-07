@@ -25,8 +25,9 @@ public class GestorAcciones {
      * @param fs
      * @param cs
      * @param max 
+     * @return  
      */
-    public static void generarAcciones(Terreno t, int k, int fs, int cs, int max) {
+    public static LinkedList<Accion> generarAcciones(Terreno t, int k, int fs, int cs, int max) {
         
         int[] movs = genMovs(t); // Movimientos
         LinkedList<int[]> posmovs = new LinkedList<>(); // Lista movimientos posibles
@@ -49,12 +50,8 @@ public class GestorAcciones {
             }
         }
 
-        // Mostramos las acciones
-        Iterator<Accion> itact = act.iterator();
-        while (itact.hasNext()) {
-            System.out.println(itact.next());
-        }
-
+        return act;
+        
     }
 
     /**

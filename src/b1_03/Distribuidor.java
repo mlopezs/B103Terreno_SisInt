@@ -1,5 +1,6 @@
 package b1_03;
 
+import b1_03.objetos.Accion;
 import b1_03.objetos.Nodo;
 import java.util.LinkedList;
 import b1_03.objetos.Terreno;
@@ -10,7 +11,8 @@ import static b1_03.utilidades.Miscelanea.crearTerreno;
 import static b1_03.utilidades.Miscelanea.esValido;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.PriorityQueue; 
+import java.util.Iterator;
+import java.util.PriorityQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +24,7 @@ import java.util.logging.Logger;
  * @version 1.0.0
  */
 public class Distribuidor {
-    
+
     static final int PQ_SIZE = 100; // Tamaño inicial de la frontera
 
     /**
@@ -37,7 +39,10 @@ public class Distribuidor {
         // Lista donde iremos guardando los terrenos generados tras cada acción
         LinkedList<Terreno> lt = new LinkedList<>();
 
-        Terreno t = null; // Terreno inicial
+        // Lista de acciones posibles
+        LinkedList<Accion> la = new LinkedList<>();
+
+        Terreno t; // Terreno inicial
 
         // Vector resultado de la lectura del fichero
         int[] datos = leer_archivo("terreno_1.txt");
@@ -65,24 +70,17 @@ public class Distribuidor {
             // MUESTRA DE LOS DATOS RECOGIDOS Y PROCESADOS
             System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
             System.out.println(t.toString());
-            
-            String hola = "fdsdgfsfdgsfd";
-            t.modificarTerreno(t, hola);
 
-            GestorAcciones.generarAcciones(t, k, fs, cs, max);
+            la = GestorAcciones.generarAcciones(t, k, fs, cs, max);
+
+            // Mostramos las acciones
+            Iterator<Accion> itact = la.iterator();
+            while (itact.hasNext()) {
+                System.out.println(itact.next());
+            }
 
         }
-        
-        PriorityQueue<Nodo> pqn = new PriorityQueue<>(PQ_SIZE);
-        
-        HashMap<String,Terreno> ht = new HashMap<>();
-     
-        try {
-            ht.put(t.toHash(), t);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Distribuidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+
     }
 
 }
