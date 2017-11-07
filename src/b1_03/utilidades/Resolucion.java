@@ -17,10 +17,13 @@ import java.util.HashMap;
  */
 public class Resolucion {
 
-    private HashMap<String, Terreno> ht = new HashMap<>();
+     
 
-    public String algoritmoDeBusqueda(Terreno tInicial) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
+    public String algoritmoDeBusqueda(Terreno tInicial, int k) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
         //Inicialización
+        HashMap<String, Terreno> ht = new HashMap<>();
+        ht.put(tInicial.toHash(),tInicial);
+        
         FronteraCola frontera = new FronteraCola();
         frontera.crearFrontera();
         Nodo inicial = new Nodo(tInicial.toHash(), 0, null, "", 0);
@@ -48,7 +51,7 @@ public class Resolucion {
 
     }
 
-    public boolean estadoObjetivo(String hash, int k) { //Comprobacion de que estamos en estado objetivo
+    public boolean estadoObjetivo(HashMap<String, Terreno> ht,String hash, int k) { //Comprobacion de que estamos en estado objetivo
 
         /*Lo que vendría a hacer esta función, es recuperar el terreno como tal
         a partir del hash y la tabla hash, entonces le aplicas al terreno la
