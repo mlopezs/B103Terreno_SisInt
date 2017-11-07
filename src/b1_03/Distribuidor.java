@@ -1,5 +1,6 @@
 package b1_03;
 
+import b1_03.objetos.Nodo;
 import java.util.LinkedList;
 import b1_03.objetos.Terreno;
 import excepciones.LecturaErronea;
@@ -7,6 +8,11 @@ import static b1_03.utilidades.ES_de_archivos.leer_archivo;
 import b1_03.utilidades.GestorAcciones;
 import static b1_03.utilidades.Miscelanea.crearTerreno;
 import static b1_03.utilidades.Miscelanea.esValido;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.PriorityQueue; 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Alfonso Barragán
@@ -16,6 +22,8 @@ import static b1_03.utilidades.Miscelanea.esValido;
  * @version 1.0.0
  */
 public class Distribuidor {
+    
+    static final int PQ_SIZE = 100; // Tamaño inicial de la frontera
 
     /**
      * main() es el núcleo del programa, desde donde se llama a los distintos
@@ -29,7 +37,7 @@ public class Distribuidor {
         // Lista donde iremos guardando los terrenos generados tras cada acción
         LinkedList<Terreno> lt = new LinkedList<>();
 
-        Terreno t; // Terreno inicial
+        Terreno t = null; // Terreno inicial
 
         // Vector resultado de la lectura del fichero
         int[] datos = leer_archivo("terreno_1.txt");
@@ -63,6 +71,16 @@ public class Distribuidor {
 
             //GestorAcciones.generarAcciones(t, k, fs, cs, max);
 
+        }
+        
+        PriorityQueue<Nodo> pqn = new PriorityQueue<>(PQ_SIZE);
+        
+        HashMap<String,Terreno> ht = new HashMap<>();
+     
+        try {
+            ht.put(t.toHash(), t);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Distribuidor.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

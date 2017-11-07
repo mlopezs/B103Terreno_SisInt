@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @version 1.0.0
  */
-public class Terreno{
+public class Terreno implements Cloneable {
 
     private int[][] terr; // Cantidad de arena en cada celda
     private int xt; // Posición en el eje x del tractor
@@ -110,13 +110,18 @@ public class Terreno{
         return obj;
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    } 
+
     public void modificarTerreno(Terreno t, String accion){
         char[] accionParaUsar = accion.toCharArray();
         Terreno t2 = null;
         try{
             t2 = (Terreno) t.clone();
         } catch (CloneNotSupportedException ex){
-            System.out.println("Hola");
+            System.out.println("ERROR: " + ex.getLocalizedMessage());
         }
         /*****************************/
     
