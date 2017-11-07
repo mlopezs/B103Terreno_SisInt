@@ -1,7 +1,6 @@
 package b1_03;
 
 import b1_03.objetos.Accion;
-import b1_03.objetos.Nodo;
 import java.util.LinkedList;
 import b1_03.objetos.Terreno;
 import excepciones.LecturaErronea;
@@ -9,12 +8,7 @@ import static b1_03.utilidades.ES_de_archivos.leer_archivo;
 import b1_03.utilidades.GestorAcciones;
 import static b1_03.utilidades.Miscelanea.crearTerreno;
 import static b1_03.utilidades.Miscelanea.esValido;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.PriorityQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Alfonso Barragán
@@ -40,7 +34,7 @@ public class Distribuidor {
         LinkedList<Terreno> lt = new LinkedList<>();
 
         // Lista de acciones posibles
-        LinkedList<Accion> la = new LinkedList<>();
+        LinkedList<Accion> la;
 
         Terreno t; // Terreno inicial
 
