@@ -149,4 +149,30 @@ public class ES_de_archivos {
         }
 
     }
+
+    public static void escribir_linea(String path, boolean borrar_archivo, String linea) throws EscrituraErronea {
+
+        FileWriter writer = null;
+
+        try {
+
+            if (borrar_archivo == true) {
+                writer = new FileWriter(path, false);
+            } else {
+                writer = new FileWriter(path, true);
+            }
+
+            writer.write(linea + "\r\n");
+
+        } catch (IOException e) {
+            throw new EscrituraErronea();
+        } finally {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                throw new EscrituraErronea();
+            }
+        }
+
+    }
 }

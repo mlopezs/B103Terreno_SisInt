@@ -61,7 +61,7 @@ public class Distribuidor {
             String hola = "fdsdgfsfdgsfd";
             t.modificarTerreno(t, hola);
 
-            //GestorAcciones.generarAcciones(t, k, fs, cs, max);
+            GestorAcciones.generarAcciones(t, k, fs, cs, max);
 
         }
         
