@@ -63,18 +63,14 @@ public class Nodo implements Comparable<Nodo> {
 
     @Override
     public int compareTo(Nodo o) {
-        int ret = 0;
+        
+        int ret;
 
         if (this.val < o.getVal()) {
             ret = 1;
         } else if (this.val < o.getVal()) {
             ret = -1;
         } else {
-            /*if (this.id < o.getId()) {
-                ret = 1;
-            } else {
-                ret = -1;
-            }*/
             ret = 0;
         }
 
