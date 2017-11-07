@@ -84,7 +84,7 @@ public class Resolucion {
         }
         
         while((nodo_aux=st.pop())!=null){
-            solucion=solucion+nodo_aux.getAccion().toString()+"/r/n";
+            solucion=solucion+nodo_aux.getAccion().toString()+"\r\n";
         }
         return solucion;
     }
