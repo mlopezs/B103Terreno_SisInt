@@ -5,11 +5,15 @@
  */
 package b1_03.utilidades;
 
+import b1_03.objetos.Accion;
 import b1_03.objetos.FronteraCola;
 import b1_03.objetos.Nodo;
 import b1_03.objetos.Terreno;
+import static b1_03.utilidades.GestorAcciones.generarAcciones;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -20,32 +24,44 @@ public class Resolucion {
 
      
 
-    public String algoritmoDeBusqueda(Terreno tInicial, int k) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
+    public String algoritmoDeBusqueda(Terreno tInicial, int k, int fs, int cs, int max) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
         //Inicialización
         HashMap<String, Terreno> ht = new HashMap<>();
         ht.put(tInicial.toHash(),tInicial);
+        Terreno temporal = null;
+        GestorAcciones ga;
+        LinkedList<Accion> sucesores = null; 
+        Iterator<Accion> it = sucesores.iterator();
         
         FronteraCola frontera = new FronteraCola();
         frontera.crearFrontera();
         Nodo inicial = new Nodo(tInicial.toHash(), 0, null, "", 0);
         frontera.insertar(inicial);
         boolean sol = false;
-        Nodo actual;
+        Nodo actual = null;
 
         // Bucle de busqueda
         while (!sol && !frontera.esVacia()) {
             actual = new Nodo(frontera.eliminar());
-            if (estadoObjetivo()) {
+            if (estadoObjetivo(ht, actual.getEstado(), k)) {
                 sol = true;
             } else {
-                //Lista de sucesores, guardar los sucesores de alguna manera
-                //Crear una lista de nodos del arbol, con todos los sucesores poniendo de padre al nodo actual
-                //Añadir sucesores a la frontera
+                temporal = recuperarTerreno(ht, actual.getEstado());
+                sucesores = generarAcciones(temporal, k, fs, cs, max);
+                
+                while(it.hasNext()){
+                    Terreno impostor = null;
+                    Accion accionActual = it.next();
+                    impostor = impostor.crearTerrenoAPartirDeUnaAccion(accionActual);
+                    //Falta metodo para añadir hash a tabla hash, una vez esto ya estaria
+                    Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(),actual.getProfundidad()+1, actual, accionActual.toString(), actual.getCosto());
+                    frontera.insertar(paraAgregarEnFrontera);
+                }
             }
         }
 
         if (sol) {
-            return crearSolucion();
+            return crearSolucion(actual);
         } else {
             return "No solucion";
         }
@@ -65,6 +81,16 @@ public class Resolucion {
         }
 
         return objetivo;
+    }
+    
+    public Terreno recuperarTerreno(HashMap<String, Terreno> ht,String hash){
+        Terreno t = null;
+        
+        if(ht.containsKey(hash) == true){
+        t = ht.get(hash);
+        }
+        
+        return t;
     }
 
     public String crearSolucion(Nodo n) {

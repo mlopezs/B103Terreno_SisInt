@@ -7,7 +7,7 @@ package b1_03.objetos;
  *
  * @version 1.0.0
  */
-public class Nodo implements Comparable<Nodo> {
+public class Nodo implements Comparable<Nodo>, Cloneable {
     
     private int id; // Id del nodo
     private String estado; // Estado del nodo
@@ -15,6 +15,7 @@ public class Nodo implements Comparable<Nodo> {
     private int costo; // Coste de la accion
     private Nodo padre; // Nodo padre
     private String accion; // Accion que ha llevado al estado
+    private int profundidad;
     
     private static int iden = 0; // Autoincremento nodo
 
@@ -25,8 +26,17 @@ public class Nodo implements Comparable<Nodo> {
         this.padre = padre;
         this.accion = accion;
         this.costo = costo;
+        this.profundidad = prof;
     }
 
+    public int getProfundidad() {
+        return profundidad;
+    }
+
+    public void setProfundidad(int profundidad) {
+        this.profundidad = profundidad;
+    }
+    
     public Nodo(Nodo eliminar) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -72,5 +82,10 @@ public class Nodo implements Comparable<Nodo> {
             ret = 0;
         }
         return ret;
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 }
