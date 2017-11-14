@@ -26,7 +26,7 @@ public class Terreno implements Cloneable {
     }
 
     public int[][] getTerr() {
-        return terr;
+        return this.terr;
     }
 
     public void setTerr(int[][] terr) {
@@ -108,18 +108,6 @@ public class Terreno implements Cloneable {
         }
       
         return obj;
-    }
-
-    public Terreno crearTerrenoAPartirDeUnaAccion(Accion ac){
-        
-        int[][] t = this.terr.clone();
-        SubAccion[] sac = ac.getNodos();
-        
-        for(int i = 0; i < sac.length; i++){
-            t[sac[i].getPosy()][sac[i].getPosx()]+=sac[i].getCantidad();
-        }
-        
-        return new Terreno(t, ac.getXt(), ac.getYt());
     }
     
 }
