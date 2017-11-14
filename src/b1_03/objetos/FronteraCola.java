@@ -19,7 +19,7 @@ public class FronteraCola implements Frontera {
 
     @Override
     public void crearFrontera() {
-        pq = new PriorityQueue();
+        PriorityQueue<Nodo> pqn = new PriorityQueue<>(100);
     }
 
     @Override

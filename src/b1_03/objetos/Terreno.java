@@ -110,21 +110,16 @@ public class Terreno implements Cloneable {
         return obj;
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    } 
-
-    public void modificarTerreno(Terreno t, String accion){
-        char[] accionParaUsar = accion.toCharArray();
-        Terreno t2 = null;
-        try{
-            t2 = (Terreno) t.clone();
-        } catch (CloneNotSupportedException ex){
-            System.out.println("ERROR: " + ex.getLocalizedMessage());
+    public Terreno crearTerrenoAPartirDeUnaAccion(Accion ac){
+        
+        int[][] t = this.terr.clone();
+        SubAccion[] sac = ac.getNodos();
+        
+        for(int i = 0; i < sac.length; i++){
+            t[sac[i].getPosy()][sac[i].getPosx()]+=sac[i].getCantidad();
         }
-        /*****************************/
-    
+        
+        return new Terreno(t, ac.getXt(), ac.getYt());
     }
     
 }
