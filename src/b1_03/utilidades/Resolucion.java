@@ -24,7 +24,7 @@ public class Resolucion {
 
      
 
-    public String algoritmoDeBusqueda(Terreno tInicial, int k, int fs, int cs, int max) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
+    public String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
         //Inicialización
         HashMap<String, Terreno> ht = new HashMap<>();
         ht.put(tInicial.toHash(),tInicial);
@@ -35,7 +35,7 @@ public class Resolucion {
         
         FronteraCola frontera = new FronteraCola();
         frontera.crearFrontera();
-        Nodo inicial = new Nodo(tInicial.toHash(), 0, null, "", 0);
+        Nodo inicial = new Nodo(tInicial.toHash(), 0, null, "", 0, 0, 0);
         frontera.insertar(inicial);
         boolean sol = false;
         Nodo actual = null;
@@ -54,7 +54,8 @@ public class Resolucion {
                     Accion accionActual = it.next();
                     impostor = impostor.crearTerrenoAPartirDeUnaAccion(accionActual);
                     //Falta metodo para añadir hash a tabla hash, una vez esto ya estaria
-                    Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(),actual.getProfundidad()+1, actual, accionActual.toString(), actual.getCosto());
+                    Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(),actual.getProfundidad()+1, actual, accionActual.toString(), actual.getCosto()+accionActual.getCosto(), 0, 0);
+                    valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera);
                     frontera.insertar(paraAgregarEnFrontera);
                 }
             }
@@ -115,4 +116,20 @@ public class Resolucion {
         return solucion;
     }
 
+    public void valorarNodo(int tipoAlgoritmo, Nodo nodo){
+    
+        switch(tipoAlgoritmo){
+            case 0:
+                nodo.setValoracion(nodo.getProfundidad());
+            case 1: // Profundidad
+                nodo.setValoracion(nodo.getProfundidad());
+            
+            case 2: // Costo Uniforme
+                nodo.setValoracion(nodo.getCosto());
+            
+            case 3: // A*
+                
+            case 4: // Voraz
+        }
+    }
 }

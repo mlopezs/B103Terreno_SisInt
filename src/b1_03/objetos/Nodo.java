@@ -16,19 +16,30 @@ public class Nodo implements Comparable<Nodo>, Cloneable {
     private Nodo padre; // Nodo padre
     private String accion; // Accion que ha llevado al estado
     private int profundidad;
+    private int heuristica;
     
     private static int iden = 0; // Autoincremento nodo
 
-    public Nodo(String estado, int prof, Nodo padre, String accion, int costo) {
+    public Nodo(String estado, int prof, Nodo padre, String accion, int costo, int val, int heuristica) {
         this.id = Nodo.iden++;
         this.estado = estado;
-        this.val = (int) Math.floor(Math.random()*1000);
+        this.val = val;
         this.padre = padre;
         this.accion = accion;
         this.costo = costo;
         this.profundidad = prof;
+        this.heuristica = heuristica;
+    }
+    
+    
+    public int getValoracion() {
+        return val;
     }
 
+    public void setValoracion(int val) {
+        this.val = val;
+    }
+    
     public int getProfundidad() {
         return profundidad;
     }
