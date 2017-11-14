@@ -47,10 +47,6 @@ public class Nodo implements Comparable<Nodo>, Cloneable {
     public void setProfundidad(int profundidad) {
         this.profundidad = profundidad;
     }
-    
-    public Nodo(Nodo eliminar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public int getId() {
         return id;

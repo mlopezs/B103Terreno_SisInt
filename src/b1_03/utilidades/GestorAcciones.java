@@ -34,9 +34,8 @@ public class GestorAcciones {
         compMovs(movs, posmovs);
 
         LinkedList<int[]> distr = genDistros(t, k, movs[4]); // Distribuciones (Todas)
-
+        System.out.println("Distribuciones -> "+distr);        
         LinkedList<Accion> act = new LinkedList<>(); // Lista de acciones
-
         // Se combinan movimientos y distribuciones para formar acciones.
         Iterator<int[]> itm = posmovs.iterator();
         Iterator<int[]> itd;
@@ -49,7 +48,7 @@ public class GestorAcciones {
                 if(acc.getNodos() != null) act.add(acc);
             }
         }
-
+        System.out.println("Acciones -> "+act);
         return act;
         
     }
@@ -79,6 +78,7 @@ public class GestorAcciones {
         // Futura posición del tractor
         int nx = x + coord[0];
         int ny = y + coord[1];
+        System.out.println("nx, ny "+nx+", "+ny);
         
         // Costo de la acción (Arena desplazada más uno)
         int costo = 1;
@@ -106,10 +106,14 @@ public class GestorAcciones {
                 break;
             }
         }
-        
+        System.out.println("Accion la que sea ->"+nx+" "+ny+" "+costo+" "+na);
         return new Accion(nx, ny, costo, na);
     }
 
+    
+   
+    
+    
     /**
      * isAdy(..) comprueba que la acción sea factible, es decir, que se pueda
      * mover la cantidad de arena a la casilla correspondiente.
@@ -152,22 +156,22 @@ public class GestorAcciones {
         
         // Subir
         if ((x - 1) >= 0) {
-            movs[1] = 1;
+            movs[0] = 1;
             movs[4]++;
         }
         // Bajar
-        if ((x + 1) <= t.getTerr().length) {
-            movs[2] = 1;
+        if ((x + 1) < t.getTerr().length) {
+            movs[3] = 1;
             movs[4]++;
         }
         // Derecha
-        if ((y + 1) <= t.getTerr()[0].length) {
-            movs[3] = 1;
+        if ((y + 1) < t.getTerr()[0].length) {
+            movs[2] = 1;
             movs[4]++;
         }
         // Izquierda
         if ((y - 1) >= 0) {
-            movs[0] = 1;
+            movs[1] = 1;
             movs[4]++;
         }
         return movs;
@@ -187,6 +191,16 @@ public class GestorAcciones {
         LinkedList<int[]> distrs = new LinkedList<>(); // Lista de distribuciones
         int rep = t.getTerr()[t.getXt()][t.getYt()] - k; // Cantidad a repartir
         int[] vec = new int[nAdyac]; // Vector para asignación de cantidades
+        
+        if(rep <= 0){
+            
+            for(int i = 0; i < nAdyac; i++){
+                vec[i] = 0;
+            }
+            
+            Miscelanea.compAdd(vec, distrs, 0);
+        }
+        
         for (int a = 0; a <= rep; a++) {
             vec[0] = a;
             if (nAdyac > 1) {

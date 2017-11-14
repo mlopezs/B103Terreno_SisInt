@@ -113,5 +113,14 @@ public class Miscelanea {
         }
         return (sum == fs * cs * k);
     }
+    
+    public static int[][] copiarMatrices(int[][] source){
+        int[][] destiny = new int[source.length][source[0].length];
+            for(int i = 0; i < source.length; i++){
+                System.arraycopy(source[i], 0, destiny[i], 0, source.length);
+            }
+            
+        return destiny;
+    }
 
 }

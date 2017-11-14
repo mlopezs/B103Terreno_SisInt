@@ -8,6 +8,8 @@ import static b1_03.utilidades.ES_de_archivos.leer_archivo;
 import b1_03.utilidades.GestorAcciones;
 import static b1_03.utilidades.Miscelanea.crearTerreno;
 import static b1_03.utilidades.Miscelanea.esValido;
+import b1_03.utilidades.Resolucion;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 
 /**
@@ -28,7 +30,7 @@ public class Distribuidor {
      * @param args
      * @throws LecturaErronea
      */
-    public static void main(String[] args) throws LecturaErronea {
+    public static void main(String[] args) throws LecturaErronea, NoSuchAlgorithmException {
 
         // Lista donde iremos guardando los terrenos generados tras cada acción
         LinkedList<Terreno> lt = new LinkedList<>();
@@ -39,7 +41,7 @@ public class Distribuidor {
         Terreno t; // Terreno inicial
 
         // Vector resultado de la lectura del fichero
-        int[] datos = leer_archivo("terreno_1.txt");
+        int[] datos = leer_archivo("terreno_2.txt");
 
         int k = datos[2]; // Cantidad objetivo de arena
         int max = datos[3]; // Cantidad máxima de arena
@@ -65,14 +67,15 @@ public class Distribuidor {
             System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
             System.out.println(t.toString());
 
-            la = GestorAcciones.generarAcciones(t, k, fs, cs, max);
+            /*la = GestorAcciones.generarAcciones(t, k, fs, cs, max);
 
             // Mostramos las acciones
             Iterator<Accion> itact = la.iterator();
-            while (itact.hasNext()) {
+            while (itact.hasNext()) {                
                 System.out.println(itact.next());
-            }
-
+            }*/
+            System.out.println("\n"+Resolucion.algoritmoDeBusqueda(t, 2, k, fs, cs, max, 1000));
+            
         }
 
     }
