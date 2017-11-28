@@ -34,7 +34,6 @@ public class GestorAcciones {
         compMovs(movs, posmovs);
 
         LinkedList<int[]> distr = genDistros(t, k, movs[4]); // Distribuciones (Todas)
-        System.out.println("Distribuciones -> "+distr);        
         LinkedList<Accion> act = new LinkedList<>(); // Lista de acciones
         // Se combinan movimientos y distribuciones para formar acciones.
         Iterator<int[]> itm = posmovs.iterator();
@@ -43,12 +42,11 @@ public class GestorAcciones {
             int[] actualMov = itm.next();
             itd = distr.iterator();
             while (itd.hasNext()) {
-                Accion acc = crearAccion(itd.next(), actualMov, movs[4], t.getXt(),
-                        t.getYt(), fs, cs, t, max);
+                Accion acc = crearAccion(itd.next(), actualMov, movs[4], t.getColumnaT(),
+                        t.getFilaT(), fs, cs, t, max);
                 if(acc.getNodos() != null) act.add(acc);
             }
         }
-        System.out.println("Acciones -> "+act);
         return act;
         
     }
@@ -76,9 +74,8 @@ public class GestorAcciones {
         boolean a[] = {true, true, true, true};
 
         // Futura posición del tractor
-        int nx = x + coord[0];
-        int ny = y + coord[1];
-        System.out.println("nx, ny "+nx+", "+ny);
+        int nx = x + coord[1];
+        int ny = y + coord[0];
         
         // Costo de la acción (Arena desplazada más uno)
         int costo = 1;
@@ -106,7 +103,6 @@ public class GestorAcciones {
                 break;
             }
         }
-        System.out.println("Accion la que sea ->"+nx+" "+ny+" "+costo+" "+na);
         return new Accion(nx, ny, costo, na);
     }
 
@@ -143,8 +139,8 @@ public class GestorAcciones {
      * @return Vector de enteros con los movimientos posibles del tractor.
      */
     public static int[] genMovs(Terreno t) {
-        int x = t.getXt(); // Posicion X del tractor
-        int y = t.getYt(); // Posicion Y del tractor
+        int x = t.getColumnaT(); // Posicion X del tractor
+        int y = t.getFilaT(); // Posicion Y del tractor
         /*
         movs[0] -> Movimiento izquierda
         movs[1] -> Movimiento arriba
@@ -154,22 +150,20 @@ public class GestorAcciones {
          */
         int[] movs = {0, 0, 0, 0, 0};
         
-        // Subir
         if ((x - 1) >= 0) {
             movs[0] = 1;
             movs[4]++;
         }
-        // Bajar
-        if ((x + 1) < t.getTerr().length) {
+        
+        if ((x + 1) < t.getTerr()[0].length) {
             movs[3] = 1;
             movs[4]++;
         }
-        // Derecha
-        if ((y + 1) < t.getTerr()[0].length) {
+        if ((y + 1) < t.getTerr().length) {
             movs[2] = 1;
             movs[4]++;
         }
-        // Izquierda
+        
         if ((y - 1) >= 0) {
             movs[1] = 1;
             movs[4]++;
@@ -189,7 +183,7 @@ public class GestorAcciones {
      */
     public static LinkedList<int[]> genDistros(Terreno t, int k, int nAdyac) {
         LinkedList<int[]> distrs = new LinkedList<>(); // Lista de distribuciones
-        int rep = t.getTerr()[t.getXt()][t.getYt()] - k; // Cantidad a repartir
+        int rep = t.getTerr()[t.getColumnaT()][t.getFilaT()] - k; // Cantidad a repartir
         int[] vec = new int[nAdyac]; // Vector para asignación de cantidades
         
         if(rep <= 0){

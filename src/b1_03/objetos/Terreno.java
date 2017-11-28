@@ -13,16 +13,13 @@ import java.security.NoSuchAlgorithmException;
 public class Terreno implements Cloneable {
 
     private int[][] terr; // Cantidad de arena en cada celda
-    private int xt; // Posición en el eje x del tractor
-    private int yt; // Posición en el eje y del tractor
-
-    public Terreno() {
-    }
+    private int columnat; // Posición en el eje x del tractor
+    private int filat; // Posición en el eje y del tractor
 
     public Terreno(int[][] terr, int xt, int yt) {
         this.terr = terr;
-        this.xt = xt;
-        this.yt = yt;
+        this.columnat = xt;
+        this.filat = yt;
     }
 
     public int[][] getTerr() {
@@ -33,42 +30,26 @@ public class Terreno implements Cloneable {
         this.terr = terr;
     }
 
-    public int getXt() {
-        return xt;
+    public int getColumnaT() {
+        return columnat;
     }
 
-    public void setXt(int xt) {
-        this.xt = xt;
+    public void setColumnaT(int xt) {
+        this.columnat = xt;
     }
 
-    public int getYt() {
-        return yt;
+    public int getFilaT() {
+        return filat;
     }
 
-    public void setYt(int yt) {
-        this.yt = yt;
-    }
-
-    public void mvDcha() {
-        this.xt++;
-    }
-
-    public void mvIzq() {
-        this.xt--;
-    }
-
-    public void mvUp() {
-        this.yt++;
-    }
-
-    public void mvDwn() {
-        this.yt--;
+    public void setFilaT(int yt) {
+        this.filat = yt;
     }
 
     @Override
     public String toString()  {
         
-        String salida = "(" + xt + "," + yt + ")\n";
+        String salida = "(" + columnat + "," + filat + ")\n";
         
         for (int[] terr1 : terr) {
             for (int j = 0; j < terr[0].length; j++) {

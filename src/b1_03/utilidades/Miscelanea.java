@@ -21,7 +21,7 @@ public class Miscelanea {
      */
     public static void compMovs(int[] ini, LinkedList<int[]> pos){
         
-        if (ini[0] == 1) {
+        /*if (ini[0] == 1) {
             int[] a = {-1, 0};
             pos.add(a);
         }
@@ -35,6 +35,23 @@ public class Miscelanea {
         }
         if (ini[3] == 1) {
             int[] a = {1, 0};
+            pos.add(a);
+        }*/
+        
+        if (ini[0] == 1) {
+            int[] a = {0, -1};
+            pos.add(a);
+        }
+        if (ini[1] == 1) {
+            int[] a = {-1, 0};
+            pos.add(a);
+        }
+        if (ini[2] == 1) {
+            int[] a = {1, 0};
+            pos.add(a);
+        }
+        if (ini[3] == 1) {
+            int[] a = {0, 1};
             pos.add(a);
         }
     }

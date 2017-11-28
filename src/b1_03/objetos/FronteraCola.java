@@ -25,7 +25,6 @@ public class FronteraCola implements Frontera {
     @Override
     public void insertar(Nodo b) {
         pq.add(b);
-        System.out.println("Nodo añadido a la frontera -> "+b.toString());
     }
 
     @Override
