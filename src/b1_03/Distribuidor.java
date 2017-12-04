@@ -74,7 +74,12 @@ public class Distribuidor {
             while (itact.hasNext()) {                
                 System.out.println(itact.next());
             }*/
-            System.out.println("\n"+Resolucion.algoritmoDeBusqueda(t, 3, k, fs, cs, max, 999999999));
+            
+            // Resto de algoritmos
+            System.out.println("\n"+Resolucion.algoritmoDeBusqueda(t, 3/*cambiar*/, k, fs, cs, max, 999999999));
+            
+            // Profundidad iterativa
+            //System.out.println("\n"+Resolucion.algoritmoProfundidadIterativa(t, 1, 999999999, 150, k, fs, cs, max));
             
         }
 

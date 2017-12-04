@@ -20,11 +20,9 @@ import java.util.Stack;
 
 /**
  *
- * @author Alfonso
+ * @author B1.03
  */
 public class Resolucion {
-
-    private static int sumaDeCostos = 0;
     
     public static String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
         //Inicialización
@@ -68,8 +66,8 @@ public class Resolucion {
                     if (!ht.containsKey(impostor.toHash())) {
                         ht.put(impostor.toHash(), impostor);
                         
-                        if(actual.getPadre()!=null){
-                            Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), accionActual.getCosto() + actual.getPadre().getCosto(), 0, impostor.getnCasillasNoObjetivo());
+                        if(actual.getPadre()!= null){
+                            Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), accionActual.getCosto() + actual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
                             valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
                             System.out.println("Nodo -> "+paraAgregarEnFrontera.toString()+"\n"+"Terreno -> "+recuperarTerreno(ht, paraAgregarEnFrontera.getEstado().toString()));
                             frontera.insertar(paraAgregarEnFrontera);
@@ -92,6 +90,17 @@ public class Resolucion {
             return "No solucion";
         }
 
+    }
+    
+    public static String algoritmoProfundidadIterativa(Terreno t, int tipoAlgoritmo, int profMax, int incProf, int k, int fs, int cs, int max) throws NoSuchAlgorithmException{
+        int profActual = incProf;
+        String solucion = null;
+        while(solucion == null && profActual <= profMax){
+            solucion = algoritmoDeBusqueda(t, tipoAlgoritmo, k, fs, cs, max, profMax);
+            profActual += incProf;
+            System.out.println("INCREMENTO " + profActual);
+        }
+        return solucion;
     }
     
     public static boolean estadoObjetivo(HashMap<String, Terreno> ht, String hash, int k) { //Comprobacion de que estamos en estado objetivo
@@ -145,7 +154,6 @@ public class Resolucion {
             
         
         }
-        System.out.println("Costo Total -> " + sumaDeCostos);
         return solucion;
     }
 
@@ -167,7 +175,7 @@ public class Resolucion {
                 nodo.setValoracion(nodo.getCosto()+nodo.getHeuristica());
                 break;
             case 4: // Voraz
-                //nodo.setValoracion();
+                nodo.setValoracion(nodo.getHeuristica());
                 break;
         }
     }
