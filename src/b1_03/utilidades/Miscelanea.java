@@ -81,8 +81,8 @@ public class Miscelanea {
      * @param yt
      * @return Terreno
      */
-    public static Terreno crearTerreno(int[] a, int fs, int cs, int xt, int yt) {
-        return new Terreno(vec2mat(a, fs, cs), xt, yt);
+    public static Terreno crearTerreno(int[] a, int fs, int cs, int xt, int yt, int k) {
+        return new Terreno(vec2mat(a, fs, cs), xt, yt, k);
     }
 
     /**

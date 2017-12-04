@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -23,6 +24,8 @@ import java.util.Stack;
  */
 public class Resolucion {
 
+    private static int sumaDeCostos = 0;
+    
     public static String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
         //Inicialización
         HashMap<String, Terreno> ht = new HashMap<>();
@@ -43,37 +46,38 @@ public class Resolucion {
         // Bucle de busqueda
         while (!sol && !frontera.esVacia()) {
             actual = (frontera.eliminar());
-            /*if (actual.getProfundidad() >= profundidadMax)
-                return "no solucion";*/
+            
             if (estadoObjetivo(ht, actual.getEstado(), k)) {
                 sol = true;
-                break;
+            
             } else {
 
+                if (actual.getProfundidad() >= profundidadMax)
+                    return "no solucion";
                 temporal = recuperarTerreno(ht, actual.getEstado());
                 sucesores = generarAcciones(temporal, k, fs, cs, max);
                 it = sucesores.iterator();
 
                 while (it.hasNext()) {
                     Terreno aux = null;
-                    aux = new Terreno(temporal.getTerr(), temporal.getColumnaT(), temporal.getFilaT());
+                    aux = new Terreno(temporal.getTerr(), temporal.getColumnaT(), temporal.getFilaT(), k);
                     Accion accionActual = it.next();
-                    impostor = crearTerrenoAPartirDeUnaAccion(accionActual, aux);
+                    impostor = crearTerrenoAPartirDeUnaAccion(accionActual, aux, k);
                     
 
                     if (!ht.containsKey(impostor.toHash())) {
                         ht.put(impostor.toHash(), impostor);
                         
                         if(actual.getPadre()!=null){
-                            Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), actual.getCosto() + accionActual.getCosto() + actual.getPadre().getCosto(), 0, 0);
+                            Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), accionActual.getCosto() + actual.getPadre().getCosto(), 0, impostor.getnCasillasNoObjetivo());
                             valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
-                            System.out.println("Nodo -> "+actual.toString());
+                            System.out.println("Nodo -> "+paraAgregarEnFrontera.toString()+"\n"+"Terreno -> "+recuperarTerreno(ht, paraAgregarEnFrontera.getEstado().toString()));
                             frontera.insertar(paraAgregarEnFrontera);
                         }else{
-                            Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), actual.getCosto()+ accionActual.getCosto(), 0, 0);
+                            Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), actual.getCosto()+ accionActual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
                             valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
                             frontera.insertar(paraAgregarEnFrontera);
-                            System.out.println("Nodo -> "+actual.toString());
+                            System.out.println("Nodo -> "+paraAgregarEnFrontera.toString());
                         }
                     
                         
@@ -89,7 +93,7 @@ public class Resolucion {
         }
 
     }
-
+    
     public static boolean estadoObjetivo(HashMap<String, Terreno> ht, String hash, int k) { //Comprobacion de que estamos en estado objetivo
 
         /*Lo que vendría a hacer esta función, es recuperar el terreno como tal
@@ -99,7 +103,7 @@ public class Resolucion {
         Terreno t;
         if (ht.containsKey(hash) == true) {
             t = ht.get(hash);
-            objetivo = t.esObjetivo(k);
+            objetivo = t.esObjetivo();
         }
 
         return objetivo;
@@ -126,6 +130,7 @@ public class Resolucion {
         Nodo nodo_aux = n;
         st.push(nodo_aux);
         Nodo aux;
+        int costoTotal = 0;
         
         while (nodo_aux.getPadre() != null) {
             nodo_aux = nodo_aux.getPadre();
@@ -134,11 +139,13 @@ public class Resolucion {
 
         while (!st.isEmpty()) {
             aux = st.pop();
+            System.out.println("Nodo SOLUCION COÑO -> "+aux.toString());
             System.out.println("Terreno -> "+recuperarTerreno(ht, aux.getEstado())+"\n"+aux.getAccion());
             solucion = solucion + aux.getAccion()+ "\r\n";
             
         
         }
+        System.out.println("Costo Total -> " + sumaDeCostos);
         return solucion;
     }
 
@@ -147,20 +154,25 @@ public class Resolucion {
         switch (tipoAlgoritmo) {
             case 0: // Anchura
                 nodo.setValoracion(nodo.getProfundidad());
+                break;
 
             case 1: // Profundidad
                 nodo.setValoracion(profundidadMax - nodo.getProfundidad());
+                break;
 
             case 2: // Costo Uniforme
                 nodo.setValoracion(nodo.getCosto());
+                break;
             case 3: // A*
-                //nodo.setValoracion();
+                nodo.setValoracion(nodo.getCosto()+nodo.getHeuristica());
+                break;
             case 4: // Voraz
                 //nodo.setValoracion();
+                break;
         }
     }
 
-    public static Terreno crearTerrenoAPartirDeUnaAccion(Accion ac, Terreno original) {
+    public static Terreno crearTerrenoAPartirDeUnaAccion(Accion ac, Terreno original, int k) {
 
         int[][] t = Miscelanea.copiarMatrices(original.getTerr());
         SubAccion[] sac = ac.getNodos();
@@ -168,8 +180,9 @@ public class Resolucion {
         for (int i = 0; i < sac.length; i++) {
             t[sac[i].getPosx()][sac[i].getPosy()] += sac[i].getCantidad();
             t[original.getColumnaT()][original.getFilaT()] -= sac[i].getCantidad();
-        }
-        Terreno nuevo = new Terreno(t, ac.getXt(), ac.getYt());
+        }       
+        
+        Terreno nuevo = new Terreno(t, ac.getXt(), ac.getYt(), k);
         return nuevo;
     }
 

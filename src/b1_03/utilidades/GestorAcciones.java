@@ -124,7 +124,7 @@ public class GestorAcciones {
      * @return true si es posible, false si no lo es.
      */
     public static boolean isAdy(int x, int y, int fs, int cs, int[][] matrix, int cantidad, int max) {
-        return ((x < cs && x >= 0 && y >= 0 && y < fs) && (matrix[x][y] + cantidad) <= max);
+        return ((x < cs && x >= 0 && y >= 0 && y < fs) && ((matrix[x][y] + cantidad) <= max));
     }
 
     /**

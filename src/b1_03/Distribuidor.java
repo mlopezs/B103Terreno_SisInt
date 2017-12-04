@@ -59,7 +59,7 @@ public class Distribuidor {
             System.out.println("ERROR: Los datos son incorrectos.");
         } else {
 
-            t = crearTerreno(aux, fs, cs, datos[1], datos[0]);
+            t = crearTerreno(aux, fs, cs, datos[1], datos[0],k);
 
             lt.add(t); // Añadimos el terreno inicial a la lista
 
@@ -74,7 +74,7 @@ public class Distribuidor {
             while (itact.hasNext()) {                
                 System.out.println(itact.next());
             }*/
-            System.out.println("\n"+Resolucion.algoritmoDeBusqueda(t, 2, k, fs, cs, max, 1000));
+            System.out.println("\n"+Resolucion.algoritmoDeBusqueda(t, 3, k, fs, cs, max, 999999999));
             
         }
 

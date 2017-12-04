@@ -30,7 +30,10 @@ public class Nodo implements Comparable<Nodo>, Cloneable {
         this.profundidad = prof;
         this.heuristica = heuristica;
     }
-    
+
+    public int getHeuristica() {
+        return heuristica;
+    }
     
     public int getValoracion() {
         return val;
@@ -75,16 +78,16 @@ public class Nodo implements Comparable<Nodo>, Cloneable {
     @Override
     public String toString() {
         return "Nodo{" + "id=" + id + ", estado=" + estado + ", val=" + val + 
-                ", costo=" + costo + ", padre=" + padre + ", accion=" + accion + '}';
+                ", costo=" + costo +", heuristica="+heuristica +", padre=" + padre + ", accion=" + accion + '}';
     }
 
     @Override
     public int compareTo(Nodo o) {
         int ret;
         if (this.val < o.getVal()) {
-            ret = 1;
-        } else if (this.val < o.getVal()) {
             ret = -1;
+        } else if (this.val > o.getVal()) {
+            ret = 1;
         } else {
             ret = 0;
         }
