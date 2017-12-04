@@ -24,7 +24,7 @@ import java.util.Stack;
  */
 public class Resolucion {
     
-    public static String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
+    public static String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax,javax.swing.JTextArea salida) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
         //Inicialización
         HashMap<String, Terreno> ht = new HashMap<>();
         ht.put(tInicial.toHash(), tInicial);
@@ -69,13 +69,15 @@ public class Resolucion {
                         if(actual.getPadre()!= null){
                             Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), accionActual.getCosto() + actual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
                             valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
-                            System.out.println("Nodo -> "+paraAgregarEnFrontera.toString()+"\n"+"Terreno -> "+recuperarTerreno(ht, paraAgregarEnFrontera.getEstado().toString()));
+                            //System.out.println("Nodo -> "+paraAgregarEnFrontera.toString()+"\n"+"Terreno -> "+recuperarTerreno(ht, paraAgregarEnFrontera.getEstado().toString()));
+                             salida.append("Nodo -> "+paraAgregarEnFrontera.toString()+"\n"+"Terreno -> "+recuperarTerreno(ht, paraAgregarEnFrontera.getEstado().toString()));
                             frontera.insertar(paraAgregarEnFrontera);
                         }else{
                             Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), actual.getCosto()+ accionActual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
                             valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
                             frontera.insertar(paraAgregarEnFrontera);
-                            System.out.println("Nodo -> "+paraAgregarEnFrontera.toString());
+                            //System.out.println("Nodo -> "+paraAgregarEnFrontera.toString());
+                            salida.append("Nodo -> "+paraAgregarEnFrontera.toString());
                         }
                     
                         
@@ -92,13 +94,14 @@ public class Resolucion {
 
     }
     
-    public static String algoritmoProfundidadIterativa(Terreno t, int tipoAlgoritmo, int profMax, int incProf, int k, int fs, int cs, int max) throws NoSuchAlgorithmException{
+    public static String algoritmoProfundidadIterativa(Terreno t, int tipoAlgoritmo, int profMax, int incProf, int k, int fs, int cs, int max,javax.swing.JTextArea salida) throws NoSuchAlgorithmException{
         int profActual = incProf;
         String solucion = null;
         while(solucion == null && profActual <= profMax){
-            solucion = algoritmoDeBusqueda(t, tipoAlgoritmo, k, fs, cs, max, profMax);
+            solucion = algoritmoDeBusqueda(t, tipoAlgoritmo, k, fs, cs, max, profMax,salida);
             profActual += incProf;
-            System.out.println("INCREMENTO " + profActual);
+           // System.out.println("INCREMENTO " + profActual);
+            salida.append("INCREMENTO " + profActual);
         }
         return solucion;
     }
@@ -148,8 +151,8 @@ public class Resolucion {
 
         while (!st.isEmpty()) {
             aux = st.pop();
-            System.out.println("Nodo SOLUCION COÑO -> "+aux.toString());
-            System.out.println("Terreno -> "+recuperarTerreno(ht, aux.getEstado())+"\n"+aux.getAccion());
+            //salida.append("Nodo solución -> "+aux.toString());
+            //salida.append("Terreno -> "+recuperarTerreno(ht, aux.getEstado())+"\n"+aux.getAccion());
             solucion = solucion + aux.getAccion()+ "\r\n";
             
         

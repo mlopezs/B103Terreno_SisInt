@@ -32,57 +32,8 @@ public class Distribuidor {
      */
     public static void main(String[] args) throws LecturaErronea, NoSuchAlgorithmException {
 
-        // Lista donde iremos guardando los terrenos generados tras cada acción
-        LinkedList<Terreno> lt = new LinkedList<>();
-
-        // Lista de acciones posibles
-        LinkedList<Accion> la;
-
-        Terreno t; // Terreno inicial
-
-        // Vector resultado de la lectura del fichero
-        int[] datos = leer_archivo("terreno_2.txt");
-
-        int k = datos[2]; // Cantidad objetivo de arena
-        int max = datos[3]; // Cantidad máxima de arena
-
-        int fs = datos[4]; // Número de filas
-        int cs = datos[5]; // Número de columnas
-
-        // Vector auxiliar donde posteriormente copiamos el segmento del vector datos
-        // que se corresponde con la cantidad inicial de arena en cada casilla
-        int[] aux = new int[fs * cs];
-        System.arraycopy(datos, 6, aux, 0, aux.length);
-
-        // Comprobamos validez del terreno, y si lo es, lo creamos.
-        if (!esValido(fs, cs, k, aux, max)) {
-            System.out.println("ERROR: Los datos son incorrectos.");
-        } else {
-
-            t = crearTerreno(aux, fs, cs, datos[1], datos[0],k);
-
-            lt.add(t); // Añadimos el terreno inicial a la lista
-
-            // MUESTRA DE LOS DATOS RECOGIDOS Y PROCESADOS
-            System.out.printf("\nk: %d, max: %d, fs: %d, cs: %d\n", k, max, fs, cs);
-            System.out.println(t.toString());
-
-            /*la = GestorAcciones.generarAcciones(t, k, fs, cs, max);
-
-            // Mostramos las acciones
-            Iterator<Accion> itact = la.iterator();
-            while (itact.hasNext()) {                
-                System.out.println(itact.next());
-            }*/
-            
-            // Resto de algoritmos
-            System.out.println("\n"+Resolucion.algoritmoDeBusqueda(t, 3/*cambiar*/, k, fs, cs, max, 999999999));
-            
-            // Profundidad iterativa
-            //System.out.println("\n"+Resolucion.algoritmoProfundidadIterativa(t, 1, 999999999, 150, k, fs, cs, max));
-            
-        }
-
+     MainWindow w1=new MainWindow();
+     w1.setVisible(true);
     }
 
 }
