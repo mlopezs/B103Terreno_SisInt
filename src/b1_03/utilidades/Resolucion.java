@@ -15,7 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -23,8 +22,8 @@ import java.util.Stack;
  * @author B1.03
  */
 public class Resolucion {
-    
-    public static String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax,javax.swing.JTextArea salida) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
+
+    public static String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax, javax.swing.JTextArea salida) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
         //Inicialización
         HashMap<String, Terreno> ht = new HashMap<>();
         ht.put(tInicial.toHash(), tInicial);
@@ -39,19 +38,19 @@ public class Resolucion {
         frontera.insertar(inicial);
         boolean sol = false;
         Nodo actual = null;
-        Nodo nodoAuxiliar;
 
         // Bucle de busqueda
         while (!sol && !frontera.esVacia()) {
             actual = (frontera.eliminar());
-            
+
             if (estadoObjetivo(ht, actual.getEstado(), k)) {
                 sol = true;
-            
+
             } else {
 
-                if (actual.getProfundidad() >= profundidadMax)
+                if (actual.getProfundidad() >= profundidadMax) {
                     return "no solucion";
+                }
                 temporal = recuperarTerreno(ht, actual.getEstado());
                 sucesores = generarAcciones(temporal, k, fs, cs, max);
                 it = sucesores.iterator();
@@ -61,51 +60,58 @@ public class Resolucion {
                     aux = new Terreno(temporal.getTerr(), temporal.getColumnaT(), temporal.getFilaT(), k);
                     Accion accionActual = it.next();
                     impostor = crearTerrenoAPartirDeUnaAccion(accionActual, aux, k);
-                    
 
                     if (!ht.containsKey(impostor.toHash())) {
                         ht.put(impostor.toHash(), impostor);
-                        
-                        if(actual.getPadre()!= null){
+
+                        if (actual.getPadre() != null) {
                             Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), accionActual.getCosto() + actual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
                             valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
-                            //System.out.println("Nodo -> "+paraAgregarEnFrontera.toString()+"\n"+"Terreno -> "+recuperarTerreno(ht, paraAgregarEnFrontera.getEstado().toString()));
-                             salida.append("Nodo -> "+paraAgregarEnFrontera.toString()+"\n"+"Terreno -> "+recuperarTerreno(ht, paraAgregarEnFrontera.getEstado().toString()));
                             frontera.insertar(paraAgregarEnFrontera);
-                        }else{
-                            Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), actual.getCosto()+ accionActual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
+                        } else {
+                            Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), actual.getCosto() + accionActual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
                             valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
                             frontera.insertar(paraAgregarEnFrontera);
-                            //System.out.println("Nodo -> "+paraAgregarEnFrontera.toString());
-                            salida.append("Nodo -> "+paraAgregarEnFrontera.toString());
                         }
-                    
-                        
+
+                    } else {
+                        if (impostor.getnCasillasNoObjetivo() < recuperarTerreno(ht, impostor.toHash()).getnCasillasNoObjetivo()) {
+
+                            if (actual.getPadre() != null) {
+                                Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), accionActual.getCosto() + actual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
+                                valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
+                                frontera.insertar(paraAgregarEnFrontera);
+                            } else {
+                                Nodo paraAgregarEnFrontera = new Nodo(impostor.toHash(), actual.getProfundidad() + 1, actual, accionActual.toString(), actual.getCosto() + accionActual.getCosto(), 0, impostor.getnCasillasNoObjetivo());
+                                valorarNodo(tipoAlgoritmo, paraAgregarEnFrontera, profundidadMax);
+                                frontera.insertar(paraAgregarEnFrontera);
+                            }
+                        }
                     }
                 }
             }
         }
 
         if (sol) {
-            return crearSolucion(actual,ht);
+            return crearSolucion(actual, ht, salida);
         } else {
             return "No solucion";
         }
 
     }
-    
-    public static String algoritmoProfundidadIterativa(Terreno t, int tipoAlgoritmo, int profMax, int incProf, int k, int fs, int cs, int max,javax.swing.JTextArea salida) throws NoSuchAlgorithmException{
+
+    public static String algoritmoProfundidadIterativa(Terreno t, int tipoAlgoritmo, int profMax, int incProf, int k, int fs, int cs, int max, javax.swing.JTextArea salida) throws NoSuchAlgorithmException {
         int profActual = incProf;
         String solucion = null;
-        while(solucion == null && profActual <= profMax){
-            solucion = algoritmoDeBusqueda(t, tipoAlgoritmo, k, fs, cs, max, profMax,salida);
+        while (solucion == null && profActual <= profMax) {
+
+            solucion = algoritmoDeBusqueda(t, tipoAlgoritmo, k, fs, cs, max, profMax, salida);
             profActual += incProf;
-           // System.out.println("INCREMENTO " + profActual);
-            salida.append("INCREMENTO " + profActual);
+           
         }
         return solucion;
     }
-    
+
     public static boolean estadoObjetivo(HashMap<String, Terreno> ht, String hash, int k) { //Comprobacion de que estamos en estado objetivo
 
         /*Lo que vendría a hacer esta función, es recuperar el terreno como tal
@@ -131,7 +137,7 @@ public class Resolucion {
         return t;
     }
 
-    public static String crearSolucion(Nodo n, HashMap<String, Terreno> ht) {
+    public static String crearSolucion(Nodo n, HashMap<String, Terreno> ht, javax.swing.JTextArea salida) {
 
         /* Aquí a partir del nodo se haria un bucle sacando su padre, y
         almacenado la acción en una pila, y vertiendola luego en el String para
@@ -142,8 +148,7 @@ public class Resolucion {
         Nodo nodo_aux = n;
         st.push(nodo_aux);
         Nodo aux;
-        int costoTotal = 0;
-        
+
         while (nodo_aux.getPadre() != null) {
             nodo_aux = nodo_aux.getPadre();
             st.push(nodo_aux);
@@ -151,11 +156,10 @@ public class Resolucion {
 
         while (!st.isEmpty()) {
             aux = st.pop();
-            //salida.append("Nodo solución -> "+aux.toString());
-            //salida.append("Terreno -> "+recuperarTerreno(ht, aux.getEstado())+"\n"+aux.getAccion());
-            solucion = solucion + aux.getAccion()+ "\r\n";
-            
-        
+            salida.append("Nodo solución -> " + aux.toString() + "\r\n");
+            salida.append("Terreno -> " + recuperarTerreno(ht, aux.getEstado()) + "\r\n" + aux.getAccion() + "\r\n\r\n\r\n");
+            solucion = solucion + aux.getAccion() + "\r\n";
+
         }
         return solucion;
     }
@@ -175,7 +179,7 @@ public class Resolucion {
                 nodo.setValoracion(nodo.getCosto());
                 break;
             case 3: // A*
-                nodo.setValoracion(nodo.getCosto()+nodo.getHeuristica());
+                nodo.setValoracion(nodo.getCosto() + nodo.getHeuristica());
                 break;
             case 4: // Voraz
                 nodo.setValoracion(nodo.getHeuristica());
@@ -191,8 +195,8 @@ public class Resolucion {
         for (int i = 0; i < sac.length; i++) {
             t[sac[i].getPosx()][sac[i].getPosy()] += sac[i].getCantidad();
             t[original.getColumnaT()][original.getFilaT()] -= sac[i].getCantidad();
-        }       
-        
+        }
+
         Terreno nuevo = new Terreno(t, ac.getXt(), ac.getYt(), k);
         return nuevo;
     }

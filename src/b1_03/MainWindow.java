@@ -50,6 +50,10 @@ public class MainWindow extends javax.swing.JFrame {
         algoritmoCombobox = new javax.swing.JComboBox<>();
         guardarTextField = new javax.swing.JTextField();
         guardarButton = new javax.swing.JButton();
+        profMaxSpinner = new javax.swing.JSpinner();
+        incProfSpinner = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -67,7 +71,12 @@ public class MainWindow extends javax.swing.JFrame {
 
         pathField.setText("terreno_2.txt");
 
-        algoritmoCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Anchura", "Profundidad", "C. Uniforme", "A*", "Voraz" }));
+        algoritmoCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Anchura", "Profundidad", "C. Uniforme", "A*", "Voraz", "P. Iterativa" }));
+        algoritmoCombobox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                algoritmoComboboxActionPerformed(evt);
+            }
+        });
 
         guardarTextField.setText("solucion.txt");
 
@@ -78,17 +87,30 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        profMaxSpinner.setModel(new javax.swing.SpinnerNumberModel(50, 50, null, 50));
+        profMaxSpinner.setEnabled(false);
+
+        incProfSpinner.setModel(new javax.swing.SpinnerNumberModel(10, 10, null, 15));
+        incProfSpinner.setEnabled(false);
+
+        jLabel1.setText("Prof. Max.");
+
+        jLabel2.setText("Inc. Prof");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(guardarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(iniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(algoritmoCombobox, 0, 95, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(guardarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                    .addComponent(iniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(algoritmoCombobox, 0, 95, Short.MAX_VALUE)
+                    .addComponent(profMaxSpinner)
+                    .addComponent(incProfSpinner)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(guardarTextField)
@@ -111,7 +133,16 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(guardarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                             .addComponent(guardarTextField)))
-                    .addComponent(iniciar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(iniciar)
+                        .addGap(67, 67, 67)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(profMaxSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(incProfSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -122,9 +153,6 @@ public class MainWindow extends javax.swing.JFrame {
         salida.setText("");
         // Lista donde iremos guardando los terrenos generados tras cada acción
         LinkedList<Terreno> lt = new LinkedList<>();
-
-        // Lista de acciones posibles
-        LinkedList<Accion> la;
 
         Terreno t; // Terreno inicial
 
@@ -166,7 +194,12 @@ public class MainWindow extends javax.swing.JFrame {
                 }*/
 
                     // Resto de algoritmos
-                    solucion=Resolucion.algoritmoDeBusqueda(t, algoritmoCombobox.getSelectedIndex(), k, fs, cs, max, 999999999, salida);
+                    if (algoritmoCombobox.getSelectedIndex() != 5) {
+                        solucion = Resolucion.algoritmoDeBusqueda(t, algoritmoCombobox.getSelectedIndex(), k, fs, cs, max, 999999999, salida);
+                    } else {
+                        solucion = Resolucion.algoritmoProfundidadIterativa(t, 1,(int)profMaxSpinner.getValue(),(int)incProfSpinner.getValue(), k, fs, cs, max, salida);
+                    }
+
                     salida.append(solucion);
                     // Profundidad iterativa
                     //System.out.println("\n"+Resolucion.algoritmoProfundidadIterativa(t, 1, 999999999, 150, k, fs, cs, max));
@@ -187,9 +220,19 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             ES_de_archivos.escribir_linea(guardarTextField.getText(), true, solucion);
         } catch (EscrituraErronea ex) {
-           salida.append("Error al guardar.");
+            salida.append("Error al guardar.");
         }
     }//GEN-LAST:event_guardarButtonActionPerformed
+
+    private void algoritmoComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algoritmoComboboxActionPerformed
+        if (algoritmoCombobox.getSelectedIndex() == 5) {
+            incProfSpinner.setEnabled(true);
+            profMaxSpinner.setEnabled(true);
+        } else {
+            incProfSpinner.setEnabled(false);
+            profMaxSpinner.setEnabled(false);
+        }
+    }//GEN-LAST:event_algoritmoComboboxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,9 +274,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> algoritmoCombobox;
     private javax.swing.JButton guardarButton;
     private javax.swing.JTextField guardarTextField;
+    private javax.swing.JSpinner incProfSpinner;
     private javax.swing.JButton iniciar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField pathField;
+    private javax.swing.JSpinner profMaxSpinner;
     private javax.swing.JTextArea salida;
     // End of variables declaration//GEN-END:variables
 }
