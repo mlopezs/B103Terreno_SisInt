@@ -1,6 +1,6 @@
 package b1_03;
 
-import excepciones.LecturaErronea;
+import java.util.logging.Logger;
 
 
 /**
@@ -12,12 +12,12 @@ import excepciones.LecturaErronea;
  */
 public class Distribuidor {
 
+
     /**
      * main() es el núcleo del programa, desde donde se llama a los distintos
      * métodos en los que se realizan las funciones requeridas
      *
      * @param args
-     * @throws LecturaErronea
      */
     public static void main(String[] args) {
 

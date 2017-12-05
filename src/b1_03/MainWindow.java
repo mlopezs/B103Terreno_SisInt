@@ -5,19 +5,23 @@
  */
 package b1_03;
 
-import b1_03.objetos.Accion;
 import b1_03.objetos.Terreno;
-import b1_03.utilidades.ES_de_archivos;
+import static b1_03.utilidades.ES_de_archivos.escribir_linea;
 import static b1_03.utilidades.ES_de_archivos.leer_archivo;
 import static b1_03.utilidades.Miscelanea.crearTerreno;
 import static b1_03.utilidades.Miscelanea.esValido;
-import b1_03.utilidades.Resolucion;
+import static b1_03.utilidades.Resolucion.algoritmoDeBusqueda;
+import static b1_03.utilidades.Resolucion.algoritmoProfundidadIterativa;
 import excepciones.EscrituraErronea;
 import excepciones.LecturaErronea;
+import static java.awt.EventQueue.invokeLater;
+import static java.lang.System.arraycopy;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static java.util.logging.Level.SEVERE;
+import static java.util.logging.Logger.getLogger;
+import static javax.swing.UIManager.getInstalledLookAndFeels;
+import static javax.swing.UIManager.setLookAndFeel;
 
 /**
  *
@@ -169,7 +173,7 @@ public class MainWindow extends javax.swing.JFrame {
             // Vector auxiliar donde posteriormente copiamos el segmento del vector datos
             // que se corresponde con la cantidad inicial de arena en cada casilla
             int[] aux = new int[fs * cs];
-            System.arraycopy(datos, 6, aux, 0, aux.length);
+            arraycopy(datos, 6, aux, 0, aux.length);
 
             // Comprobamos validez del terreno, y si lo es, lo creamos.
             if (!esValido(fs, cs, k, aux, max)) {
@@ -195,16 +199,16 @@ public class MainWindow extends javax.swing.JFrame {
 
                     // Resto de algoritmos
                     if (algoritmoCombobox.getSelectedIndex() != 5) {
-                        solucion = Resolucion.algoritmoDeBusqueda(t, algoritmoCombobox.getSelectedIndex(), k, fs, cs, max, 999999999, salida);
+                        solucion = algoritmoDeBusqueda(t, algoritmoCombobox.getSelectedIndex(), k, fs, cs, max, 999_999_999, salida);
                     } else {
-                        solucion = Resolucion.algoritmoProfundidadIterativa(t, 1,(int)profMaxSpinner.getValue(),(int)incProfSpinner.getValue(), k, fs, cs, max, salida);
+                        solucion = algoritmoProfundidadIterativa(t, 1,(int)profMaxSpinner.getValue(),(int)incProfSpinner.getValue(), k, fs, cs, max, salida);
                     }
 
                     salida.append(solucion);
                     // Profundidad iterativa
                     //System.out.println("\n"+Resolucion.algoritmoProfundidadIterativa(t, 1, 999999999, 150, k, fs, cs, max));
                 } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    getLogger(MainWindow.class.getName()).log(SEVERE, null, ex);
                 }
 
             }
@@ -218,7 +222,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void guardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButtonActionPerformed
         try {
-            ES_de_archivos.escribir_linea(guardarTextField.getText(), true, solucion);
+            escribir_linea(guardarTextField.getText(), true, solucion);
         } catch (EscrituraErronea ex) {
             salida.append("Error al guardar.");
         }
@@ -244,29 +248,24 @@ public class MainWindow extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info : getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            getLogger(MainWindow.class.getName()).log(SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
+        invokeLater(() -> {
+            new MainWindow().setVisible(true);
         });
     }
 

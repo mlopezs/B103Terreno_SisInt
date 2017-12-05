@@ -11,10 +11,18 @@ package b1_03.objetos;
  */
 public class SubAccion {
 
-    private int cantidad;
-    private int posx;
-    private int posy;
+    
 
+    private final int cantidad;
+    private final int posx;
+    private final int posy;
+
+    /**
+     *
+     * @param cantidad
+     * @param posx
+     * @param posy
+     */
     public SubAccion(int cantidad, int posx, int posy) {
         this.cantidad = cantidad;
         this.posx = posx;
@@ -22,14 +30,26 @@ public class SubAccion {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCantidad() {
         return cantidad;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPosx() {
         return posx;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPosy() {
         return posy;
     }

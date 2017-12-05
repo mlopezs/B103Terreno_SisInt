@@ -4,19 +4,23 @@ import static b1_03.utilidades.Hash.md5;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @author Alfonso Barragán
- * @author Francisco Manuel García
- * @author Marcos López
  *
- * @version 1.0.0
+ * @author pacog
  */
 public class Terreno implements Cloneable {
 
     private int[][] terr; // Cantidad de arena en cada celda
     private int columnat; // Posición en el eje x del tractor
     private int filat; // Posición en el eje y del tractor
-    private int nCasillasNoObjetivo;
+    private final int nCasillasNoObjetivo;
 
+    /**
+     *
+     * @param terr
+     * @param xt
+     * @param yt
+     * @param k
+     */
     public Terreno(int[][] terr, int xt, int yt, int k) {
         this.terr = terr;
         this.columnat = xt;
@@ -24,30 +28,58 @@ public class Terreno implements Cloneable {
         this.nCasillasNoObjetivo = contarCasillasNoObjetivo(this.terr, k);
     }
 
+    /**
+     *
+     * @return
+     */
     public int getnCasillasNoObjetivo() {
         return nCasillasNoObjetivo;
     }
 
+    /**
+     *
+     * @return
+     */
     public int[][] getTerr() {
         return this.terr;
     }
 
+    /**
+     *
+     * @param terr
+     */
     public void setTerr(int[][] terr) {
         this.terr = terr;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getColumnaT() {
         return columnat;
     }
 
+    /**
+     *
+     * @param xt
+     */
     public void setColumnaT(int xt) {
         this.columnat = xt;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getFilaT() {
         return filat;
     }
 
+    /**
+     *
+     * @param yt
+     */
     public void setFilaT(int yt) {
         this.filat = yt;
     }
@@ -59,20 +91,26 @@ public class Terreno implements Cloneable {
         
         for (int[] terr1 : terr) {
             for (int j = 0; j < terr[0].length; j++) {
-                salida = salida + (terr1[j] + " ");
+                salida += (terr1[j] + " ");
             }
-            salida = salida + "\n";
+            salida += "\n";
         }
         
         return salida;
     }
 
+    /**
+     *
+     * @param terreno
+     * @param k
+     * @return
+     */
     public int contarCasillasNoObjetivo(int[][] terreno, int k){
         int nCasillasNoObjetivo = 0;
         
-        for(int i = 0; i < terreno.length; i++){
-            for(int j = 0; j < terreno[i].length;j++){
-                if(terreno[i][j] != k){
+        for (int[] terreno1 : terreno) {
+            for (int j = 0; j < terreno1.length; j++) {
+                if (terreno1[j] != k) {
                     nCasillasNoObjetivo++;
                 }
             }
@@ -90,7 +128,6 @@ public class Terreno implements Cloneable {
     
     /**
      * esObjetivo(..) comprueba que un terreno sea un terreno objetivo
-     * @param k
      * @return true si es objetivo, false si no
      */
     public boolean esObjetivo(){
@@ -107,8 +144,16 @@ public class Terreno implements Cloneable {
         }
       */
      
-        if(nCasillasNoObjetivo != 0) obj = false;     
+        if(nCasillasNoObjetivo != 0) {     
+            obj = false;
+        }     
         return obj;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
+   
     
 }

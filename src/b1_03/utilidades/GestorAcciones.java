@@ -3,16 +3,14 @@ package b1_03.utilidades;
 import b1_03.objetos.Accion;
 import b1_03.objetos.SubAccion;
 import b1_03.objetos.Terreno;
+import static b1_03.utilidades.Miscelanea.compAdd;
+import static b1_03.utilidades.Miscelanea.compMovs;
 import java.util.Iterator;
 import java.util.LinkedList;
-import static b1_03.utilidades.Miscelanea.compMovs;
 
 /**
- * @author Alfonso Barragán
- * @author Francisco Manuel García
- * @author Marcos López
  *
- * @version 1.0.0
+ * @author pacog
  */
 public class GestorAcciones {
 
@@ -44,7 +42,9 @@ public class GestorAcciones {
             while (itd.hasNext()) {
                 Accion acc = crearAccion(itd.next(), actualMov, movs[4], t.getColumnaT(),
                         t.getFilaT(), fs, cs, t, max);
-                if(acc.getNodos() != null) act.add(acc);
+                if(acc.getNodos() != null) {
+                    act.add(acc);
+                }
             }
         }
         return act;
@@ -192,7 +192,7 @@ public class GestorAcciones {
                 vec[i] = 0;
             }
             
-            Miscelanea.compAdd(vec, distrs, 0);
+            compAdd(vec, distrs, 0);
         }
         
         for (int a = 0; a <= rep; a++) {
@@ -207,20 +207,23 @@ public class GestorAcciones {
                                 for (int d = 0; d <= rep - a - b - c; d++) {
                                     vec[3] = d;
                                 }
-                                Miscelanea.compAdd(vec, distrs, rep);
+                                compAdd(vec, distrs, rep);
                             } else {
-                                Miscelanea.compAdd(vec, distrs, rep);
+                                compAdd(vec, distrs, rep);
                             }
                         }
                     } else {
-                        Miscelanea.compAdd(vec, distrs, rep);
+                        compAdd(vec, distrs, rep);
                     }
                 }
             } else {
-                Miscelanea.compAdd(vec, distrs, rep);
+                compAdd(vec, distrs, rep);
             }
         }
         return distrs;
+    }
+
+    private GestorAcciones() {
     }
 
 }

@@ -1,27 +1,34 @@
 package b1_03.objetos;
 
+
 /**
- * @author Alfonso Barragán
- * @author Francisco Manuel García
- * @author Marcos López
  *
- * @version 1.0.0
+ * @author pacog
  */
 public class Nodo implements Comparable<Nodo>, Cloneable {
-    
-    private int id; // Id del nodo
-    private String estado; // Estado del nodo
-    private int val; // Valor para ordenarlo en la frontera
-    private int costo; // Coste de la accion
-    private Nodo padre; // Nodo padre
-    private String accion; // Accion que ha llevado al estado
-    private int profundidad;
-    private int heuristica;
-    
     private static int iden = 0; // Autoincremento nodo
-
+    
+    private final int id; // Id del nodo
+    private final String estado; // Estado del nodo
+    private int val; // Valor para ordenarlo en la frontera
+    private final int costo; // Coste de la accion
+    private final Nodo padre; // Nodo padre
+    private final String accion; // Accion que ha llevado al estado
+    private int profundidad;
+    private final int heuristica;
+    
+    /**
+     *
+     * @param estado
+     * @param prof
+     * @param padre
+     * @param accion
+     * @param costo
+     * @param val
+     * @param heuristica
+     */
     public Nodo(String estado, int prof, Nodo padre, String accion, int costo, int val, int heuristica) {
-        this.id = Nodo.iden++;
+        this.id = iden++;
         this.estado = estado;
         this.val = val;
         this.padre = padre;
@@ -31,46 +38,90 @@ public class Nodo implements Comparable<Nodo>, Cloneable {
         this.heuristica = heuristica;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getHeuristica() {
         return heuristica;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getValoracion() {
         return val;
     }
 
+    /**
+     *
+     * @param val
+     */
     public void setValoracion(int val) {
         this.val = val;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getProfundidad() {
         return profundidad;
     }
 
+    /**
+     *
+     * @param profundidad
+     */
     public void setProfundidad(int profundidad) {
         this.profundidad = profundidad;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEstado() {
         return estado;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getVal() {
         return val;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCosto() {
         return costo;
     }
 
+    /**
+     *
+     * @return
+     */
     public Nodo getPadre() {
         return padre;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAccion() {
         return accion;
     }   
@@ -98,4 +149,5 @@ public class Nodo implements Comparable<Nodo>, Cloneable {
     public Object clone() throws CloneNotSupportedException{
         return super.clone();
     }
+   
 }

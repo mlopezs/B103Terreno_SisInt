@@ -1,14 +1,12 @@
 package b1_03.utilidades;
 
 import b1_03.objetos.Terreno;
+import static java.lang.System.arraycopy;
 import java.util.LinkedList;
 
 /**
- * @author Alfonso Barragán
- * @author Francisco Manuel García
- * @author Marcos López
  *
- * @version 1.0.0
+ * @author pacog
  */
 public class Miscelanea {
 
@@ -66,8 +64,12 @@ public class Miscelanea {
      */
     public static void compAdd(int[] vec, LinkedList<int[]> lvi, int k) {
         int sum = 0;
-        for (int a : vec) sum += a;
-        if (sum == k) lvi.add(vec.clone());
+        for (int a : vec) {
+            sum += a;
+        }
+        if (sum == k) {
+            lvi.add(vec.clone());
+        }
     }
 
     /**
@@ -79,6 +81,7 @@ public class Miscelanea {
      * @param cs
      * @param xt
      * @param yt
+     * @param k
      * @return Terreno
      */
     public static Terreno crearTerreno(int[] a, int fs, int cs, int xt, int yt, int k) {
@@ -131,13 +134,21 @@ public class Miscelanea {
         return (sum == fs * cs * k);
     }
     
+    /**
+     *
+     * @param source
+     * @return
+     */
     public static int[][] copiarMatrices(int[][] source){
         int[][] destiny = new int[source.length][source[0].length];
             for(int i = 0; i < source.length; i++){
-                System.arraycopy(source[i], 0, destiny[i], 0, source.length);
+                arraycopy(source[i], 0, destiny[i], 0, source.length);
             }
             
         return destiny;
+    }
+
+    private Miscelanea() {
     }
 
 }

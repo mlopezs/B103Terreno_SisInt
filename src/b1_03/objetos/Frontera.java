@@ -8,8 +8,27 @@ package b1_03.objetos;
  * @version 1.0.0
  */
 public interface Frontera {
+
+    /**
+     *
+     */
     public void crearFrontera();
+
+    /**
+     *
+     * @param b
+     */
     public void insertar(Nodo b);
+
+    /**
+     *
+     * @return
+     */
     public Object eliminar();
+
+    /**
+     *
+     * @return
+     */
     public boolean esVacia();
 }

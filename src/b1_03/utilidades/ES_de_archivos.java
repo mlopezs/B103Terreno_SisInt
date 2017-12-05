@@ -1,18 +1,16 @@
 package b1_03.utilidades;
 
 import excepciones.EscrituraErronea;
+import excepciones.LecturaErronea;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
-import excepciones.LecturaErronea;
 import java.io.FileWriter;
+import java.io.IOException;
+import static java.lang.Integer.parseInt;
 
 /**
- * @author Alfonso Barragán
- * @author Francisco Manuel García
- * @author Marcos López
  *
- * @version 1.0.0
+ * @author pacog
  */
 public class ES_de_archivos {
 
@@ -51,12 +49,12 @@ public class ES_de_archivos {
                 }
 
                 //Calculamos el tamaño del vector
-                tabla = new int[(Integer.parseInt(tabla_string[INDICE_F])
-                        * Integer.parseInt(tabla_string[INDICE_C])) + NUMERO_ATRIBUTOS_TERRENO];
+                tabla = new int[(parseInt(tabla_string[INDICE_F])
+                        * parseInt(tabla_string[INDICE_C])) + NUMERO_ATRIBUTOS_TERRENO];
 
                 //Pasamos la primera linea al vector
                 for (int i = 0; i < NUMERO_ATRIBUTOS_TERRENO; i++) {
-                    tabla[i] = Integer.parseInt(tabla_string[i]);
+                    tabla[i] = parseInt(tabla_string[i]);
                 }
 
                 //Variable para saber donde estamos en el vector
@@ -67,7 +65,7 @@ public class ES_de_archivos {
 
                     //i empieza en 1 porque el primer elemento es un espacio 
                     for (int i = 1; i < tabla_string.length; i++) {
-                        tabla[z] = Integer.parseInt(tabla_string[i]);
+                        tabla[z] = parseInt(tabla_string[i]);
                         z++;
                     }
 
@@ -117,12 +115,12 @@ public class ES_de_archivos {
         try {
             //Formateamos la cadena
             for (int i = 0; i < NUMERO_ATRIBUTOS_TERRENO; i++) {
-                cadena = cadena + Integer.toString(tabla[i]);
+                cadena += Integer.toString(tabla[i]);
                 if (i != NUMERO_ATRIBUTOS_TERRENO - 1) {
-                    cadena = cadena + " ";
+                    cadena += " ";
                 }
             }
-            cadena = cadena + "\r\n";
+            cadena += "\r\n";
             int z = NUMERO_ATRIBUTOS_TERRENO;
             for (int i = 0; i < tabla[INDICE_F]; i++) {
                 for (int j = 0; j < tabla[INDICE_C]; j++) {
@@ -130,7 +128,7 @@ public class ES_de_archivos {
                     z++;
                 }
                 if (i != tabla[INDICE_F] - 1) {
-                    cadena = cadena + "\r\n";
+                    cadena += "\r\n";
                 }
 
             }
@@ -150,6 +148,13 @@ public class ES_de_archivos {
 
     }
 
+    /**
+     *
+     * @param path
+     * @param borrar_archivo
+     * @param linea
+     * @throws EscrituraErronea
+     */
     public static void escribir_linea(String path, boolean borrar_archivo, String linea) throws EscrituraErronea {
 
         FileWriter writer = null;
@@ -174,5 +179,8 @@ public class ES_de_archivos {
             }
         }
 
+    }
+
+    private ES_de_archivos() {
     }
 }

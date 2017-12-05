@@ -5,17 +5,28 @@
  */
 package b1_03.objetos;
 
+
+
 /**
  *
  * @author paco
  */
 public class Accion {
 
-    private int xt;
-    private int yt;
-    private int costo;
-    private SubAccion[] nodos;
+   
 
+    private final int xt;
+    private final int yt;
+    private final int costo;
+    private final SubAccion[] nodos;
+
+    /**
+     *
+     * @param xt
+     * @param yt
+     * @param costo
+     * @param nodos
+     */
     public Accion(int xt, int yt, int costo, SubAccion[] nodos) {
         this.xt = xt;
         this.yt = yt;
@@ -36,18 +47,34 @@ public class Accion {
         return s;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getXt() {
         return xt;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getYt() {
         return yt;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCosto() {
         return costo;
     }
 
+    /**
+     *
+     * @return
+     */
     public SubAccion[] getNodos() {
         return nodos;
     }

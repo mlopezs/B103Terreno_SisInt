@@ -11,6 +11,7 @@ import b1_03.objetos.Nodo;
 import b1_03.objetos.SubAccion;
 import b1_03.objetos.Terreno;
 import static b1_03.utilidades.GestorAcciones.generarAcciones;
+import static b1_03.utilidades.Miscelanea.copiarMatrices;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,10 +20,23 @@ import java.util.Stack;
 
 /**
  *
- * @author B1.03
+ * @author pacog
  */
 public class Resolucion {
 
+    /**
+     *
+     * @param tInicial
+     * @param tipoAlgoritmo
+     * @param k
+     * @param fs
+     * @param cs
+     * @param max
+     * @param profundidadMax
+     * @param salida
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     public static String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax, javax.swing.JTextArea salida) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
         //Inicialización
         HashMap<String, Terreno> ht = new HashMap<>();
@@ -100,6 +114,20 @@ public class Resolucion {
 
     }
 
+    /**
+     *
+     * @param t
+     * @param tipoAlgoritmo
+     * @param profMax
+     * @param incProf
+     * @param k
+     * @param fs
+     * @param cs
+     * @param max
+     * @param salida
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     public static String algoritmoProfundidadIterativa(Terreno t, int tipoAlgoritmo, int profMax, int incProf, int k, int fs, int cs, int max, javax.swing.JTextArea salida) throws NoSuchAlgorithmException {
         int profActual = incProf;
         String solucion = null;
@@ -112,6 +140,13 @@ public class Resolucion {
         return solucion;
     }
 
+    /**
+     *
+     * @param ht
+     * @param hash
+     * @param k
+     * @return
+     */
     public static boolean estadoObjetivo(HashMap<String, Terreno> ht, String hash, int k) { //Comprobacion de que estamos en estado objetivo
 
         /*Lo que vendría a hacer esta función, es recuperar el terreno como tal
@@ -127,6 +162,12 @@ public class Resolucion {
         return objetivo;
     }
 
+    /**
+     *
+     * @param ht
+     * @param hash
+     * @return
+     */
     public static Terreno recuperarTerreno(HashMap<String, Terreno> ht, String hash) {
         Terreno t = null;
 
@@ -137,6 +178,13 @@ public class Resolucion {
         return t;
     }
 
+    /**
+     *
+     * @param n
+     * @param ht
+     * @param salida
+     * @return
+     */
     public static String crearSolucion(Nodo n, HashMap<String, Terreno> ht, javax.swing.JTextArea salida) {
 
         /* Aquí a partir del nodo se haria un bucle sacando su padre, y
@@ -164,6 +212,12 @@ public class Resolucion {
         return solucion;
     }
 
+    /**
+     *
+     * @param tipoAlgoritmo
+     * @param nodo
+     * @param profundidadMax
+     */
     public static void valorarNodo(int tipoAlgoritmo, Nodo nodo, int profundidadMax) {
 
         switch (tipoAlgoritmo) {
@@ -187,14 +241,21 @@ public class Resolucion {
         }
     }
 
+    /**
+     *
+     * @param ac
+     * @param original
+     * @param k
+     * @return
+     */
     public static Terreno crearTerrenoAPartirDeUnaAccion(Accion ac, Terreno original, int k) {
 
-        int[][] t = Miscelanea.copiarMatrices(original.getTerr());
+        int[][] t = copiarMatrices(original.getTerr());
         SubAccion[] sac = ac.getNodos();
 
-        for (int i = 0; i < sac.length; i++) {
-            t[sac[i].getPosx()][sac[i].getPosy()] += sac[i].getCantidad();
-            t[original.getColumnaT()][original.getFilaT()] -= sac[i].getCantidad();
+        for (SubAccion sac1 : sac) {
+            t[sac1.getPosx()][sac1.getPosy()] += sac1.getCantidad();
+            t[original.getColumnaT()][original.getFilaT()] -= sac1.getCantidad();
         }
 
         Terreno nuevo = new Terreno(t, ac.getXt(), ac.getYt(), k);
@@ -210,4 +271,7 @@ public class Resolucion {
  /* HEURISTICA -> Nº de casillas diferentes al valor k
 
      */
+
+    private Resolucion() {
+    }
 }

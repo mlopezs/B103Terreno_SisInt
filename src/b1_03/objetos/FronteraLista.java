@@ -2,6 +2,7 @@ package b1_03.objetos;
 
 import java.util.LinkedList;
 
+
 /**
  * @author Alfonso Barragán
  * @author Francisco Manuel García
@@ -10,28 +11,48 @@ import java.util.LinkedList;
  * @version 1.0.0
  */
 public class FronteraLista implements Frontera{
+
+   
     
     private LinkedList<Nodo> l;
 
+    /**
+     *
+     */
     public FronteraLista(){
         crearFrontera();
     }
     
+    /**
+     *
+     */
     @Override
     public void crearFrontera() {
         l = new LinkedList();
     }
 
+    /**
+     *
+     * @param b
+     */
     @Override
     public void insertar(Nodo b) {
         l.add(b);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Nodo eliminar() {
         return l.getFirst();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public boolean esVacia() {
         return l.isEmpty();
