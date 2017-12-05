@@ -25,7 +25,7 @@ public class Accion {
 
     @Override
     public String toString() {
-        String s = "((" + xt + "," + yt + "), [";
+        String s = "((" + yt + "," + xt + "), [";
         for (SubAccion a : nodos) {
             if (a != null) {
                 s += a.toString() + ", ";
