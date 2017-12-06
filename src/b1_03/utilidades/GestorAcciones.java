@@ -9,8 +9,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author pacog
+ * @version 1.0.0
  */
 public class GestorAcciones {
 

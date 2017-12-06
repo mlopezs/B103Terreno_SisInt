@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package b1_03;
 
 import b1_03.objetos.Terreno;
@@ -15,21 +10,27 @@ import static b1_03.utilidades.Resolucion.algoritmoProfundidadIterativa;
 import excepciones.EscrituraErronea;
 import excepciones.LecturaErronea;
 import static java.awt.EventQueue.invokeLater;
+import java.awt.HeadlessException;
 import static java.lang.System.arraycopy;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Logger.getLogger;
+import javax.swing.JFileChooser;
 import static javax.swing.UIManager.getInstalledLookAndFeels;
 import static javax.swing.UIManager.setLookAndFeel;
 
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author pacog
+ * @version 1.0.0
  */
 public class MainWindow extends javax.swing.JFrame {
 
     private String solucion = "";
+    private String ruta;
 
     /**
      * Creates new form MainnWindow
@@ -48,58 +49,65 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        salida = new javax.swing.JTextArea();
-        iniciar = new javax.swing.JButton();
-        pathField = new javax.swing.JTextField();
-        algoritmoCombobox = new javax.swing.JComboBox<>();
-        guardarTextField = new javax.swing.JTextField();
-        guardarButton = new javax.swing.JButton();
-        profMaxSpinner = new javax.swing.JSpinner();
-        incProfSpinner = new javax.swing.JSpinner();
+        txtSalida = new javax.swing.JTextArea();
+        btnIniciar = new javax.swing.JButton();
+        txtPath = new javax.swing.JTextField();
+        cbAlgoritmo = new javax.swing.JComboBox<>();
+        btnGuardarSol = new javax.swing.JButton();
+        spnProfMax = new javax.swing.JSpinner();
+        spnIncProf = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnCargarTerreno = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Distribuidor");
         setResizable(false);
 
-        salida.setColumns(20);
-        salida.setRows(5);
-        jScrollPane1.setViewportView(salida);
+        txtSalida.setColumns(20);
+        txtSalida.setRows(5);
+        jScrollPane1.setViewportView(txtSalida);
 
-        iniciar.setText("Iniciar");
-        iniciar.addActionListener(new java.awt.event.ActionListener() {
+        btnIniciar.setText("Iniciar");
+        btnIniciar.setEnabled(false);
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iniciarActionPerformed(evt);
+                btnIniciarActionPerformed(evt);
             }
         });
 
-        pathField.setText("terreno_2.txt");
-
-        algoritmoCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Anchura", "Profundidad", "C. Uniforme", "A*", "Voraz", "P. Iterativa" }));
-        algoritmoCombobox.addActionListener(new java.awt.event.ActionListener() {
+        cbAlgoritmo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Anchura", "Profundidad", "C. Uniforme", "A*", "Voraz", "P. Iterativa" }));
+        cbAlgoritmo.setEnabled(false);
+        cbAlgoritmo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                algoritmoComboboxActionPerformed(evt);
+                cbAlgoritmoActionPerformed(evt);
             }
         });
 
-        guardarTextField.setText("solucion.txt");
-
-        guardarButton.setText("Guardar");
-        guardarButton.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardarSol.setText("Guardar solucion");
+        btnGuardarSol.setEnabled(false);
+        btnGuardarSol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardarButtonActionPerformed(evt);
+                btnGuardarSolActionPerformed(evt);
             }
         });
 
-        profMaxSpinner.setModel(new javax.swing.SpinnerNumberModel(50, 50, null, 50));
-        profMaxSpinner.setEnabled(false);
+        spnProfMax.setModel(new javax.swing.SpinnerNumberModel(50, 50, null, 50));
+        spnProfMax.setEnabled(false);
 
-        incProfSpinner.setModel(new javax.swing.SpinnerNumberModel(10, 10, null, 15));
-        incProfSpinner.setEnabled(false);
+        spnIncProf.setModel(new javax.swing.SpinnerNumberModel(10, 10, null, 15));
+        spnIncProf.setEnabled(false);
 
         jLabel1.setText("Prof. Max.");
 
         jLabel2.setText("Inc. Prof");
+
+        btnCargarTerreno.setText("Cargar terreno");
+        btnCargarTerreno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarTerrenoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,63 +115,69 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(guardarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                    .addComponent(iniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(algoritmoCombobox, 0, 95, Short.MAX_VALUE)
-                    .addComponent(profMaxSpinner)
-                    .addComponent(incProfSpinner)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(guardarTextField)
-                    .addComponent(pathField)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(cbAlgoritmo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spnProfMax, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spnIncProf, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnIniciar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCargarTerreno))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnGuardarSol)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pathField, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(algoritmoCombobox))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCargarTerreno))
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(guardarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                            .addComponent(guardarTextField)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(iniciar)
-                        .addGap(67, 67, 67)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(profMaxSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spnProfMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(incProfSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(spnIncProf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarSol, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void iniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarActionPerformed
-        salida.setText("");
-        // Lista donde iremos guardando los terrenos generados tras cada acción
-        LinkedList<Terreno> lt = new LinkedList<>();
+    /**
+     * El siguiente métodos es el escuchador de la pulsación del botón Inicio.
+     * Este método se encarga de arrancar todos los componentes necesarios para
+     * la resolución del problema. Dentro de la clase se puede encontrar más
+     * documentación.
+     *
+     * @param evt
+     */
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
 
         Terreno t; // Terreno inicial
 
         // Vector resultado de la lectura del fichero
         int[] datos = null;
         try {
-            datos = leer_archivo(pathField.getText());
+            datos = leer_archivo(ruta);
             int k = datos[2]; // Cantidad objetivo de arena
             int max = datos[3]; // Cantidad máxima de arena
 
@@ -177,34 +191,27 @@ public class MainWindow extends javax.swing.JFrame {
 
             // Comprobamos validez del terreno, y si lo es, lo creamos.
             if (!esValido(fs, cs, k, aux, max)) {
-                salida.setText("ERROR: Los datos son incorrectos.");
+                txtSalida.setText("ERROR: El terreno cargado es incorrecto.");
             } else {
 
                 t = crearTerreno(aux, fs, cs, datos[1], datos[0], k);
 
-                lt.add(t); // Añadimos el terreno inicial a la lista
-
-                // MUESTRA DE LOS DATOS RECOGIDOS Y PROCESADOS
-                salida.append("k: " + k + ", max: " + max + ", fs: " + fs + ", cs: " + cs);
-                salida.append(t.toString());
+                // Se muestran los datos del fichero
+                txtSalida.append("k: " + k + ", max: " + max + ", fs: " + fs + ", cs: " + cs);
+                txtSalida.append(t.toString());
 
                 try {
-                    /*la = GestorAcciones.generarAcciones(t, k, fs, cs, max);
-                
-                // Mostramos las acciones
-                Iterator<Accion> itact = la.iterator();
-                while (itact.hasNext()) {
-                System.out.println(itact.next());
-                }*/
 
                     // Resto de algoritmos
-                    if (algoritmoCombobox.getSelectedIndex() != 5) {
-                        solucion = algoritmoDeBusqueda(t, algoritmoCombobox.getSelectedIndex(), k, fs, cs, max, 999_999_999, salida);
+                    if (cbAlgoritmo.getSelectedIndex() != 5) {
+                        solucion = algoritmoDeBusqueda(t, cbAlgoritmo.getSelectedIndex(), k, fs, cs, max, 999_999_999, txtSalida);
                     } else {
-                        solucion = algoritmoProfundidadIterativa(t, 1,(int)profMaxSpinner.getValue(),(int)incProfSpinner.getValue(), k, fs, cs, max, salida);
+                        solucion = algoritmoProfundidadIterativa(t, 1, (int) spnProfMax.getValue(), (int) spnIncProf.getValue(), k, fs, cs, max, txtSalida);
                     }
 
-                    salida.append(solucion);
+                    txtSalida.append(solucion);
+
+                    btnGuardarSol.setEnabled(true);
                     // Profundidad iterativa
                     //System.out.println("\n"+Resolucion.algoritmoProfundidadIterativa(t, 1, 999999999, 150, k, fs, cs, max));
                 } catch (NoSuchAlgorithmException ex) {
@@ -214,29 +221,47 @@ public class MainWindow extends javax.swing.JFrame {
             }
 
         } catch (LecturaErronea ex) {
-            salida.setText("Archivo no encontrado-> " + pathField.getText());
+            txtSalida.setText("Archivo no encontrado-> " + ruta);
         }
 
+    }//GEN-LAST:event_btnIniciarActionPerformed
 
-    }//GEN-LAST:event_iniciarActionPerformed
+    private void btnGuardarSolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarSolActionPerformed
 
-    private void guardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButtonActionPerformed
+        JFileChooser jfch = new JFileChooser();
         try {
-            escribir_linea(guardarTextField.getText(), true, solucion);
-        } catch (EscrituraErronea ex) {
-            salida.append("Error al guardar.");
+            if (jfch.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                ruta = jfch.getSelectedFile().getAbsolutePath();
+                escribir_linea(ruta, true, solucion);
+            }
+        } catch (EscrituraErronea | HeadlessException ex) {
+            txtSalida.append("Error al guardar fichero -> " + ruta);
         }
-    }//GEN-LAST:event_guardarButtonActionPerformed
+    }//GEN-LAST:event_btnGuardarSolActionPerformed
 
-    private void algoritmoComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algoritmoComboboxActionPerformed
-        if (algoritmoCombobox.getSelectedIndex() == 5) {
-            incProfSpinner.setEnabled(true);
-            profMaxSpinner.setEnabled(true);
+    private void cbAlgoritmoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlgoritmoActionPerformed
+        if (cbAlgoritmo.getSelectedIndex() == 5) {
+            spnIncProf.setEnabled(true);
+            spnProfMax.setEnabled(true);
         } else {
-            incProfSpinner.setEnabled(false);
-            profMaxSpinner.setEnabled(false);
+            spnIncProf.setEnabled(false);
+            spnProfMax.setEnabled(false);
         }
-    }//GEN-LAST:event_algoritmoComboboxActionPerformed
+        btnIniciar.setEnabled(true);
+    }//GEN-LAST:event_cbAlgoritmoActionPerformed
+
+    private void btnCargarTerrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarTerrenoActionPerformed
+        JFileChooser jfch = new JFileChooser();
+        try {
+            if (jfch.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                ruta = jfch.getSelectedFile().getAbsolutePath();
+                txtPath.setText(ruta.substring(ruta.lastIndexOf("\\") + 1, ruta.length()));
+                cbAlgoritmo.setEnabled(true);
+            }
+        } catch (HeadlessException ex) {
+            txtSalida.append("Error al cargar fichero -> " + ruta);
+        }
+    }//GEN-LAST:event_btnCargarTerrenoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -259,7 +284,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
 
@@ -270,16 +295,17 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> algoritmoCombobox;
-    private javax.swing.JButton guardarButton;
-    private javax.swing.JTextField guardarTextField;
-    private javax.swing.JSpinner incProfSpinner;
-    private javax.swing.JButton iniciar;
+    private javax.swing.JButton btnCargarTerreno;
+    private javax.swing.JButton btnGuardarSol;
+    private javax.swing.JButton btnIniciar;
+    private javax.swing.JComboBox<String> cbAlgoritmo;
+    private javax.persistence.EntityManager entityManager1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField pathField;
-    private javax.swing.JSpinner profMaxSpinner;
-    private javax.swing.JTextArea salida;
+    private javax.swing.JSpinner spnIncProf;
+    private javax.swing.JSpinner spnProfMax;
+    private javax.swing.JTextField txtPath;
+    private javax.swing.JTextArea txtSalida;
     // End of variables declaration//GEN-END:variables
 }

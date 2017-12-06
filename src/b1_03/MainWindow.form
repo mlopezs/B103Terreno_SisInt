@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.persistence.EntityManager" name="entityManager1">
+      <Properties>
+        <Property name="persistenceUnit" type="java.lang.String" value="pu"/>
+      </Properties>
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="Distribuidor"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -24,57 +32,58 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="guardarButton" alignment="0" pref="95" max="32767" attributes="0"/>
-                  <Component id="iniciar" max="32767" attributes="0"/>
-                  <Component id="algoritmoCombobox" pref="95" max="32767" attributes="0"/>
-                  <Component id="profMaxSpinner" alignment="0" max="32767" attributes="0"/>
-                  <Component id="incProfSpinner" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLabel1" max="32767" attributes="0"/>
-                  <Component id="jLabel2" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="cbAlgoritmo" max="32767" attributes="0"/>
+                  <Component id="spnProfMax" alignment="0" max="32767" attributes="0"/>
+                  <Component id="spnIncProf" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnIniciar" alignment="0" pref="127" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="guardarTextField" max="32767" attributes="0"/>
-                  <Component id="pathField" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" pref="682" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="txtPath" min="-2" pref="267" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnCargarTerreno" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="btnGuardarSol" min="-2" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="538" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="pathField" pref="31" max="32767" attributes="0"/>
-                  <Component id="algoritmoCombobox" max="32767" attributes="0"/>
-              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cbAlgoritmo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPath" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCargarTerreno" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane1" min="-2" pref="345" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="guardarButton" pref="34" max="32767" attributes="0"/>
-                          <Component id="guardarTextField" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="iniciar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="359" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="profMaxSpinner" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="spnProfMax" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="incProfSpinner" min="-2" max="-2" attributes="0"/>
+                      <Component id="spnIncProf" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnIniciar" min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnGuardarSol" min="-2" pref="34" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -88,7 +97,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="salida">
+        <Component class="javax.swing.JTextArea" name="txtSalida">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
@@ -96,20 +105,18 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="iniciar">
+    <Component class="javax.swing.JButton" name="btnIniciar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Iniciar"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="iniciarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIniciarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="pathField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="terreno_2.txt"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="txtPath">
     </Component>
-    <Component class="javax.swing.JComboBox" name="algoritmoCombobox">
+    <Component class="javax.swing.JComboBox" name="cbAlgoritmo">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="6">
@@ -121,28 +128,25 @@
             <StringItem index="5" value="P. Iterativa"/>
           </StringArray>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="algoritmoComboboxActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbAlgoritmoActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="guardarTextField">
+    <Component class="javax.swing.JButton" name="btnGuardarSol">
       <Properties>
-        <Property name="text" type="java.lang.String" value="solucion.txt"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="guardarButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar"/>
+        <Property name="text" type="java.lang.String" value="Guardar solucion"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guardarButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarSolActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JSpinner" name="profMaxSpinner">
+    <Component class="javax.swing.JSpinner" name="spnProfMax">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="50" minimum="50" numberType="java.lang.Integer" stepSize="50" type="number"/>
@@ -150,7 +154,7 @@
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JSpinner" name="incProfSpinner">
+    <Component class="javax.swing.JSpinner" name="spnIncProf">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="10" minimum="10" numberType="java.lang.Integer" stepSize="15" type="number"/>
@@ -167,6 +171,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Inc. Prof"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCargarTerreno">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cargar terreno"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCargarTerrenoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

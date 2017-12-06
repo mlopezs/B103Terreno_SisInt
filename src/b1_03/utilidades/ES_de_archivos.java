@@ -9,8 +9,11 @@ import java.io.IOException;
 import static java.lang.Integer.parseInt;
 
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author pacog
+ * @version 1.0.0
  */
 public class ES_de_archivos {
 
@@ -19,7 +22,8 @@ public class ES_de_archivos {
     private static final int INDICE_F = 5;
 
     /**
-     * leer_archivo(..) lee un archivo de texto y devuelve un vector de enteros.
+     * leer_archivo(..) lee un archivo de texto que contiene un terreno, y lo 
+     * devuelve como un vector de enteros.
      *
      * @param path
      * @return int[]
