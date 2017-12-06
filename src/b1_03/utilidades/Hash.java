@@ -6,8 +6,11 @@ import static java.security.MessageDigest.getInstance;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author pacog
+ * @version 1.0.0
  */
 public class Hash {
 
@@ -15,7 +18,7 @@ public class Hash {
      * md5(..) toma una cadena de texto y devuelve un hash md5.
      *
      * @param entrada
-     * @return String
+     * @return
      * @throws NoSuchAlgorithmException
      */
     public static String md5(String entrada) throws NoSuchAlgorithmException {
@@ -23,7 +26,5 @@ public class Hash {
         m.update(entrada.getBytes(), 0, entrada.length());
         return new BigInteger(1, m.digest()).toString(16);
     }
-
-    private Hash() {
-    }
+    
 }

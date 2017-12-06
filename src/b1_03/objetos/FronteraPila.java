@@ -2,7 +2,6 @@ package b1_03.objetos;
 
 import java.util.Stack;
 
-
 /**
  * @author Alfonso Barragán
  * @author Francisco Manuel García
@@ -12,18 +11,18 @@ import java.util.Stack;
  */
 public class FronteraPila implements Frontera {
 
-
+    // Pila donde almacenar los nodos
     private Stack<Nodo> s;
 
     /**
-     *
+     * Constructor.
      */
     public FronteraPila() {
         crearFrontera();
     }
 
     /**
-     *
+     * Crea la forontera de tipo Stack.
      */
     @Override
     public void crearFrontera() {
@@ -31,6 +30,7 @@ public class FronteraPila implements Frontera {
     }
 
     /**
+     * Añade un objeto Nodo a la pila.
      *
      * @param b
      */
@@ -40,6 +40,7 @@ public class FronteraPila implements Frontera {
     }
 
     /**
+     * Saca el primer (último) nodo de la pila.
      *
      * @return
      */
@@ -49,6 +50,7 @@ public class FronteraPila implements Frontera {
     }
 
     /**
+     * Comprueba si la pila está vacía.
      *
      * @return
      */

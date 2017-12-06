@@ -11,26 +11,27 @@ import java.util.PriorityQueue;
  */
 public class FronteraCola implements Frontera {
 
-
-    private PriorityQueue<Nodo> pq; // Cola de prioridad donde almacenar nodos
+    // Cola de prioridad donde almacenar nodos
+    private PriorityQueue<Nodo> pq;     
     
     /**
-     *
+     * Constructor.
      */
     public FronteraCola() {
         crearFrontera();
     }
 
     /**
-     *
+     * Crea la forontera de tipo PriorityQueue con un tamaño para 100 nodos.
      */
     @Override
     public void crearFrontera() {
-        this.pq= new PriorityQueue<>(100);
+        this.pq = new PriorityQueue<>(100);
     }
 
     /**
-     *
+     * Añade un objeto Nodo a la cola.
+     * 
      * @param b
      */
     @Override
@@ -39,7 +40,8 @@ public class FronteraCola implements Frontera {
     }
 
     /**
-     *
+     * Saca el primer nodo de la cola.
+     * 
      * @return
      */
     @Override
@@ -48,7 +50,8 @@ public class FronteraCola implements Frontera {
     }
 
     /**
-     *
+     * Comprueba si la cola está vacía.
+     * 
      * @return
      */
     @Override

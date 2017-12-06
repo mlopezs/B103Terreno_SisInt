@@ -5,8 +5,11 @@ import static java.lang.System.arraycopy;
 import java.util.LinkedList;
 
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author pacog
+ * @version 1.0.0
  */
 public class Miscelanea {
 
@@ -18,23 +21,6 @@ public class Miscelanea {
      * @param pos 
      */
     public static void compMovs(int[] ini, LinkedList<int[]> pos){
-        
-        /*if (ini[0] == 1) {
-            int[] a = {-1, 0};
-            pos.add(a);
-        }
-        if (ini[1] == 1) {
-            int[] a = {0, -1};
-            pos.add(a);
-        }
-        if (ini[2] == 1) {
-            int[] a = {0, 1};
-            pos.add(a);
-        }
-        if (ini[3] == 1) {
-            int[] a = {1, 0};
-            pos.add(a);
-        }*/
         
         if (ini[0] == 1) {
             int[] a = {0, -1};
@@ -90,7 +76,7 @@ public class Miscelanea {
 
     /**
      * vec2mat(..) convierte un vector lineal a un array conocidas las filas y
-     * columnas
+     * columnas.
      *
      * @param aux
      * @param fs
@@ -121,7 +107,7 @@ public class Miscelanea {
      * @param k
      * @param can
      * @param max
-     * @return true si la cantidad coincide, false si no
+     * @return
      */
     public static boolean esValido(int fs, int cs, int k, int[] can, int max) {
         int sum = 0;
@@ -135,20 +121,18 @@ public class Miscelanea {
     }
     
     /**
+     * copiarMatrices(..) tiene un nombre bastante descriptivo.
      *
      * @param source
      * @return
      */
     public static int[][] copiarMatrices(int[][] source){
-        int[][] destiny = new int[source.length][source[0].length];
+        int[][] dest = new int[source.length][source[0].length];
             for(int i = 0; i < source.length; i++){
-                arraycopy(source[i], 0, destiny[i], 0, source.length);
+                arraycopy(source[i], 0, dest[i], 0, source.length);
             }
             
-        return destiny;
-    }
-
-    private Miscelanea() {
+        return dest;
     }
 
 }

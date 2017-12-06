@@ -2,7 +2,6 @@ package b1_03.objetos;
 
 import java.util.LinkedList;
 
-
 /**
  * @author Alfonso Barragán
  * @author Francisco Manuel García
@@ -12,19 +11,18 @@ import java.util.LinkedList;
  */
 public class FronteraLista implements Frontera{
 
-   
-    
+    // Lista donde almacenar nodos
     private LinkedList<Nodo> l;
 
     /**
-     *
+     * Constructor.
      */
     public FronteraLista(){
         crearFrontera();
     }
     
     /**
-     *
+     * Crea la forontera de tipo LinkedList.
      */
     @Override
     public void crearFrontera() {
@@ -32,6 +30,7 @@ public class FronteraLista implements Frontera{
     }
 
     /**
+     * Añade un objeto Nodo a la lista.
      *
      * @param b
      */
@@ -41,6 +40,7 @@ public class FronteraLista implements Frontera{
     }
 
     /**
+     * Saca el primer nodo de la lista.
      *
      * @return
      */
@@ -50,14 +50,13 @@ public class FronteraLista implements Frontera{
     }
 
     /**
+     * Comprueba si la lista está vacía.
      *
      * @return
      */
     @Override
     public boolean esVacia() {
         return l.isEmpty();
-    }
-    
-    
+    }  
     
 }

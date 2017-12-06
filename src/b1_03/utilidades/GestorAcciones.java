@@ -30,12 +30,19 @@ public class GestorAcciones {
      */
     public static LinkedList<Accion> generarAcciones(Terreno t, int k, int fs, int cs, int max) {
         
-        int[] movs = genMovs(t); // Movimientos
-        LinkedList<int[]> posmovs = new LinkedList<>(); // Lista movimientos posibles
+        // Lista para almacenar las acciones
+        LinkedList<Accion> act = new LinkedList<>();
+        
+        // Movimientos
+        int[] movs = genMovs(t);
+        
+        // Movimientos posibles
+        LinkedList<int[]> posmovs = new LinkedList<>();
         compMovs(movs, posmovs);
 
-        LinkedList<int[]> distr = genDistros(t, k, movs[4]); // Distribuciones (Todas)
-        LinkedList<Accion> act = new LinkedList<>(); // Lista de acciones
+        // Distribuciones
+        LinkedList<int[]> distr = genDistros(t, k, movs[4]);
+        
         // Se combinan movimientos y distribuciones para formar acciones.
         Iterator<int[]> itm = posmovs.iterator();
         Iterator<int[]> itd;
@@ -50,8 +57,7 @@ public class GestorAcciones {
                 }
             }
         }
-        return act;
-        
+        return act;        
     }
 
     /**
@@ -68,7 +74,7 @@ public class GestorAcciones {
      * @param cs
      * @param t
      * @param max
-     * @return String que describe la accion con formato específico.
+     * @return String que describe la acción con formato específico.
      */
     public static Accion crearAccion(int[] dstr, int[] coord, int ady, int x,
             int y, int fs, int cs, Terreno t, int max) {
@@ -76,7 +82,7 @@ public class GestorAcciones {
         // Vector para que no vuelva a entrar en el mismo if
         boolean a[] = {true, true, true, true};
 
-        // Futura posición del tractor
+        // Posición final del tractor
         int nx = x + coord[1];
         int ny = y + coord[0];
         
@@ -85,9 +91,11 @@ public class GestorAcciones {
         for(int d : dstr){
             costo += d;
         }
+        
         // Subacciones de la accion
         SubAccion[] na = new SubAccion[ady];
 
+        // Creación de las subacciones
         for (int i = 0; i < ady; i++) {            
             if (isAdy(y, x + 1, fs, cs, t.getTerr(), dstr[i], max) && a[0]) {
                 na[i] = new SubAccion(dstr[i], (x+1), y);
@@ -108,10 +116,6 @@ public class GestorAcciones {
         }
         return new Accion(nx, ny, costo, na);
     }
-
-    
-   
-    
     
     /**
      * isAdy(..) comprueba que la acción sea factible, es decir, que se pueda
@@ -132,14 +136,15 @@ public class GestorAcciones {
 
     /**
      * genMovs(..) se encarga de generar los posibles movimientos que puede hacer
-     * el tractor contenido en el terreno. Devuelve un vector de enteros donde
-     * las cuatro primeras coordenadas son 1 o 0 dependiendo de si se puede
-     * mover: primera coordenada es el movimiento a la izquierda, el segundo
-     * arriba, el tercero abajo, el cuarto a la derecha, y el último es el
-     * número de adyacentes.
+     * el tractor contenido en el terreno. Devuelve un vector de enteros:
+     *   movs[0] -> Movimiento izquierda -> {0, 1}
+     *   movs[1] -> Movimiento arriba -> {0, 1}
+     *   movs[2] -> Movimiento abajo -> {0, 1}
+     *   movs[3] -> Movimiento derecha -> {0, 1}
+     *   movs[4] -> Número adyacentes
      *
      * @param t
-     * @return Vector de enteros con los movimientos posibles del tractor.
+     * @return
      */
     public static int[] genMovs(Terreno t) {
         int x = t.getColumnaT(); // Posicion X del tractor
@@ -185,9 +190,15 @@ public class GestorAcciones {
      * @return LinkedList de vectores de enteros
      */
     public static LinkedList<int[]> genDistros(Terreno t, int k, int nAdyac) {
-        LinkedList<int[]> distrs = new LinkedList<>(); // Lista de distribuciones
-        int rep = t.getTerr()[t.getColumnaT()][t.getFilaT()] - k; // Cantidad a repartir
-        int[] vec = new int[nAdyac]; // Vector para asignación de cantidades
+        
+        // Lista de distribuciones
+        LinkedList<int[]> distrs = new LinkedList<>();
+        
+        // Cantidad a repartir
+        int rep = t.getTerr()[t.getColumnaT()][t.getFilaT()] - k;
+        
+        // Vector para asignación de cantidades
+        int[] vec = new int[nAdyac]; 
         
         if(rep <= 0){
             
@@ -224,9 +235,6 @@ public class GestorAcciones {
             }
         }
         return distrs;
-    }
-
-    private GestorAcciones() {
     }
 
 }

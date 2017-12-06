@@ -9,11 +9,11 @@ import static b1_03.utilidades.Resolucion.algoritmoDeBusqueda;
 import static b1_03.utilidades.Resolucion.algoritmoProfundidadIterativa;
 import excepciones.EscrituraErronea;
 import excepciones.LecturaErronea;
+import java.awt.Color;
 import static java.awt.EventQueue.invokeLater;
 import java.awt.HeadlessException;
 import static java.lang.System.arraycopy;
 import java.security.NoSuchAlgorithmException;
-import java.util.LinkedList;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Logger.getLogger;
 import javax.swing.JFileChooser;
@@ -31,6 +31,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private String solucion = "";
     private String ruta;
+    
+    private final static int PROFMAX = 999999999;
 
     /**
      * Creates new form MainnWindow
@@ -172,12 +174,17 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
 
+        txtSalida.setText("");
+        txtSalida.setForeground(Color.BLACK);
+        
         Terreno t; // Terreno inicial
 
-        // Vector resultado de la lectura del fichero
-        int[] datos = null;
+        int[] datos; // Vector resultado de la lectura del fichero
+        
         try {
-            datos = leer_archivo(ruta);
+            
+            datos = leer_archivo(ruta); // Lectura del fichero
+            
             int k = datos[2]; // Cantidad objetivo de arena
             int max = datos[3]; // Cantidad máxima de arena
 
@@ -185,47 +192,59 @@ public class MainWindow extends javax.swing.JFrame {
             int cs = datos[5]; // Número de columnas
 
             // Vector auxiliar donde posteriormente copiamos el segmento del vector datos
-            // que se corresponde con la cantidad inicial de arena en cada casilla
+            // que se corresponde con la cantidad inicial de arena en cada casilla.
             int[] aux = new int[fs * cs];
             arraycopy(datos, 6, aux, 0, aux.length);
 
-            // Comprobamos validez del terreno, y si lo es, lo creamos.
+            // Comprobamos validez del terreno
             if (!esValido(fs, cs, k, aux, max)) {
+                
                 txtSalida.setText("ERROR: El terreno cargado es incorrecto.");
+                txtSalida.setForeground(Color.RED);
+                
             } else {
 
+                // Creamos el terreno
                 t = crearTerreno(aux, fs, cs, datos[1], datos[0], k);
 
-                // Se muestran los datos del fichero
-                txtSalida.append("k: " + k + ", max: " + max + ", fs: " + fs + ", cs: " + cs);
-                txtSalida.append(t.toString());
+                // Mostramos los datos del terreno del fichero
+                txtSalida.append("TERRENO INICIAL:\nk: " + k + ", max: " + max + ", fs: " + fs + ", cs: " + cs);
+                txtSalida.append(t.toString() + "\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
 
                 try {
 
-                    // Resto de algoritmos
+                    // Comprobamos el tipo de algoritmo elegido la ComboBox
                     if (cbAlgoritmo.getSelectedIndex() != 5) {
-                        solucion = algoritmoDeBusqueda(t, cbAlgoritmo.getSelectedIndex(), k, fs, cs, max, 999_999_999, txtSalida);
+                        solucion = algoritmoDeBusqueda(t, cbAlgoritmo.getSelectedIndex(), k, fs, cs, max, PROFMAX, txtSalida);
                     } else {
                         solucion = algoritmoProfundidadIterativa(t, 1, (int) spnProfMax.getValue(), (int) spnIncProf.getValue(), k, fs, cs, max, txtSalida);
                     }
 
+                    // Mostramos la solución
                     txtSalida.append(solucion);
 
+                    // Habilitamos el botón para guardar la solución
                     btnGuardarSol.setEnabled(true);
-                    // Profundidad iterativa
-                    //System.out.println("\n"+Resolucion.algoritmoProfundidadIterativa(t, 1, 999999999, 150, k, fs, cs, max));
+                    
                 } catch (NoSuchAlgorithmException ex) {
-                    getLogger(MainWindow.class.getName()).log(SEVERE, null, ex);
+                    txtSalida.setText("No such algorithm exception: \n " + ex.getMessage());
+                    txtSalida.setForeground(Color.RED);
                 }
-
             }
 
         } catch (LecturaErronea ex) {
             txtSalida.setText("Archivo no encontrado-> " + ruta);
+            txtSalida.setForeground(Color.RED);
         }
 
     }//GEN-LAST:event_btnIniciarActionPerformed
 
+    /**
+     * Escuchador del botón GuardarSolución. Lanza una ventana para seleccionar
+     * un directorio y nombrar el archivo donde guardar las acciones (solucion).
+     * 
+     * @param evt 
+     */
     private void btnGuardarSolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarSolActionPerformed
 
         JFileChooser jfch = new JFileChooser();
@@ -236,9 +255,17 @@ public class MainWindow extends javax.swing.JFrame {
             }
         } catch (EscrituraErronea | HeadlessException ex) {
             txtSalida.append("Error al guardar fichero -> " + ruta);
+            txtSalida.setForeground(Color.RED);
         }
     }//GEN-LAST:event_btnGuardarSolActionPerformed
 
+    /**
+     * Escuchador del ComboBox. Si se elige la opción 5 (P.Iterativa), se 
+     * desbloquean los spinners para seleccionar la profundidad máxima y el 
+     * incremento de la profundidad para ese algoritmo.
+     * 
+     * @param evt 
+     */
     private void cbAlgoritmoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlgoritmoActionPerformed
         if (cbAlgoritmo.getSelectedIndex() == 5) {
             spnIncProf.setEnabled(true);
@@ -247,9 +274,14 @@ public class MainWindow extends javax.swing.JFrame {
             spnIncProf.setEnabled(false);
             spnProfMax.setEnabled(false);
         }
-        btnIniciar.setEnabled(true);
     }//GEN-LAST:event_cbAlgoritmoActionPerformed
 
+    /**
+     * Escuchador del botón CargarTerreno. Lanza una ventana para seleccionar
+     * un archivo desde el que leer el terreno inicial.
+     * 
+     * @param evt 
+     */
     private void btnCargarTerrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarTerrenoActionPerformed
         JFileChooser jfch = new JFileChooser();
         try {
@@ -257,9 +289,11 @@ public class MainWindow extends javax.swing.JFrame {
                 ruta = jfch.getSelectedFile().getAbsolutePath();
                 txtPath.setText(ruta.substring(ruta.lastIndexOf("\\") + 1, ruta.length()));
                 cbAlgoritmo.setEnabled(true);
+                btnIniciar.setEnabled(true);
             }
         } catch (HeadlessException ex) {
             txtSalida.append("Error al cargar fichero -> " + ruta);
+            txtSalida.setForeground(Color.RED);
         }
     }//GEN-LAST:event_btnCargarTerrenoActionPerformed
 
@@ -299,7 +333,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardarSol;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JComboBox<String> cbAlgoritmo;
-    private javax.persistence.EntityManager entityManager1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

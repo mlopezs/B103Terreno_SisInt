@@ -1,23 +1,27 @@
 package b1_03.objetos;
 
-
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author pacog
+ * @version 1.0.0
  */
 public class Nodo implements Comparable<Nodo>, Cloneable {
+    
     private static int iden = 0; // Autoincremento nodo
     
-    private final int id; // Id del nodo
-    private final String estado; // Estado del nodo
-    private int val; // Valor para ordenarlo en la frontera
-    private final int costo; // Coste de la accion
-    private final Nodo padre; // Nodo padre
+    private final int id;
+    private final String estado;
+    private int val; // Valoración
+    private final int costo;
+    private final Nodo padre;
     private final String accion; // Accion que ha llevado al estado
     private int profundidad;
     private final int heuristica;
     
     /**
+     * Constructor.
      *
      * @param estado
      * @param prof
@@ -126,12 +130,21 @@ public class Nodo implements Comparable<Nodo>, Cloneable {
         return accion;
     }   
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         return "Nodo{" + "id=" + id + ", estado=" + estado + ", val=" + val + 
                 ", costo=" + costo +", heuristica="+heuristica +", padre=" + padre + ", accion=" + accion + '}';
     }
 
+    /**
+     * 
+     * @param o
+     * @return 
+     */
     @Override
     public int compareTo(Nodo o) {
         int ret;
@@ -145,6 +158,11 @@ public class Nodo implements Comparable<Nodo>, Cloneable {
         return ret;
     }
     
+    /**
+     * 
+     * @return
+     * @throws CloneNotSupportedException 
+     */
     @Override
     public Object clone() throws CloneNotSupportedException{
         return super.clone();

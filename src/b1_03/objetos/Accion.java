@@ -1,27 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package b1_03.objetos;
 
-
-
 /**
+ * @author Alfonso Barragán
+ * @author Francisco Manuel García
+ * @author Marcos López
  *
- * @author paco
+ * @version 1.0.0
  */
 public class Accion {
 
-   
-
-    private final int xt;
-    private final int yt;
-    private final int costo;
-    private final SubAccion[] nodos;
+    private final int xt; // x del tractor
+    private final int yt; // y del tractor
+    private final int costo; // coste de la accion
+    private final SubAccion[] nodos; // Vector de sub-acciones
 
     /**
-     *
+     * 
      * @param xt
      * @param yt
      * @param costo
@@ -34,6 +28,10 @@ public class Accion {
         this.nodos = nodos;
     }
 
+    /**
+     *
+     * @return 
+     */
     @Override
     public String toString() {
         String s = "((" + yt + "," + xt + "), [";
@@ -48,7 +46,7 @@ public class Accion {
     }
 
     /**
-     *
+     * 
      * @return
      */
     public int getXt() {
@@ -78,4 +76,5 @@ public class Accion {
     public SubAccion[] getNodos() {
         return nodos;
     }
+    
 }

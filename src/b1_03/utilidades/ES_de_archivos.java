@@ -22,7 +22,7 @@ public class ES_de_archivos {
     private static final int INDICE_F = 5;
 
     /**
-     * leer_archivo(..) lee un archivo de texto que contiene un terreno, y lo 
+     * leer_archivo(..) lee un archivo de texto que contiene un terreno, y lo
      * devuelve como un vector de enteros.
      *
      * @param path
@@ -153,6 +153,8 @@ public class ES_de_archivos {
     }
 
     /**
+     * escribir_linea(..) recibe una ruta, un flag para borrar o no lo anterior,
+     * y la linea a escribir. Escribe la linea en el archivo.
      *
      * @param path
      * @param borrar_archivo
@@ -185,6 +187,4 @@ public class ES_de_archivos {
 
     }
 
-    private ES_de_archivos() {
-    }
 }

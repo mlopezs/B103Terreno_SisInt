@@ -10,8 +10,8 @@ package b1_03;
 public class Distribuidor {
 
     /**
-     * main() es el núcleo del programa, desde donde se llama a los distintos
-     * métodos en los que se realizan las funciones requeridas
+     * main() es el núcleo del programa, desde donde se llama a la interfaz, en 
+     * la que se desarrolla el arranque del programa.
      *
      * @param args
      */

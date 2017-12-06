@@ -1,6 +1,8 @@
 package b1_03.objetos;
 
 /**
+ * Interfaz implementada por otras clases
+ * 
  * @author Alfonso Barragán
  * @author Francisco Manuel García
  * @author Marcos López
@@ -10,23 +12,26 @@ package b1_03.objetos;
 public interface Frontera {
 
     /**
-     *
+     * Crea la frontera
      */
     public void crearFrontera();
 
     /**
+     * Inserta elementos en la frontera
      *
      * @param b
      */
     public void insertar(Nodo b);
 
     /**
-     *
+     * Elimina el elemento correspondiente de la forontera.
+     * 
      * @return
      */
     public Object eliminar();
 
     /**
+     * Comprueba si la frontera está vacía.
      *
      * @return
      */
