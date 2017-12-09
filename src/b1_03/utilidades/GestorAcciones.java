@@ -137,11 +137,11 @@ public class GestorAcciones {
     /**
      * genMovs(..) se encarga de generar los posibles movimientos que puede hacer
      * el tractor contenido en el terreno. Devuelve un vector de enteros:
-     *   movs[0] -> Movimiento izquierda -> {0, 1}
-     *   movs[1] -> Movimiento arriba -> {0, 1}
-     *   movs[2] -> Movimiento abajo -> {0, 1}
-     *   movs[3] -> Movimiento derecha -> {0, 1}
-     *   movs[4] -> Número adyacentes
+     *   movs[0] - Movimiento izquierda - {0, 1}
+     *   movs[1] - Movimiento arriba - {0, 1}
+     *   movs[2] - Movimiento abajo - {0, 1}
+     *   movs[3] - Movimiento derecha - {0, 1}
+     *   movs[4] - Número adyacentes
      *
      * @param t
      * @return
