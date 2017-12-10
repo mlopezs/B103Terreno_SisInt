@@ -265,6 +265,9 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (ArchivoErroneo ex) {
             txtSalida.setText("El archivo no es valido-> " + ruta);
             txtSalida.setForeground(Color.RED);
+        } catch (Exception ex){
+            txtSalida.setText("El archivo no es valido-> " + ruta);
+            txtSalida.setForeground(Color.RED);
         }
 
     }//GEN-LAST:event_btnIniciarActionPerformed
@@ -276,15 +279,15 @@ public class MainWindow extends javax.swing.JFrame {
      * @param evt
      */
     private void btnGuardarSolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarSolActionPerformed
-
+        String path="";
         JFileChooser jfch = new JFileChooser();
         try {
             if (jfch.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                ruta = jfch.getSelectedFile().getAbsolutePath();
-                escribir_linea(ruta, true, com.getSolucion());
+                path = jfch.getSelectedFile().getAbsolutePath();
+                escribir_linea(path, true, com.getSolucion());
             }
         } catch (EscrituraErronea | HeadlessException ex) {
-            txtSalida.append("Error al guardar fichero -> " + ruta);
+            txtSalida.append("Error al guardar fichero -> " + path);
             txtSalida.setForeground(Color.RED);
         }
     }//GEN-LAST:event_btnGuardarSolActionPerformed
