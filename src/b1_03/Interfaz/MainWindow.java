@@ -1,24 +1,20 @@
-package b1_03;
+package b1_03.Interfaz;
 
-import b1_03.objetos.DecoracionVentana;
-import b1_03.objetos.Persistencia;
+import b1_03.objetos.Comunicador;
 import b1_03.objetos.Terreno;
 import static b1_03.utilidades.ES_de_archivos.escribir_linea;
 import static b1_03.utilidades.ES_de_archivos.leer_archivo;
 import static b1_03.utilidades.Miscelanea.crearTerreno;
 import static b1_03.utilidades.Miscelanea.esValido;
 import b1_03.utilidades.Resolucion;
-import excepciones.ArchivoErroneo;
-import excepciones.EscrituraErronea;
-import excepciones.LecturaErronea;
+import b1_03.excepciones.ArchivoErroneo;
+import b1_03.excepciones.EscrituraErronea;
+import b1_03.excepciones.LecturaErronea;
 import java.awt.Color;
 import static java.awt.EventQueue.invokeLater;
 import java.awt.HeadlessException;
 import static java.lang.System.arraycopy;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
 import static java.util.logging.Level.SEVERE;
-import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 import javax.swing.JFileChooser;
 import static javax.swing.UIManager.getInstalledLookAndFeels;
@@ -33,9 +29,13 @@ import static javax.swing.UIManager.setLookAndFeel;
  */
 public class MainWindow extends javax.swing.JFrame {
 
+    //Ruta al terreno
     private String ruta;
-    private Persistencia persistencia;
+    //Comunicador entre hilos
+    private Comunicador com;
+    //Hilo del algoritmo
     private Thread res;
+    //Hilo del decorador de ventana
     private Thread deco;
 
     private final static int PROFMAX = 999999999;
@@ -109,6 +109,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         spnIncProf.setModel(new javax.swing.SpinnerNumberModel(10, 10, null, 15));
         spnIncProf.setEnabled(false);
+        spnIncProf.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnIncProfStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Prof. Max.");
 
@@ -151,13 +156,13 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(txtPath)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCargarTerreno))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,7 +181,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
                         .addComponent(btnGuardarSol, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -186,7 +191,7 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * El siguiente métodos es el escuchador de la pulsación del botón Inicio.
+     * El siguiente método es el escuchador de la pulsación del botón Inicio.
      * Este método se encarga de arrancar todos los componentes necesarios para
      * la resolución del problema. Dentro de la clase se puede encontrar más
      * documentación.
@@ -194,7 +199,8 @@ public class MainWindow extends javax.swing.JFrame {
      * @param evt
      */
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        //btnGuardarSol.setEnabled(true);
+
+        //Limpiamos la salida
         txtSalida.setText("");
         txtSalida.setForeground(Color.BLACK);
 
@@ -231,34 +237,26 @@ public class MainWindow extends javax.swing.JFrame {
                 // Resolucion(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax, int incProf, Persistencia persistencia) {
                 // Comprobamos el tipo de algoritmo elegido la ComboBox
                 if (cbAlgoritmo.getSelectedIndex() != 5) {
-                    persistencia = new Persistencia();
-                    res = new Resolucion(t, cbAlgoritmo.getSelectedIndex(), k, fs, cs, max, PROFMAX, 0, persistencia, false);
+                    //Iniciamos el comunicador
+                    com = new Comunicador();
+                    //Creamos el hilo del algoritmo
+                    res = new Resolucion(t, cbAlgoritmo.getSelectedIndex(), k, fs, cs, max, PROFMAX, 0, com, false);
+                    //Lanzamos el hilo
                     res.start();
-                    //solucion = algoritmoDeBusqueda(t, cbAlgoritmo.getSelectedIndex(), k, fs, cs, max, PROFMAX, txtSalida);
+
                 } else {
-                    persistencia = new Persistencia();
-                    res = new Resolucion(t, 1, k, fs, cs, max, (int) spnProfMax.getValue(), (int) spnIncProf.getValue(), persistencia, true);
+
+                    //Iniciamos el comunicador
+                    com = new Comunicador();
+                    //Creamos el hilo del algoritmo
+                    res = new Resolucion(t, 1, k, fs, cs, max, (int) spnProfMax.getValue(), (int) spnIncProf.getValue(), com, true);
+                    //Lanzamos el hilo
                     res.start();
                 }
-                deco = new DecoracionVentana(txtSalida, persistencia,btnGuardarSol,btnIniciar,btnCancelar,btnCargarTerreno);
+                //Creamos el decorador 
+                deco = new DecoracionVentana(txtSalida, com, btnGuardarSol, btnIniciar, btnCancelar, btnCargarTerreno);
+                //Lanzamos el decorador
                 deco.start();
-                /* do {
-
-                    if (persistencia.isReady()) {
-                        
-                        // Mostramos los datos del terreno del fichero
-                        txtSalida.append("TERRENO INICIAL:\nk: " + k + ", max: " + max + ", fs: " + fs + ", cs: " + cs);
-                        txtSalida.append(t.toString() + "\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                        // Mostramos la solución
-                        txtSalida.append(persistencia.getSecuencia());
-                        txtSalida.append(persistencia.getSolucion());
-                    }
-                    Thread.sleep(1000);
-
-                } while (persistencia.isReady() == false);
-
-                // Habilitamos el botón para guardar la solución
-                btnGuardarSol.setEnabled(true);*/
             }
 
         } catch (LecturaErronea ex) {
@@ -283,7 +281,7 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             if (jfch.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                 ruta = jfch.getSelectedFile().getAbsolutePath();
-                escribir_linea(ruta, true, persistencia.getSolucion());
+                escribir_linea(ruta, true, com.getSolucion());
             }
         } catch (EscrituraErronea | HeadlessException ex) {
             txtSalida.append("Error al guardar fichero -> " + ruta);
@@ -331,27 +329,49 @@ public class MainWindow extends javax.swing.JFrame {
         btnGuardarSol.setEnabled(false);
 
     }//GEN-LAST:event_btnCargarTerrenoActionPerformed
-
+    /**
+     * Escuchador del botón Cancelar. Permite cancelar la ejecucion del
+     * algoritmo.
+     *
+     * @param evt
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        if (res != null) {
-            if (res.isAlive()) {
+        //Si el hilo del algoritmo no es null
+        if (res != null || deco != null) {
+            //Si el hilo del algoritmo esta vivo
+            if (res.isAlive() || deco.isAlive()) {
+                //Suspendemos el hilo del algoritmo y del decorador
+                //(por alguna razón interrumpirlos no funcionaba)
                 res.suspend();
                 deco.suspend();
-                
-                res=null;
-                deco=null;
-                persistencia=null;
-                
+
+                //Ponemos los hilos y el comunicador a null para que el recolector
+                //de basuras los elimine.
+                res = null;
+                deco = null;
+                com = null;
+
+                //Informamos que la operación ha sido cancelada
                 txtSalida.setText("Operacion cancelada");
                 btnCargarTerreno.setEnabled(true);
                 btnCancelar.setEnabled(false);
                 btnIniciar.setEnabled(true);
                 btnGuardarSol.setEnabled(false);
-           }
+            }
         }
 
 
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+
+    private void spnIncProfStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnIncProfStateChanged
+        //Comprobamos que el incremento de profundidad no sea mayor que la
+        //profundidad maxima
+        if ((int) spnProfMax.getValue() < (int) spnIncProf.getValue()) {
+            spnIncProf.setValue(spnProfMax.getValue());
+        }
+
+    }//GEN-LAST:event_spnIncProfStateChanged
 
     /**
      * @param args the command line arguments

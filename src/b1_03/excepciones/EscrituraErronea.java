@@ -1,4 +1,5 @@
-package excepciones;
+package b1_03.excepciones;
+
 /**
  * @author Alfonso Barragán
  * @author Francisco Manuel García
@@ -6,6 +7,6 @@ package excepciones;
  *
  * @version 1.0.0
  */
-public class LecturaErronea extends Exception {
-    
+public class EscrituraErronea extends Exception {
+        
 }

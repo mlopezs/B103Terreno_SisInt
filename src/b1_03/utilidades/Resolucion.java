@@ -3,7 +3,7 @@ package b1_03.utilidades;
 import b1_03.objetos.Accion;
 import b1_03.objetos.FronteraCola;
 import b1_03.objetos.Nodo;
-import b1_03.objetos.Persistencia;
+import b1_03.objetos.Comunicador;
 import b1_03.objetos.SubAccion;
 import b1_03.objetos.Terreno;
 import static b1_03.utilidades.GestorAcciones.generarAcciones;
@@ -24,15 +24,27 @@ import java.util.logging.Logger;
  * @version 1.0.0
  */
 public class Resolucion extends Thread {
-    //algoritmoDeBusqueda(t, cbAlgoritmo.getSelectedIndex(), k, fs, cs, max, PROFMAX, txtSalida);
 
-    private Terreno tInicial;
-    private int tipoAlgoritmo, k, fs, cs, max, profundidadMax, incProf;
-    private Persistencia persistencia;
-    private boolean profundidadIterativa;
-    
+    private final Terreno tInicial;
+    private final int tipoAlgoritmo;
+    //Cantidad objetivo
+    private final int k;
+    //Numero de filas
+    private final int fs;
+    //Numero de columnas
+    private final int cs;
+    //Maximo por casilla
+    private final int max;
+    //Profundidad maxima
+    private final int profundidadMax;
+    //Incremento de profundidad
+    private final int incProf;
+    //Comunicador entre hilos
+    private final Comunicador com;
+    //Indica si se requiere el algoritmo de profundidad iterativa
+    private final boolean profundidadIterativa;
 
-    public Resolucion(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax, int incProf, Persistencia persistencia, boolean profundidadIterativa) {
+    public Resolucion(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax, int incProf, Comunicador persistencia, boolean profundidadIterativa) {
         this.tInicial = tInicial;
         this.tipoAlgoritmo = tipoAlgoritmo;
         this.k = k;
@@ -41,9 +53,9 @@ public class Resolucion extends Thread {
         this.max = max;
         this.profundidadMax = profundidadMax;
         this.incProf = incProf;
-        this.persistencia = persistencia;
-        this.profundidadIterativa=profundidadIterativa;
-        
+        this.com = persistencia;
+        this.profundidadIterativa = profundidadIterativa;
+
     }
 
     /**
@@ -51,14 +63,6 @@ public class Resolucion extends Thread {
      * de búsqueda vendrá dado por el parámetro tipoAlgoritmo, que influirá en
      * la valoración del nodo.
      *
-     * @param tInicial
-     * @param tipoAlgoritmo
-     * @param k
-     * @param fs
-     * @param cs
-     * @param max
-     * @param profundidadMax
-     * @return
      * @throws NoSuchAlgorithmException
      */
     public void algoritmoDeBusqueda() throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
@@ -102,8 +106,8 @@ public class Resolucion extends Thread {
 
                 // Si se llega a la profundidad máxima sin tener aún solución, es que no lo hay
                 if (nodoActual.getProfundidad() >= profundidadMax) {
-                    persistencia.setSolucion("No se ha encontrado la solución.");
-                   
+                    com.setSolucion("No se ha encontrado la solución.");
+
                 }
 
                 // Se recupera el terreno al que representa el nodo
@@ -146,6 +150,7 @@ public class Resolucion extends Thread {
                         }
                     }
                 }
+
             }
         }
 
@@ -158,8 +163,8 @@ public class Resolucion extends Thread {
         } else { // Si es false (No hay solución)
 
             // Retornamos la siguiente cadena
-            persistencia.setSolucion("No se ha encontrado la solución.");
-            
+            com.setSolucion("No se ha encontrado la solución.");
+
         }
 
     }
@@ -167,26 +172,16 @@ public class Resolucion extends Thread {
     /**
      * Este método pone en marcha el algoritmo de profundidad iterativa.
      *
-     * @param t
-     * @param tipoAlgoritmo
-     * @param profMax
-     * @param incProf
-     * @param k
-     * @param fs
-     * @param cs
-     * @param max
-     * @param salida
-     * @return
      * @throws NoSuchAlgorithmException
      */
     public void algoritmoProfundidadIterativa() throws NoSuchAlgorithmException {
         int profActual = incProf;
-        
-        while (persistencia.getSolucion() == null && profActual <= profundidadMax) {
+
+        while (com.getSolucion() == null && profActual <= profundidadMax) {
             algoritmoDeBusqueda();
             profActual += incProf;
         }
-       
+
     }
 
     /**
@@ -216,8 +211,6 @@ public class Resolucion extends Thread {
      *
      * @param n
      * @param ht
-     * @param salida
-     * @return
      */
     public void crearSolucion(Nodo n, HashMap<String, Terreno> ht) {
 
@@ -241,9 +234,9 @@ public class Resolucion extends Thread {
             solucion = solucion + aux.getAccion() + "\r\n";
 
         }
-        persistencia.setSecuencia(secuencia);
-        persistencia.setSolucion(solucion);
-        
+        com.setSecuencia(secuencia);
+        com.setSolucion(solucion);
+
     }
 
     /**
@@ -322,20 +315,20 @@ public class Resolucion extends Thread {
 
     @Override
     public void run() {
-     if(profundidadIterativa){
-         try {
-             algoritmoProfundidadIterativa();
-         } catch (NoSuchAlgorithmException ex) {
-             Logger.getLogger(Resolucion.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         
-     }else{
-         try {
-             algoritmoDeBusqueda();
-         } catch (NoSuchAlgorithmException ex) {
-             Logger.getLogger(Resolucion.class.getName()).log(Level.SEVERE, null, ex);
-         }
-     }   
+        if (profundidadIterativa) {
+            try {
+                algoritmoProfundidadIterativa();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Resolucion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            try {
+                algoritmoDeBusqueda();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Resolucion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }
