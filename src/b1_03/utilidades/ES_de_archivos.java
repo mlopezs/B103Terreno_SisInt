@@ -1,5 +1,6 @@
 package b1_03.utilidades;
 
+import excepciones.ArchivoErroneo;
 import excepciones.EscrituraErronea;
 import excepciones.LecturaErronea;
 import java.io.BufferedReader;
@@ -29,7 +30,7 @@ public class ES_de_archivos {
      * @return int[]
      * @throws LecturaErronea
      */
-    public static int[] leer_archivo(String path) throws LecturaErronea {
+    public static int[] leer_archivo(String path) throws LecturaErronea, ArchivoErroneo {
 
         int[] tabla;
         String[] tabla_string;
@@ -46,10 +47,10 @@ public class ES_de_archivos {
             if ((linea = br.readLine()) != null) {
                 tabla_string = linea.split(" ");
 
-                //Si la longitud de la primera linea no es la que se expera
-                //la lectura es erronea
+                //Si la longitud de la primera linea no es la que se espera
+                //el archivo es
                 if (tabla_string.length != NUMERO_ATRIBUTOS_TERRENO) {
-                    throw new LecturaErronea();
+                    throw new ArchivoErroneo();
                 }
 
                 //Calculamos el tamaño del vector
