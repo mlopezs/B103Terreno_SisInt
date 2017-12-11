@@ -95,7 +95,7 @@ public class Terreno implements Cloneable {
     @Override
     public String toString()  {
         
-        String salida = "(" + columnat + "," + filat + ")\n";
+        String salida = "(" + filat + "," + columnat + ")\n";
         
         for (int[] terr1 : terr) {
             for (int j = 0; j < terr[0].length; j++) {

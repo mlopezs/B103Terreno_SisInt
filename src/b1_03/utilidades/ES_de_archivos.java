@@ -128,7 +128,7 @@ public class ES_de_archivos {
                 writer = new FileWriter(path, true);
             }
 
-            writer.write(linea + "\r\n");
+            writer.write(linea);
 
         } catch (IOException e) {
             throw new EscrituraErronea();
