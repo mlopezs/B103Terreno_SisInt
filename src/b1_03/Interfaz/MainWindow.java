@@ -266,7 +266,7 @@ public class MainWindow extends javax.swing.JFrame {
                     res.start();
                 }
                 //Creamos el decorador 
-                deco = new DecoracionVentana(txtSalida, com, btnGuardarSol, btnIniciar, btnCancelar, btnCargarTerreno,cbAlgoritmo);
+                deco = new DecoradorVentana(txtSalida, com, btnGuardarSol, btnIniciar, btnCancelar, btnCargarTerreno,cbAlgoritmo);
                 //Lanzamos el decorador
                 deco.start();
             }

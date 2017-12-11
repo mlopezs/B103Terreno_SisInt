@@ -10,7 +10,7 @@ import java.awt.Color;
  *
  * @version 1.0.0
  */
-public class DecoracionVentana extends Thread {
+public class DecoradorVentana extends Thread {
     //Genera un hilo que imprime en la salida de texto la solucion una vez que
     //termina el algoritmo
 
@@ -31,7 +31,7 @@ public class DecoracionVentana extends Thread {
         decorar();
     }
 
-    public DecoracionVentana(javax.swing.JTextArea txtSalida, Comunicador pers, javax.swing.JButton btnGuardarSol, javax.swing.JButton btnIniciar, javax.swing.JButton btnCancelar, javax.swing.JButton btnCargarTerreno, javax.swing.JComboBox<String> cbAlgoritmo) {
+    public DecoradorVentana(javax.swing.JTextArea txtSalida, Comunicador pers, javax.swing.JButton btnGuardarSol, javax.swing.JButton btnIniciar, javax.swing.JButton btnCancelar, javax.swing.JButton btnCargarTerreno, javax.swing.JComboBox<String> cbAlgoritmo) {
         this.txtSalida = txtSalida;
         this.com = pers;
         this.btnGuardarSol = btnGuardarSol;
