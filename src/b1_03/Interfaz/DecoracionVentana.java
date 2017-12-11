@@ -1,6 +1,7 @@
 package b1_03.Interfaz;
 
 import b1_03.objetos.Comunicador;
+import java.awt.Color;
 
 /**
  * @author Alfonso Barragán
@@ -17,6 +18,8 @@ public class DecoracionVentana extends Thread {
     private final javax.swing.JTextArea txtSalida;
     //Comunicador entre hilos
     private final Comunicador com;
+    //Combobox de algoritmos
+    private final javax.swing.JComboBox<String> cbAlgoritmo;
     //Botones de la ventana
     private final javax.swing.JButton btnGuardarSol;
     private final javax.swing.JButton btnIniciar;
@@ -28,13 +31,14 @@ public class DecoracionVentana extends Thread {
         decorar();
     }
 
-    public DecoracionVentana(javax.swing.JTextArea txtSalida, Comunicador pers, javax.swing.JButton btnGuardarSol, javax.swing.JButton btnIniciar, javax.swing.JButton btnCancelar, javax.swing.JButton btnCargarTerreno) {
+    public DecoracionVentana(javax.swing.JTextArea txtSalida, Comunicador pers, javax.swing.JButton btnGuardarSol, javax.swing.JButton btnIniciar, javax.swing.JButton btnCancelar, javax.swing.JButton btnCargarTerreno, javax.swing.JComboBox<String> cbAlgoritmo) {
         this.txtSalida = txtSalida;
         this.com = pers;
         this.btnGuardarSol = btnGuardarSol;
         this.btnIniciar = btnIniciar;
         this.btnCancelar = btnCancelar;
         this.btnCargarTerreno = btnCargarTerreno;
+        this.cbAlgoritmo = cbAlgoritmo;
     }
 
     /**
@@ -49,6 +53,8 @@ public class DecoracionVentana extends Thread {
         btnIniciar.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnCargarTerreno.setEnabled(false);
+        cbAlgoritmo.setEnabled(false);
+        txtSalida.setForeground(Color.BLUE);
 
         //Bucle que comprueba el estado del algoritmo
         do {
@@ -80,7 +86,9 @@ public class DecoracionVentana extends Thread {
             frame++;
         } while (!com.isReady());
 
+        
         //Imprimimos la solución
+        txtSalida.setForeground(Color.BLACK);
         txtSalida.setText(com.getSecuencia());
         txtSalida.append(com.getSolucion());
         //Ponemos los botones en su estado correcto
@@ -88,6 +96,7 @@ public class DecoracionVentana extends Thread {
         btnIniciar.setEnabled(true);
         btnCancelar.setEnabled(false);
         btnCargarTerreno.setEnabled(true);
+        cbAlgoritmo.setEnabled(true);
 
     }
 }

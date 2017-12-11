@@ -68,6 +68,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnCargarTerreno = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Distribuidor");
@@ -78,6 +79,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtSalida.setRows(5);
         jScrollPane1.setViewportView(txtSalida);
 
+        btnIniciar.setBackground(new java.awt.Color(92, 225, 92));
         btnIniciar.setText("Iniciar");
         btnIniciar.setEnabled(false);
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,6 +108,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         spnProfMax.setModel(new javax.swing.SpinnerNumberModel(50, 50, null, 50));
         spnProfMax.setEnabled(false);
+        spnProfMax.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnProfMaxStateChanged(evt);
+            }
+        });
 
         spnIncProf.setModel(new javax.swing.SpinnerNumberModel(10, 10, null, 15));
         spnIncProf.setEnabled(false);
@@ -126,6 +133,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        btnCancelar.setBackground(new java.awt.Color(208, 55, 55));
         btnCancelar.setText("Cancelar");
         btnCancelar.setEnabled(false);
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -134,29 +142,29 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Algoritmo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnGuardarSol, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                        .addComponent(cbAlgoritmo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(spnProfMax, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(spnIncProf, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnGuardarSol, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(cbAlgoritmo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spnProfMax)
+                    .addComponent(spnIncProf)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnIniciar, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addComponent(btnCargarTerreno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtPath)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCargarTerreno))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                    .addComponent(txtPath))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -164,24 +172,28 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCargarTerreno))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 13, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(spnProfMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(24, 24, 24)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(spnIncProf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
+                        .addGap(49, 49, 49)
                         .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
+                        .addGap(86, 86, 86)
                         .addComponent(btnGuardarSol, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -254,7 +266,7 @@ public class MainWindow extends javax.swing.JFrame {
                     res.start();
                 }
                 //Creamos el decorador 
-                deco = new DecoracionVentana(txtSalida, com, btnGuardarSol, btnIniciar, btnCancelar, btnCargarTerreno);
+                deco = new DecoracionVentana(txtSalida, com, btnGuardarSol, btnIniciar, btnCancelar, btnCargarTerreno,cbAlgoritmo);
                 //Lanzamos el decorador
                 deco.start();
             }
@@ -265,7 +277,7 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (ArchivoErroneo ex) {
             txtSalida.setText("El archivo no es valido-> " + ruta);
             txtSalida.setForeground(Color.RED);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             txtSalida.setText("El archivo no es valido-> " + ruta);
             txtSalida.setForeground(Color.RED);
         }
@@ -279,7 +291,7 @@ public class MainWindow extends javax.swing.JFrame {
      * @param evt
      */
     private void btnGuardarSolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarSolActionPerformed
-        String path="";
+        String path = "";
         JFileChooser jfch = new JFileChooser();
         try {
             if (jfch.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -355,18 +367,22 @@ public class MainWindow extends javax.swing.JFrame {
                 com = null;
 
                 //Informamos que la operación ha sido cancelada
-                txtSalida.setText("Operacion cancelada");
+                txtSalida.setForeground(Color.RED);
+                txtSalida.setText("Operacion cancelada por el usuario.");
                 btnCargarTerreno.setEnabled(true);
                 btnCancelar.setEnabled(false);
                 btnIniciar.setEnabled(true);
                 btnGuardarSol.setEnabled(false);
+                cbAlgoritmo.setEnabled(true);
             }
         }
 
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-
+    private void spnProfMaxStateChanged(javax.swing.event.ChangeEvent evt) {
+        //Aqui no hay nada
+    }
     private void spnIncProfStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnIncProfStateChanged
         //Comprobamos que el incremento de profundidad no sea mayor que la
         //profundidad maxima
@@ -415,6 +431,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbAlgoritmo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner spnIncProf;
     private javax.swing.JSpinner spnProfMax;
