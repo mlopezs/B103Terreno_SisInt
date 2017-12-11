@@ -153,7 +153,7 @@ public class Resolucion extends Thread {
 
             }
         }
-        
+
         //Comprobamos si el hilo está interrumpido para limpiar el hashmap
         //y la frontera
         if (Thread.currentThread().isInterrupted()) {
@@ -235,9 +235,12 @@ public class Resolucion extends Thread {
         Nodo aux;
         while (!st.isEmpty()) {
             aux = st.pop();
-            secuencia = secuencia + ("Nodo solución -> " + aux.toString());
-            secuencia = secuencia + ("Terreno -> " + recuperarTerreno(ht, aux.getEstado())
-                    + "\r\n" + aux.getAccion() + "\r\n\r\n");
+            secuencia = secuencia + ("Acción: " + aux.getAccion());
+            secuencia = secuencia + ("\r\n\r\nNodo solución -> " + aux.toString());
+            secuencia = secuencia + ("\r\nTerreno -> " + recuperarTerreno(ht, aux.getEstado()));
+            secuencia = secuencia + ("\r\n- - - - - - - - - - - - - - - - - - - "
+                    + "- - - - - - - - - - - -\r\n\r\n");
+
             solucion = solucion + aux.getAccion() + "\r\n";
 
         }
