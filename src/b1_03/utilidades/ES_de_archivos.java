@@ -1,7 +1,8 @@
 package b1_03.utilidades;
 
-import excepciones.EscrituraErronea;
-import excepciones.LecturaErronea;
+import b1_03.excepciones.ArchivoErroneo;
+import b1_03.excepciones.EscrituraErronea;
+import b1_03.excepciones.LecturaErronea;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -29,7 +30,7 @@ public class ES_de_archivos {
      * @return int[]
      * @throws LecturaErronea
      */
-    public static int[] leer_archivo(String path) throws LecturaErronea {
+    public static int[] leer_archivo(String path) throws LecturaErronea, ArchivoErroneo {
 
         int[] tabla;
         String[] tabla_string;
@@ -46,10 +47,10 @@ public class ES_de_archivos {
             if ((linea = br.readLine()) != null) {
                 tabla_string = linea.split(" ");
 
-                //Si la longitud de la primera linea no es la que se expera
-                //la lectura es erronea
+                //Si la longitud de la primera linea no es la que se espera
+                //el archivo es
                 if (tabla_string.length != NUMERO_ATRIBUTOS_TERRENO) {
-                    throw new LecturaErronea();
+                    throw new ArchivoErroneo();
                 }
 
                 //Calculamos el tamaño del vector
@@ -105,52 +106,6 @@ public class ES_de_archivos {
         return tabla;
     }
 
-    /**
-     * escribir_archivo(..) recibe un path y un vector de enteros y escribe un
-     * archivo.
-     *
-     * @param path
-     * @param tabla
-     * @throws EscrituraErronea
-     */
-    public static void escribir_archivo(String path, int[] tabla) throws EscrituraErronea {
-        String cadena = "";
-        FileWriter writer = null;
-        try {
-            //Formateamos la cadena
-            for (int i = 0; i < NUMERO_ATRIBUTOS_TERRENO; i++) {
-                cadena += Integer.toString(tabla[i]);
-                if (i != NUMERO_ATRIBUTOS_TERRENO - 1) {
-                    cadena += " ";
-                }
-            }
-            cadena += "\r\n";
-            int z = NUMERO_ATRIBUTOS_TERRENO;
-            for (int i = 0; i < tabla[INDICE_F]; i++) {
-                for (int j = 0; j < tabla[INDICE_C]; j++) {
-                    cadena = cadena + " " + Integer.toString(tabla[z]);
-                    z++;
-                }
-                if (i != tabla[INDICE_F] - 1) {
-                    cadena += "\r\n";
-                }
-
-            }
-            //Escribimos la cadena
-            writer = new FileWriter(path, false);
-            writer.write(cadena);
-
-        } catch (IOException e) {
-            throw new EscrituraErronea();
-        } finally {
-            try {
-                writer.close();
-            } catch (IOException e) {
-                throw new EscrituraErronea();
-            }
-        }
-
-    }
 
     /**
      * escribir_linea(..) recibe una ruta, un flag para borrar o no lo anterior,
@@ -173,7 +128,7 @@ public class ES_de_archivos {
                 writer = new FileWriter(path, true);
             }
 
-            writer.write(linea + "\r\n");
+            writer.write(linea);
 
         } catch (IOException e) {
             throw new EscrituraErronea();

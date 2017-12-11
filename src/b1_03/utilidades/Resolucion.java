@@ -3,6 +3,7 @@ package b1_03.utilidades;
 import b1_03.objetos.Accion;
 import b1_03.objetos.FronteraCola;
 import b1_03.objetos.Nodo;
+import b1_03.objetos.Comunicador;
 import b1_03.objetos.SubAccion;
 import b1_03.objetos.Terreno;
 import static b1_03.utilidades.GestorAcciones.generarAcciones;
@@ -12,6 +13,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Alfonso Barragán
@@ -20,25 +23,49 @@ import java.util.Stack;
  *
  * @version 1.0.0
  */
-public class Resolucion {
+public class Resolucion extends Thread {
+
+    private final Terreno tInicial;
+    private final int tipoAlgoritmo;
+    //Cantidad objetivo
+    private final int k;
+    //Numero de filas
+    private final int fs;
+    //Numero de columnas
+    private final int cs;
+    //Maximo por casilla
+    private final int max;
+    //Profundidad maxima
+    private final int profundidadMax;
+    //Incremento de profundidad
+    private final int incProf;
+    //Comunicador entre hilos
+    private final Comunicador com;
+    //Indica si se requiere el algoritmo de profundidad iterativa
+    private final boolean profundidadIterativa;
+
+    public Resolucion(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax, int incProf, Comunicador persistencia, boolean profundidadIterativa) {
+        this.tInicial = tInicial;
+        this.tipoAlgoritmo = tipoAlgoritmo;
+        this.k = k;
+        this.fs = fs;
+        this.cs = cs;
+        this.max = max;
+        this.profundidadMax = profundidadMax;
+        this.incProf = incProf;
+        this.com = persistencia;
+        this.profundidadIterativa = profundidadIterativa;
+
+    }
 
     /**
      * algoritmoDeBusqueda(..) pone en marcha el algoritmo de búsqueda. El tipo
      * de búsqueda vendrá dado por el parámetro tipoAlgoritmo, que influirá en
      * la valoración del nodo.
      *
-     * @param tInicial
-     * @param tipoAlgoritmo
-     * @param k
-     * @param fs
-     * @param cs
-     * @param max
-     * @param profundidadMax
-     * @param salida
-     * @return
      * @throws NoSuchAlgorithmException
      */
-    public static String algoritmoDeBusqueda(Terreno tInicial, int tipoAlgoritmo, int k, int fs, int cs, int max, int profundidadMax, javax.swing.JTextArea salida) throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
+    public void algoritmoDeBusqueda() throws NoSuchAlgorithmException {// Algoritmo de busqueda de soluciones
 
         // Tabla hash md5(Terreno) - Terreno
         HashMap<String, Terreno> ht = new HashMap<>();
@@ -65,7 +92,7 @@ public class Resolucion {
         boolean sol = false;
 
         // Algoritmo de búsqueda
-        while (!sol && !frontera.esVacia()) {
+        while (!sol && !frontera.esVacia() && !Thread.currentThread().isInterrupted()) {
 
             // Saca un nodo de la frontera
             nodoActual = frontera.eliminar();
@@ -79,7 +106,8 @@ public class Resolucion {
 
                 // Si se llega a la profundidad máxima sin tener aún solución, es que no lo hay
                 if (nodoActual.getProfundidad() >= profundidadMax) {
-                    return "No se ha encontrado la solución.";
+                    com.setSolucion("No se ha encontrado la solución.");
+
                 }
 
                 // Se recupera el terreno al que representa el nodo
@@ -91,7 +119,7 @@ public class Resolucion {
                 // Se itera sobre los sucesores
                 it = sucesores.iterator();
 
-                while (it.hasNext()) {
+                while (it.hasNext() && !Thread.currentThread().isInterrupted()) {
 
                     // Se copia el terreno actual en terrCpy
                     Terreno terrCpy = new Terreno(terrActual.getTerr(), terrActual.getColumnaT(), terrActual.getFilaT(), k);
@@ -107,7 +135,7 @@ public class Resolucion {
 
                         // Se introduce un hash y su terreno en la tabla hash.
                         ht.put(terrAux.toHash(), terrAux);
-                        
+
                         // Se llama al método insertarNuevoNodo()
                         insertarNuevoNodo(terrAux, nodoActual, accionActual, profundidadMax, tipoAlgoritmo, frontera);
 
@@ -115,53 +143,52 @@ public class Resolucion {
 
                         // Comprueba que el nodo de la frontera tenga mayor valoración.
                         if (terrAux.getnCasillasNoObjetivo() < recuperarTerreno(ht, terrAux.toHash()).getnCasillasNoObjetivo()) {
-                           
+
                             // Se llama al método insertarNuevoNodo()
                             insertarNuevoNodo(terrAux, nodoActual, accionActual, profundidadMax, tipoAlgoritmo, frontera);
-                            
+
                         }
                     }
                 }
+
             }
         }
 
-        // Se comprueba si el flag de la solución está activado
-        if (sol) { // Si está activado (hay solución)
-            
-            // Retornamos la solución tras transformarla en String
-            return crearSolucion(nodoActual, ht, salida);
-            
-        } else { // Si es false (No hay solución)
-            
-            // Retornamos la siguiente cadena
-            return "No se ha encontrado la solución.";
+        //Comprobamos si el hilo está interrumpido para limpiar el hashmap
+        //y la frontera
+        if (Thread.currentThread().isInterrupted()) {
+            ht = new HashMap<>();
+            frontera = new FronteraCola();
+        } else {
+            // Se comprueba si el flag de la solución está activado
+            if (sol) { // Si está activado (hay solución)
+
+                // Retornamos la solución tras transformarla en String
+                crearSolucion(nodoActual, ht);
+
+            } else { // Si es false (No hay solución)
+
+                // Retornamos la siguiente cadena
+                com.setSolucion("No se ha encontrado la solución.");
+
+            }
         }
-       
+
     }
 
     /**
      * Este método pone en marcha el algoritmo de profundidad iterativa.
      *
-     * @param t
-     * @param tipoAlgoritmo
-     * @param profMax
-     * @param incProf
-     * @param k
-     * @param fs
-     * @param cs
-     * @param max
-     * @param salida
-     * @return
      * @throws NoSuchAlgorithmException
      */
-    public static String algoritmoProfundidadIterativa(Terreno t, int tipoAlgoritmo, int profMax, int incProf, int k, int fs, int cs, int max, javax.swing.JTextArea salida) throws NoSuchAlgorithmException {
+    public void algoritmoProfundidadIterativa() throws NoSuchAlgorithmException {
         int profActual = incProf;
-        String solucion = null;
-        while (solucion == null && profActual <= profMax) {
-            solucion = algoritmoDeBusqueda(t, tipoAlgoritmo, k, fs, cs, max, profMax, salida);
+
+        while (com.getSolucion() == null && profActual <= profundidadMax) {
+            algoritmoDeBusqueda();
             profActual += incProf;
         }
-        return solucion;
+
     }
 
     /**
@@ -173,7 +200,7 @@ public class Resolucion {
      * @param hash
      * @return
      */
-    public static Terreno recuperarTerreno(HashMap<String, Terreno> ht, String hash) {
+    public Terreno recuperarTerreno(HashMap<String, Terreno> ht, String hash) {
         Terreno t = null;
         if (ht.containsKey(hash) == true) {
             t = ht.get(hash);
@@ -191,13 +218,11 @@ public class Resolucion {
      *
      * @param n
      * @param ht
-     * @param salida
-     * @return
      */
-    public static String crearSolucion(Nodo n, HashMap<String, Terreno> ht,
-            javax.swing.JTextArea salida) {
+    public void crearSolucion(Nodo n, HashMap<String, Terreno> ht) {
 
         String solucion = "Solución completa con todas las acciones:";
+        String secuencia = "";
         Stack<Nodo> st = new Stack<>();
         Nodo nodo_aux = n;
         st.push(nodo_aux);
@@ -210,13 +235,18 @@ public class Resolucion {
         Nodo aux;
         while (!st.isEmpty()) {
             aux = st.pop();
-            salida.append("Nodo solución -> " + aux.toString() + "\r\n");
-            salida.append("Terreno -> " + recuperarTerreno(ht, aux.getEstado())
-                    + "\r\n" + aux.getAccion() + "\r\n\r\n\r\n");
+            secuencia = secuencia + ("Acción: " + aux.getAccion());
+            secuencia = secuencia + ("\r\n\r\nNodo solución -> " + aux.toString());
+            secuencia = secuencia + ("\r\nTerreno -> " + recuperarTerreno(ht, aux.getEstado()));
+            secuencia = secuencia + ("\r\n- - - - - - - - - - - - - - - - - - - "
+                    + "- - - - - - - - - - - -\r\n\r\n");
+
             solucion = solucion + aux.getAccion() + "\r\n";
 
         }
-        return solucion;
+        com.setSecuencia(secuencia);
+        com.setSolucion(solucion);
+
     }
 
     /**
@@ -227,7 +257,7 @@ public class Resolucion {
      * @param nodo
      * @param profundidadMax
      */
-    public static void valorarNodo(int tipoAlgoritmo, Nodo nodo, int profundidadMax) {
+    public void valorarNodo(int tipoAlgoritmo, Nodo nodo, int profundidadMax) {
         switch (tipoAlgoritmo) {
             case 0: // Anchura
                 nodo.setValoracion(nodo.getProfundidad());
@@ -256,7 +286,7 @@ public class Resolucion {
      * @param k
      * @return
      */
-    public static Terreno crearTerrenoAPartirDeUnaAccion(Accion ac, Terreno original, int k) {
+    public Terreno crearTerrenoAPartirDeUnaAccion(Accion ac, Terreno original, int k) {
         int[][] t = copiarMatrices(original.getTerr());
         SubAccion[] sac = ac.getNodos();
         for (SubAccion sac1 : sac) {
@@ -267,18 +297,19 @@ public class Resolucion {
     }
 
     /**
-     * insertarNuevoNodo(..) crea un nuevo nodo partiendo de algunos de los parámetros,
-     * lo valora según el tipo de búsqueda, y lo introduce en la forontera.
-     * 
+     * insertarNuevoNodo(..) crea un nuevo nodo partiendo de algunos de los
+     * parámetros, lo valora según el tipo de búsqueda, y lo introduce en la
+     * forontera.
+     *
      * @param t
      * @param n
      * @param a
      * @param profMax
      * @param tipo
      * @param front
-     * @throws NoSuchAlgorithmException 
+     * @throws NoSuchAlgorithmException
      */
-    public static void insertarNuevoNodo(Terreno t, Nodo n, Accion a, int profMax,
+    public void insertarNuevoNodo(Terreno t, Nodo n, Accion a, int profMax,
             int tipo, FronteraCola front) throws NoSuchAlgorithmException {
 
         // Se crea un nodo con el terreno generado teniendo en cuenta el nodo anterior (su padre)
@@ -290,6 +321,24 @@ public class Resolucion {
 
         // Se inserta el nuevo nodo en la frontera
         front.insertar(paraAgregarEnFrontera);
+    }
+
+    @Override
+    public void run() {
+        if (profundidadIterativa) {
+            try {
+                algoritmoProfundidadIterativa();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Resolucion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            try {
+                algoritmoDeBusqueda();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Resolucion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }
