@@ -3,23 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/utilidades/Resolucion.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/Terreno.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/SubAccion.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/Frontera.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/utilidades/ES_de_archivos.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/Accion.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/FronteraLista.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/utilidades/Hash.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/excepciones/ArchivoErroneo.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/FronteraCola.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/Nodo.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/utilidades/Miscelanea.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/FronteraPila.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/objetos/Comunicador.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/Interfaz/DecoracionVentana.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/Interfaz/MainWindow.java</file>
-            <file>file:/home/paco/NetBeansProjects/B1_03/src/b1_03/utilidades/GestorAcciones.java</file>
+            <file>file:/C:/Users/pacog/Documents/NetBeansProjects/B1_03/src/b1_03/Interfaz/MainWindow.java</file>
+            <file>file:/C:/Users/pacog/Documents/NetBeansProjects/B1_03/src/b1_03/utilidades/Miscelanea.java</file>
+            <file>file:/C:/Users/pacog/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/Accion.java</file>
+            <file>file:/C:/Users/pacog/Documents/NetBeansProjects/B1_03/src/b1_03/utilidades/Hash.java</file>
+            <file>file:/C:/Users/pacog/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/Frontera.java</file>
+            <file>file:/C:/Users/pacog/Documents/NetBeansProjects/B1_03/src/b1_03/Interfaz/DecoradorVentana.java</file>
+            <file>file:/C:/Users/pacog/Documents/NetBeansProjects/B1_03/src/b1_03/utilidades/Resolucion.java</file>
+            <file>file:/C:/Users/pacog/Documents/NetBeansProjects/B1_03/src/b1_03/objetos/Comunicador.java</file>
         </group>
     </open-files>
 </project-private>

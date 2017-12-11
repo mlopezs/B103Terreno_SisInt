@@ -92,7 +92,7 @@ public class Resolucion extends Thread {
         boolean sol = false;
 
         // Algoritmo de búsqueda
-        while (!sol && !frontera.esVacia()) {
+        while (!sol && !frontera.esVacia() && !Thread.currentThread().isInterrupted()) {
 
             // Saca un nodo de la frontera
             nodoActual = frontera.eliminar();
@@ -119,7 +119,7 @@ public class Resolucion extends Thread {
                 // Se itera sobre los sucesores
                 it = sucesores.iterator();
 
-                while (it.hasNext()) {
+                while (it.hasNext() && !Thread.currentThread().isInterrupted()) {
 
                     // Se copia el terreno actual en terrCpy
                     Terreno terrCpy = new Terreno(terrActual.getTerr(), terrActual.getColumnaT(), terrActual.getFilaT(), k);
@@ -153,18 +153,25 @@ public class Resolucion extends Thread {
 
             }
         }
+        
+        //Comprobamos si el hilo está interrumpido para limpiar el hashmap
+        //y la frontera
+        if (Thread.currentThread().isInterrupted()) {
+            ht = new HashMap<>();
+            frontera = new FronteraCola();
+        } else {
+            // Se comprueba si el flag de la solución está activado
+            if (sol) { // Si está activado (hay solución)
 
-        // Se comprueba si el flag de la solución está activado
-        if (sol) { // Si está activado (hay solución)
+                // Retornamos la solución tras transformarla en String
+                crearSolucion(nodoActual, ht);
 
-            // Retornamos la solución tras transformarla en String
-            crearSolucion(nodoActual, ht);
+            } else { // Si es false (No hay solución)
 
-        } else { // Si es false (No hay solución)
+                // Retornamos la siguiente cadena
+                com.setSolucion("No se ha encontrado la solución.");
 
-            // Retornamos la siguiente cadena
-            com.setSolucion("No se ha encontrado la solución.");
-
+            }
         }
 
     }

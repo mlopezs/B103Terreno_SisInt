@@ -47,7 +47,7 @@ public class DecoradorVentana extends Thread {
      */
     private void decorar() {
         int frame = 1;
-
+        boolean interrumpido = false;
         //Ponemos los botones en su estado correcto
         btnGuardarSol.setEnabled(false);
         btnIniciar.setEnabled(false);
@@ -81,22 +81,24 @@ public class DecoradorVentana extends Thread {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ex) {
-
+                interrumpido = true;
             }
             frame++;
-        } while (!com.isReady());
+        } while (!com.isReady() && !interrumpido && !Thread.currentThread().isInterrupted());
 
-        
-        //Imprimimos la solución
-        txtSalida.setForeground(Color.BLACK);
-        txtSalida.setText(com.getSecuencia());
-        txtSalida.append(com.getSolucion());
-        //Ponemos los botones en su estado correcto
-        btnGuardarSol.setEnabled(true);
-        btnIniciar.setEnabled(true);
-        btnCancelar.setEnabled(false);
-        btnCargarTerreno.setEnabled(true);
-        cbAlgoritmo.setEnabled(true);
+        //Comprobamos si se ha interrumpido el hilo
+        if (!Thread.currentThread().isInterrupted() || !interrumpido) {
+            //Imprimimos la solución
+            txtSalida.setForeground(Color.BLACK);
+            txtSalida.setText(com.getSecuencia());
+            txtSalida.append(com.getSolucion());
+            //Ponemos los botones en su estado correcto
+            btnGuardarSol.setEnabled(true);
+            btnIniciar.setEnabled(true);
+            btnCancelar.setEnabled(false);
+            btnCargarTerreno.setEnabled(true);
+            cbAlgoritmo.setEnabled(true);
+        }
 
     }
 }

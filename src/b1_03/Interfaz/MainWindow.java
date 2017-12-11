@@ -14,7 +14,9 @@ import java.awt.Color;
 import static java.awt.EventQueue.invokeLater;
 import java.awt.HeadlessException;
 import static java.lang.System.arraycopy;
+import java.util.logging.Level;
 import static java.util.logging.Level.SEVERE;
+import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 import javax.swing.JFileChooser;
 import static javax.swing.UIManager.getInstalledLookAndFeels;
@@ -355,18 +357,23 @@ public class MainWindow extends javax.swing.JFrame {
         if (res != null || deco != null) {
             //Si el hilo del algoritmo esta vivo
             if (res.isAlive() || deco.isAlive()) {
-                //Suspendemos el hilo del algoritmo y del decorador
-                //(por alguna razón interrumpirlos no funcionaba)
-                res.suspend();
-                deco.suspend();
+                //Interrumpimos el hilo del algoritmo y del decorador
+                res.interrupt();
+                deco.interrupt();
 
                 //Ponemos los hilos y el comunicador a null para que el recolector
                 //de basuras los elimine.
                 res = null;
                 deco = null;
                 com = null;
-
+                
                 //Informamos que la operación ha sido cancelada
+                try {
+                    //Esperamos 0.1 segundos para evitar problemas de renderizado
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 txtSalida.setForeground(Color.RED);
                 txtSalida.setText("Operacion cancelada por el usuario.");
                 btnCargarTerreno.setEnabled(true);
